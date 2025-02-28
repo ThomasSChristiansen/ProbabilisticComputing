@@ -114,7 +114,7 @@ def generate_circuit_weights(circuit,SaveCircuit=False,CircuitName=None):
     for node, idx in node_index.items():
         node_order[idx] = node
     nodes = list(node_order)
-    print("[" + ", ".join('"' + s + '"' for s in node_order) + "]")
+    print("[" + ", ".join('"' + str(s) + '"' for s in node_order) + "]")
     if SaveCircuit:
         # Ensure the folder exists
         save_folder = CS.find_folder_upwards("Circuit_Library")
