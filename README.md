@@ -111,7 +111,6 @@ deactivate
 ```
 
 ---
-
 ## **Troubleshooting**
 ### **PYTHONPATH Not Set?**
 If `PYTHONPATH` is not set, manually run:
@@ -130,3 +129,30 @@ Ensure all dependencies are installed:
 ```bash
 pip install -r requirements.txt
 ```
+---
+# Using the scripts
+Python scripts placed under the `Scripts` folder are used to generate parameters, simulate the probabilistic circuit, and plotting the output. 
+## Overview
+
+- **comparison.py**  
+  Loads CSV data from FPGA and Python Boltzmann simulations, merges them based on common labels, and generates plots comparing normalized probability distributions. It supports saving the plots automatically.
+
+- **CustomScripts.py**  
+  Contains utility functions for:
+  - Converting between bipolar and binary representations.
+  - Calculating fixed-point ranges.
+  - Generating SystemVerilog initialization code (e.g., seed generation, parameter formatting).
+
+- **generate_bar_plots.py**  
+  Reads simulation output CSV files, processes the data according to a provided label mapping, and generates bar plots showing the probability distribution of output cases. It can also export the computed counts to CSV.
+
+- **generate_weight_from_logic.py**  
+  Scans a designated `Circuit_Library` folder for NPZ files containing circuit weight data, extracts bias vectors (`h`) and weight matrices (`J`), and constructs a weight library. It also includes a function to compute overall circuit weights from a logic circuit description.
+
+- **simulate_p_circuit.py**  
+  Implements functions to:
+  - Compute binary energy for given states.
+  - Generate Boltzmann distributions based on Ising-like energy models.
+  - Simulate p-bit dynamics using both iterative updates and direct Boltzmann sampling.
+  - Plot the resulting probability distributions from simulations.
+
