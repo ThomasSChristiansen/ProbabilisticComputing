@@ -21,7 +21,7 @@ Ensure you have **Python 3.8+** installed, then create a virtual environment:
 python -m venv .venv
 ```
 
-### ** Windows**
+### **Windows**
 ```cmd
 .venv\Scripts\activate
 ```
@@ -32,9 +32,9 @@ python -m venv .venv
 ---
 
 ## **3. Run Setup Script for `PYTHONPATH`**
-This script ensures your project directory is included in `PYTHONPATH` automatically.
+This script ensures your project directory is included in `PYTHONPATH` automatically. Append the working directory to the venv activate.bat and Activate.ps1 files.
 
-### ** Windows**
+### **Windows**
 ```cmd
 post-venv-setup.bat
 ```
@@ -66,7 +66,7 @@ python -c "import sys; print(sys.path)"
 You should see a path similar to:
 
 ```
-'C:\Users\thoma\OneDrive - Aarhus Universitet\Probabilistic Computing\Python Codes'
+'C:\repositories\ProbabilisticComputing'
 ```
 
 ### **Check if Dependencies are Installed**
