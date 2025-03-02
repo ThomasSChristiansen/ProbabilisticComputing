@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.csv
+*.zip
 
 venv/
 plot/
