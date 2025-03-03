@@ -17,8 +17,6 @@ module four_bit_mult_tb;
     probabilistic_circuit uut (
         .clk(clk),
         .reset_n(reset_n),
-        .h(h),
-        .I_0(I_0),
         .m(mult_out),
         .clk_delay(clk_delay)
     );
@@ -42,7 +40,6 @@ module four_bit_mult_tb;
         
         #10;
         reset_n = 1;
-        I_0 = 8'sb00001000;             // 1
         // h_bipolar(Floating State)
         h[0] = 8'sb00000000;
         h[1] = 8'sb00000000;

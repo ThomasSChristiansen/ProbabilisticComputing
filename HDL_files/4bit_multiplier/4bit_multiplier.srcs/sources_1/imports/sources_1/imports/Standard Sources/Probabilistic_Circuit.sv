@@ -13,30 +13,73 @@ module probabilistic_circuit #(
 )(
     input logic clk,                            // Clock signal
     input logic reset_n,                        // Reset signal
-    input logic signed [7:0] I_0,               // Scaling factor
-    input signed [7:0] h [0:num_Pbits-1],           // Bias vector for num_Pbits
-    output logic m [0:num_Pbits-1],                  // States of the num_Pbits P-bits
+    input logic clamp[0:7],                     // Bias vector for num_Pbits
+    input clamp_EN,                             // Enable clamping
+    output logic m [0:num_Pbits-1],             // States of the num_Pbits P-bits
     output logic [1:0] clk_delay
 );
     // Bias vector
-//    parameter h0 = 8'sb00000000;
-//    parameter h1 = 8'sb00000000;
-//    parameter h2 = 8'sb00000000;
-//    parameter h3 = 8'sb00000000;
-//    parameter h4 = 8'sb11001000;
-//    parameter h5 = 8'sb11001000;
-//    parameter h6 = 8'sb11001000;
-//    parameter h7 = 8'sb11011000;
-//    parameter h8 = 8'sb10000000;
-//    parameter h9 = 8'sb10000000;
-//    parameter h10 = 8'sb11010000;
-//    parameter h11 = 8'sb11111000;
-//    parameter h12 = 8'sb11111000;
-//    parameter h13 = 8'sb11100000;
-//    logic signed [7:0] h [0:13] = '{h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,10,h11,h12,h13};
+    parameter h_00 = 8'sb00000000;
+    parameter h_01 = 8'sb00000000;
+    parameter h_02 = 8'sb00000000;
+    parameter h_03 = 8'sb00000000;
+    parameter h_04 = 8'sb00000000;
+    parameter h_05 = 8'sb00000000;
+    parameter h_06 = 8'sb00000000;
+    parameter h_07 = 8'sb00000000;
+    parameter h_08 = 8'sb10000000;
+    parameter h_09 = 8'sb10000000;
+    parameter h_10 = 8'sb10000000;
+    parameter h_11 = 8'sb11010000;
+    parameter h_12 = 8'sb11111000;
+    parameter h_13 = 8'sb11111000;
+    parameter h_14 = 8'sb11111000;
+    parameter h_15 = 8'sb11111000;
+    parameter h_16 = 8'sb11111000;
+    parameter h_17 = 8'sb11111000;
+    parameter h_18 = 8'sb11100000;
+    parameter h_19 = 8'sb11110000;
+    parameter h_20 = 8'sb11001000;
+    parameter h_21 = 8'sb11001000;
+    parameter h_22 = 8'sb11001000;
+    parameter h_23 = 8'sb11001000;
+    parameter h_24 = 8'sb11001000;
+    parameter h_25 = 8'sb11001000;
+    parameter h_26 = 8'sb11001000;
+    parameter h_27 = 8'sb11011000;
+    parameter h_28 = 8'sb11011000;
+    parameter h_29 = 8'sb11011000;
+    parameter h_30 = 8'sb11011000;
+    parameter h_31 = 8'sb11110000;
+    parameter h_32 = 8'sb11110000;
+    parameter h_33 = 8'sb11110000;
+    parameter h_34 = 8'sb11001000;
+    parameter h_35 = 8'sb11001000;
+    parameter h_36 = 8'sb11001000;
+    parameter h_37 = 8'sb11001000;
+    parameter h_38 = 8'sb11011000;
+    parameter h_39 = 8'sb11011000;
+    parameter h_40 = 8'sb11011000;
+    parameter h_41 = 8'sb11011000;
+    parameter h_42 = 8'sb11110000;
+    parameter h_43 = 8'sb11110000;
+    parameter h_44 = 8'sb11110000;
+    parameter h_45 = 8'sb11001000;
+    parameter h_46 = 8'sb11001000;
+    parameter h_47 = 8'sb11001000;
+    parameter h_48 = 8'sb11001000;
+    parameter h_49 = 8'sb11011000;
+    parameter h_50 = 8'sb11011000;
+    parameter h_51 = 8'sb11011000;
+    parameter h_52 = 8'sb10000000;
+    logic signed [7:0] h [0:num_Pbits-1] = '{h_00,h_01,h_02,h_03,h_04,h_05,h_06,h_07,h_08,h_09,h_10,h_11,h_12,
+                                             h_13,h_14,h_15,h_16,h_17,h_18,h_19,h_20,h_21,h_22,h_23,h_24,h_25,
+                                             h_26,h_27,h_28,h_29,h_30,h_31,h_32,h_33,h_34,h_35,h_36,h_37,h_38,
+                                             h_39,h_40,h_41,h_42,h_43,h_44,h_45,h_46,h_47,h_48,h_49,h_50,h_51,
+                                             h_52};
     
     // Interconnection strengh
-//    parameter I_0 = 8'sb00001000;
+    parameter I_0 = 8'sb00001000;  //I_0 = 1
     
     // Weight parameters
     parameter J_0000 = 8'sb00000000;
@@ -2964,7 +3007,17 @@ module probabilistic_circuit #(
     logic signed [7:0] result_Jm [0:num_Pbits-1];         // Result 
     logic signed [15:0] product_I0 [0:num_Pbits-1];       // Product of I0 and sum
     logic signed [7:0] addition_hi [0:num_Pbits-1];       // hi+sum(J_ij+m_j)
-    logic signed [8:0] extended_addition [0:num_Pbits-1];; 
+    logic signed [8:0] extended_addition [0:num_Pbits-1]; 
+    logic signed [7:0] h_clamped [0:num_Pbits-1];         //clamped bias vector
+    
+    
+    // Clamping
+    clamper clamper (
+    .h(h),
+    .clamp(clamp),
+    .clamp_EN(clamp_EN),
+    .h_clamped(h_clamped)
+    );
     
     // Sequencer with 3 clock cycle delay. 
     logic [0:3] group_EN;
@@ -2995,22 +3048,22 @@ module probabilistic_circuit #(
     always @(posedge clk) begin
         integer i, j;
         for (i=0; i<num_Pbits; i=i+1) begin
-            if (Pbit_EN[i] == 1'b1) begin  // Only update active P-bit
+            if (Pbit_EN[i] == 1'b1) begin                                           // Only update active P-bit
                 result_Jm[i] = 8'sb00000000;
 //                product_Jm[i] = 8'sb00000000;
-                for (j=0; j<num_Pbits; j=j+1) begin
+                for (j=0; j<num_Pbits; j=j+1) begin 
                     product_Jm[i] = J[i][j] * m[j];                                 // Multiplication remaining inside Q[4][3] since m is 1'b     
-                    result_Jm[i] = result_Jm[i] + product_Jm[i];                            // Truncate to 8-bit with sign preservation
+                    result_Jm[i] = result_Jm[i] + product_Jm[i];                    // Truncate to 8-bit with sign preservation
                 end
                 
-                extended_addition[i] = { {1{h[i][7]}}, h[i] }                          // Sign Extension
+                extended_addition[i] = { {1{h_clamped[i][7]}}, h_clamped[i] }                       // Sign Extension
                                     + { {1{result_Jm[i][7]}}, result_Jm[i] };
                 if (extended_addition[i] > 8'sb01111111) begin
                     addition_hi[i] = 8'sb01111111;
                 end else if (extended_addition[i] < 8'sb10000000) begin
                     addition_hi[i] = 8'sb10000000;
                 end else begin
-                    addition_hi[i] = extended_addition[i][7:0];                            // Truncate to 8-bit with sign preservation
+                    addition_hi[i] = extended_addition[i][7:0];                     // Truncate to 8-bit with sign preservation
                 end
                 product_I0[i] = I_0 * addition_hi[i];                               // Multiplication up to Q[8][6]
                 I_i[i] = product_I0[i] >>> 3;                                       // Shift down to Q[4][3]
