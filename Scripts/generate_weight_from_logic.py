@@ -57,7 +57,7 @@ for circuit_name, content in data_dict.items():
         "h": content[f"{circuit_name}_h"],
         "J": content[f"{circuit_name}_J"]
     }
-print(weight_library)
+
 def generate_circuit_weights(circuit,SaveCircuit=False,CircuitName=None):
     """
     Given a circuit description (with "nodes" and "gates"),
