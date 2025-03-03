@@ -1,0 +1,13 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../Full_Adder.srcs/sources_1/imports/Full_Adder.sv" \
+"../../../../Full_Adder.srcs/sources_1/imports/LFSR.sv" \
+"../../../../Full_Adder.srcs/sources_1/imports/P_bit.sv" \
+"../../../../Full_Adder.srcs/sources_1/imports/Tanh_LUT.sv" \
+"../../../../Full_Adder.srcs/sources_1/imports/Full_Adder_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

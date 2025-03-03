@@ -1,0 +1,26 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Wed Feb 19 14:43:11 2025
+# Process ID: 7688
+# Current directory: C:/Users/thoma/Desktop/Vivado/AND_gate_FPGA_ver1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent24560 C:\Users\thoma\Desktop\Vivado\AND_gate_FPGA_ver1\AND_gate.xpr
+# Log file: C:/Users/thoma/Desktop/Vivado/AND_gate_FPGA_ver1/vivado.log
+# Journal file: C:/Users/thoma/Desktop/Vivado/AND_gate_FPGA_ver1\vivado.jou
+# Running On        :Thomas-AMD
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :AMD Ryzen 7 4700U with Radeon Graphics         
+# CPU Frequency     :1996 MHz
+# CPU Physical cores:8
+# CPU Logical cores :8
+# Host memory       :16558 MB
+# Swap memory       :11310 MB
+# Total Virtual     :27868 MB
+# Available Virtual :3617 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/thoma/Desktop/Vivado/AND_gate_FPGA_ver1/AND_gate.xpr
+update_compile_order -fileset sources_1

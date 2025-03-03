@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="Full_Adder_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="Full_Adder_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="1,000.020001 us"></ZoomEndTime>
+      <Cursor1Time time="0.000000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="158"></NameColumnWidth>
+      <ValueColumnWidth column_width="137"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="14" />
+   <wvobject fp_name="/Full_Adder_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/reset_n" type="logic">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/h" type="array">
+      <obj_property name="ElementShortName">h[0:4][7:0]</obj_property>
+      <obj_property name="ObjectShortName">h[0:4][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/Full_Adder_out" type="array">
+      <obj_property name="ElementShortName">Full_Adder_out[0:4]</obj_property>
+      <obj_property name="ObjectShortName">Full_Adder_out[0:4]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/bias" type="array">
+      <obj_property name="ElementShortName">bias[0:5]</obj_property>
+      <obj_property name="ObjectShortName">bias[0:5]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/I_0" type="array">
+      <obj_property name="ElementShortName">I_0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">I_0[7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/J" type="array">
+      <obj_property name="ElementShortName">J[0:4][0:4][7:0]</obj_property>
+      <obj_property name="ObjectShortName">J[0:4][0:4][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/Full_Adder_tb/uut/J[0]" type="array">
+         <obj_property name="ElementShortName">[0][0:4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][0:4][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/Full_Adder_tb/uut/J[1]" type="array">
+         <obj_property name="ElementShortName">[1][0:4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][0:4][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/Full_Adder_tb/uut/J[2]" type="array">
+         <obj_property name="ElementShortName">[2][0:4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][0:4][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/Full_Adder_tb/uut/J[3]" type="array">
+         <obj_property name="ElementShortName">[3][0:4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][0:4][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/Full_Adder_tb/uut/J[4]" type="array">
+         <obj_property name="ElementShortName">[4][0:4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][0:4][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/I_i" type="array">
+      <obj_property name="ElementShortName">I_i[0:4][7:0]</obj_property>
+      <obj_property name="ObjectShortName">I_i[0:4][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/product_Jm" type="array">
+      <obj_property name="ElementShortName">product_Jm[0:4][15:0]</obj_property>
+      <obj_property name="ObjectShortName">product_Jm[0:4][15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/result_Jm" type="array">
+      <obj_property name="ElementShortName">result_Jm[0:4][7:0]</obj_property>
+      <obj_property name="ObjectShortName">result_Jm[0:4][7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/product_I0" type="array">
+      <obj_property name="ElementShortName">product_I0[0:4][15:0]</obj_property>
+      <obj_property name="ObjectShortName">product_I0[0:4][15:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/addition_hi" type="array">
+      <obj_property name="ElementShortName">addition_hi[0:4][7:0]</obj_property>
+      <obj_property name="ObjectShortName">addition_hi[0:4][7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/clk_delay" type="array">
+      <obj_property name="ElementShortName">clk_delay[1:0]</obj_property>
+      <obj_property name="ObjectShortName">clk_delay[1:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/Full_Adder_tb/uut/active_P_bit" type="array">
+      <obj_property name="ElementShortName">active_P_bit[4:0]</obj_property>
+      <obj_property name="ObjectShortName">active_P_bit[4:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+</wave_config>

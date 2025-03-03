@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7z010clg400-1" LaunchTime="1740042802">
+  <File Type="ROUTE-PWR" Name="probabilistic_circuit_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="probabilistic_circuit.tcl"/>
+  <File Type="ROUTE-PWR-SUM" Name="probabilistic_circuit_power_summary_routed.pb"/>
+  <File Type="REPORTS-TCL" Name="probabilistic_circuit_reports.tcl"/>
+  <File Type="BITSTR-MSK" Name="probabilistic_circuit.msk"/>
+  <File Type="ROUTE-CLK" Name="probabilistic_circuit_clock_utilization_routed.rpt"/>
+  <File Type="RDI-RDI" Name="probabilistic_circuit.vdi"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="probabilistic_circuit_bus_skew_postroute_physopted.pb"/>
+  <File Type="BG-BIT" Name="probabilistic_circuit.bit"/>
+  <File Type="BG-DRC" Name="probabilistic_circuit.drc"/>
+  <File Type="BG-BGN" Name="probabilistic_circuit.bgn"/>
+  <File Type="BG-BIN" Name="probabilistic_circuit.bin"/>
+  <File Type="BITSTR-RBT" Name="probabilistic_circuit.rbt"/>
+  <File Type="BITSTR-NKY" Name="probabilistic_circuit.nky"/>
+  <File Type="BITSTR-BMM" Name="probabilistic_circuit_bd.bmm"/>
+  <File Type="BITSTR-MMI" Name="probabilistic_circuit.mmi"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="probabilistic_circuit_methodology_drc_routed.rpt"/>
+  <File Type="BITSTR-SYSDEF" Name="probabilistic_circuit.sysdef"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="probabilistic_circuit_methodology_drc_routed.pb"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="probabilistic_circuit.ltx"/>
+  <File Type="BOOT-PDI-FILE" Name="probabilistic_circuit_boot.pdi"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="NPI_FILE" Name="probabilistic_circuit.npi"/>
+  <File Type="OPT-DRC" Name="probabilistic_circuit_drc_opted.rpt"/>
+  <File Type="RBD_FILE" Name="probabilistic_circuit.rbd"/>
+  <File Type="OPT-HWDEF" Name="probabilistic_circuit.hwdef"/>
+  <File Type="PLACE-IO" Name="probabilistic_circuit_io_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="probabilistic_circuit_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="probabilistic_circuit_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="probabilistic_circuit_control_sets_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="probabilistic_circuit_incremental_reuse_pre_placed.rpt"/>
+  <File Type="ROUTE-DRC" Name="probabilistic_circuit_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="probabilistic_circuit_drc_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="probabilistic_circuit_power_routed.rpx"/>
+  <File Type="ROUTE-STATUS" Name="probabilistic_circuit_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="probabilistic_circuit_route_status.pb"/>
+  <File Type="ROUTE-DCP" Name="probabilistic_circuit_routed.dcp"/>
+  <File Type="ROUTE-ERROR-DCP" Name="probabilistic_circuit_routed_error.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="probabilistic_circuit_routed_bb.dcp"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="probabilistic_circuit_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="probabilistic_circuit_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="probabilistic_circuit_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="probabilistic_circuit_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="probabilistic_circuit_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="probabilistic_circuit_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="probabilistic_circuit_bus_skew_routed.rpx"/>
+  <File Type="OPT-DCP" Name="probabilistic_circuit_opt.dcp"/>
+  <File Type="PLACE-DCP" Name="probabilistic_circuit_placed.dcp"/>
+  <File Type="PWROPT-DCP" Name="probabilistic_circuit_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="probabilistic_circuit_postplace_pwropt.dcp"/>
+  <File Type="PHYSOPT-DCP" Name="probabilistic_circuit_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="probabilistic_circuit_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="probabilistic_circuit_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="probabilistic_circuit_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="probabilistic_circuit_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="probabilistic_circuit_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="probabilistic_circuit_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="probabilistic_circuit_bus_skew_postroute_physopted.rpx"/>
+  <File Type="ROUTE-DRC-RPX" Name="probabilistic_circuit_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="probabilistic_circuit_methodology_drc_routed.rpx"/>
+  <File Type="PDI-FILE" Name="probabilistic_circuit.pdi"/>
+  <File Type="PL-PDI-FILE" Name="probabilistic_circuit_pld.pdi"/>
+  <File Type="RCFI_FILE" Name="probabilistic_circuit.rcfi"/>
+  <File Type="CFI_FILE" Name="probabilistic_circuit.cfi"/>
+  <File Type="RNPI_FILE" Name="probabilistic_circuit.rnpi"/>
+  <File Type="ROUTE-RQS" Name="probabilistic_circuit_routed.rqs"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS" Name="probabilistic_circuit_postroute_physopted.rqs"/>
+  <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/imports/Standard Sources/LFSR.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../OneDrive - Aarhus Universitet/Probabilistic Computing/Vivado/Standard Sources/LFSR.sv"/>
+        <Attr Name="ImportTime" Val="1736857724"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Standard Sources/P_bit.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../OneDrive - Aarhus Universitet/Probabilistic Computing/Vivado/Standard Sources/P_bit.sv"/>
+        <Attr Name="ImportTime" Val="1736862150"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Standard Sources/Tanh_LUT.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../OneDrive - Aarhus Universitet/Probabilistic Computing/Vivado/Standard Sources/Tanh_LUT.sv"/>
+        <Attr Name="ImportTime" Val="1736860032"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../OneDrive - Aarhus Universitet/Probabilistic Computing/Vivado/Standard Sources/Probabilistic_Circuit.sv"/>
+        <Attr Name="ImportTime" Val="1739355999"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Standard Sources/Probabilistic_Circuit_tb.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../OneDrive - Aarhus Universitet/Probabilistic Computing/Vivado/Standard Sources/Probabilistic_Circuit_tb.sv"/>
+        <Attr Name="ImportTime" Val="1739356037"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="probabilistic_circuit"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/imports/digilent-xdc-master/Zybo-Z7-Master.xdc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../OneDrive - Aarhus Universitet/Probabilistic Computing/Vivado/digilent-xdc-master/Zybo-Z7-Master.xdc"/>
+        <Attr Name="ImportTime" Val="1727957758"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/probabilistic_circuit.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+    <Step Id="write_device_image"/>
+  </Strategy>
+</GenRun>

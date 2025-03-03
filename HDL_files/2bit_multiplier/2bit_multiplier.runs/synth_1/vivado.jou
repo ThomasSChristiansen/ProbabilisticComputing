@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Thu Feb 20 10:13:26 2025
+# Process ID: 27400
+# Current directory: C:/Users/thoma/Desktop/Vivado/2bit_multiplier/2bit_multiplier.runs/synth_1
+# Command line: vivado.exe -log probabilistic_circuit.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source probabilistic_circuit.tcl
+# Log file: C:/Users/thoma/Desktop/Vivado/2bit_multiplier/2bit_multiplier.runs/synth_1/probabilistic_circuit.vds
+# Journal file: C:/Users/thoma/Desktop/Vivado/2bit_multiplier/2bit_multiplier.runs/synth_1\vivado.jou
+# Running On        :Thomas-AMD
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :AMD Ryzen 7 4700U with Radeon Graphics         
+# CPU Frequency     :1996 MHz
+# CPU Physical cores:8
+# CPU Logical cores :8
+# Host memory       :16558 MB
+# Swap memory       :6985 MB
+# Total Virtual     :23543 MB
+# Available Virtual :2521 MB
+#-----------------------------------------------------------
+source probabilistic_circuit.tcl -notrace
