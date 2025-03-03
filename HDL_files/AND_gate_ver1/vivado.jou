@@ -1,0 +1,33 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Fri Feb 21 09:35:39 2025
+# Process ID: 27656
+# Current directory: C:/Users/thoma/Desktop/Vivado/AND_gate_ver1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent23616 C:\Users\thoma\Desktop\Vivado\AND_gate_ver1\AND_gate.xpr
+# Log file: C:/Users/thoma/Desktop/Vivado/AND_gate_ver1/vivado.log
+# Journal file: C:/Users/thoma/Desktop/Vivado/AND_gate_ver1\vivado.jou
+# Running On        :Thomas-AMD
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :AMD Ryzen 7 4700U with Radeon Graphics         
+# CPU Frequency     :1996 MHz
+# CPU Physical cores:8
+# CPU Logical cores :8
+# Host memory       :16558 MB
+# Swap memory       :5905 MB
+# Total Virtual     :22463 MB
+# Available Virtual :6289 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/thoma/Desktop/Vivado/AND_gate_ver1/AND_gate.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+open_wave_config C:/Users/thoma/Desktop/Vivado/AND_gate_ver1/P_bit_tb_behav.wcfg
+open_wave_config C:/Users/thoma/Desktop/Vivado/AND_gate_ver1/Tanh_LUT_tb_behav.wcfg
+open_wave_config C:/Users/thoma/Desktop/Vivado/AND_gate_ver1/P_bit_AND_tb_behav.wcfg
+source P_bit_AND_tb.tcl
+run all
+close_sim

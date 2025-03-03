@@ -1,0 +1,54 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Mon Feb 10 09:48:20 2025
+# Process ID: 4000
+# Current directory: C:/Users/thoma/Desktop/Vivado/AND_OR_gate
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent13744 C:\Users\thoma\Desktop\Vivado\AND_OR_gate\AND_OR_gate.xpr
+# Log file: C:/Users/thoma/Desktop/Vivado/AND_OR_gate/vivado.log
+# Journal file: C:/Users/thoma/Desktop/Vivado/AND_OR_gate\vivado.jou
+# Running On        :Thomas-AMD
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :AMD Ryzen 7 4700U with Radeon Graphics         
+# CPU Frequency     :1996 MHz
+# CPU Physical cores:8
+# CPU Logical cores :8
+# Host memory       :16558 MB
+# Swap memory       :5905 MB
+# Total Virtual     :22463 MB
+# Available Virtual :5392 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_gate.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+open_wave_config C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_tb_behav.wcfg
+source P_bit_AND_tb.tcl
+run all
+current_wave_config {AND_OR_tb_behav.wcfg}
+add_wave {{/P_bit_AND_tb/uut/\P_bit_instances[0].p_bit_inst /LFSR_out}} 
+restart
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+save_wave_config {C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_tb_behav.wcfg}
+close_sim

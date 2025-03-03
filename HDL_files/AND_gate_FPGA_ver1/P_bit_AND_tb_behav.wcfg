@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="P_bit_AND_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="P_bit_AND_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="5,642.206453 us"></ZoomEndTime>
+      <Cursor1Time time="8,000.020000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="174"></NameColumnWidth>
+      <ValueColumnWidth column_width="133"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/P_bit_AND_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/P_bit_AND_tb/reset_n" type="logic">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/P_bit_AND_tb/uut/seed" type="array">
+      <obj_property name="ElementShortName">seed[0:2][31:0]</obj_property>
+      <obj_property name="ObjectShortName">seed[0:2][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/P_bit_AND_tb/uut/J" type="array">
+      <obj_property name="ElementShortName">J[0:2][0:2][7:0]</obj_property>
+      <obj_property name="ObjectShortName">J[0:2][0:2][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/P_bit_AND_tb/h" type="array">
+      <obj_property name="ElementShortName">h[0:2][7:0]</obj_property>
+      <obj_property name="ObjectShortName">h[0:2][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/P_bit_AND_tb/AND_out" type="array">
+      <obj_property name="ElementShortName">AND_out[0:2]</obj_property>
+      <obj_property name="ObjectShortName">AND_out[0:2]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/P_bit_AND_tb/I_0" type="array">
+      <obj_property name="ElementShortName">I_0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">I_0[7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/P_bit_AND_tb/uut/I_i" type="array">
+      <obj_property name="ElementShortName">I_i[0:2][7:0]</obj_property>
+      <obj_property name="ObjectShortName">I_i[0:2][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="group94" type="group">
+      <obj_property name="label">Weight update</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/P_bit_AND_tb/uut/product_Jm" type="array">
+         <obj_property name="ElementShortName">product_Jm[0:2][15:0]</obj_property>
+         <obj_property name="ObjectShortName">product_Jm[0:2][15:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/result_Jm" type="array">
+         <obj_property name="ElementShortName">result_Jm[0:2][7:0]</obj_property>
+         <obj_property name="ObjectShortName">result_Jm[0:2][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/addition_hi" type="array">
+         <obj_property name="ElementShortName">addition_hi[0:2][7:0]</obj_property>
+         <obj_property name="ObjectShortName">addition_hi[0:2][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/product_I0" type="array">
+         <obj_property name="ElementShortName">product_I0[0:2][15:0]</obj_property>
+         <obj_property name="ObjectShortName">product_I0[0:2][15:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">6</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/I_i" type="array">
+         <obj_property name="ElementShortName">I_i[0:2][7:0]</obj_property>
+         <obj_property name="ObjectShortName">I_i[0:2][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group112" type="group">
+      <obj_property name="label">P-bit 1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/P_bit_AND_tb/uut/\P_bit_instances[0].p_bit_inst /Tanh_LUT_out" type="array">
+         <obj_property name="ElementShortName">Tanh_LUT_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">Tanh_LUT_out[31:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">32</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/\P_bit_instances[0].p_bit_inst /LFSR_out" type="array">
+         <obj_property name="ElementShortName">LFSR_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">LFSR_out[31:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">32</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#008080</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group115" type="group">
+      <obj_property name="label">P-bit 2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/P_bit_AND_tb/uut/\P_bit_instances[1].p_bit_inst /Tanh_LUT_out" type="array">
+         <obj_property name="ElementShortName">Tanh_LUT_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">Tanh_LUT_out[31:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">32</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/\P_bit_instances[1].p_bit_inst /LFSR_out" type="array">
+         <obj_property name="ElementShortName">LFSR_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">LFSR_out[31:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">32</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group118" type="group">
+      <obj_property name="label">P-bit 3</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">32</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/P_bit_AND_tb/uut/\P_bit_instances[2].p_bit_inst /Tanh_LUT_out" type="array">
+         <obj_property name="ElementShortName">Tanh_LUT_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">Tanh_LUT_out[31:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">32</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/\P_bit_instances[2].p_bit_inst /LFSR_out" type="array">
+         <obj_property name="ElementShortName">LFSR_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">LFSR_out[31:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">32</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/\P_bit_instances[2].p_bit_inst /I_i" type="array">
+         <obj_property name="ElementShortName">I_i[7:0]</obj_property>
+         <obj_property name="ObjectShortName">I_i[7:0]</obj_property>
+         <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group185" type="group">
+      <obj_property name="label">Sequencer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/P_bit_AND_tb/uut/clk_delay" type="array">
+         <obj_property name="ElementShortName">clk_delay[1:0]</obj_property>
+         <obj_property name="ObjectShortName">clk_delay[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/P_bit_AND_tb/uut/active_P_bit" type="array">
+         <obj_property name="ElementShortName">active_P_bit[2:0]</obj_property>
+         <obj_property name="ObjectShortName">active_P_bit[2:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+         <obj_property name="radix_realType">UNSIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">0</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

@@ -1,0 +1,51 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Wed Feb 12 09:16:06 2025
+# Process ID: 10028
+# Current directory: C:/Users/thoma/Desktop/Vivado/AND_OR_gate
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent29652 C:\Users\thoma\Desktop\Vivado\AND_OR_gate\AND_OR_gate.xpr
+# Log file: C:/Users/thoma/Desktop/Vivado/AND_OR_gate/vivado.log
+# Journal file: C:/Users/thoma/Desktop/Vivado/AND_OR_gate\vivado.jou
+# Running On        :Thomas-AMD
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :AMD Ryzen 7 4700U with Radeon Graphics         
+# CPU Frequency     :1996 MHz
+# CPU Physical cores:8
+# CPU Logical cores :8
+# Host memory       :16558 MB
+# Swap memory       :5905 MB
+# Total Virtual     :22463 MB
+# Available Virtual :8728 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_gate.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+open_wave_config C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_tb_behav.wcfg
+source P_bit_AND_tb.tcl
+run all
+current_wave_config {AND_OR_tb_behav.wcfg}
+add_wave {{/P_bit_AND_tb/uut/extended_addition}} 
+restart
+run all
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+add_bp {C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_gate.srcs/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv} 92
+remove_bps -file {C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_gate.srcs/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv} -line 92
+relaunch_sim
+run all
+save_wave_config {C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_tb_behav.wcfg}
+save_wave_config {C:/Users/thoma/Desktop/Vivado/AND_OR_gate/AND_OR_tb_behav.wcfg}
+close_sim

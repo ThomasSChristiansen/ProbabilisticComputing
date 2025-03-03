@@ -1,0 +1,13 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../AND_gate.srcs/sources_1/new/3_P_bit_AND.sv" \
+"../../../../AND_gate.srcs/sources_1/imports/new/LFSR.sv" \
+"../../../../AND_gate.srcs/sources_1/imports/new/P_bit.sv" \
+"../../../../AND_gate.srcs/sources_1/imports/new/Tanh_LUT.sv" \
+"../../../../AND_gate.srcs/sources_1/new/3_P_bit_AND_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

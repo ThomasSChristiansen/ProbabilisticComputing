@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Fri Feb  7 10:56:12 2025
+# Process ID: 15108
+# Current directory: C:/Users/thoma/Desktop/Vivado/AND_gate_FPGA_ver1/AND_gate.runs/synth_1
+# Command line: vivado.exe -log P_bit_AND.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source P_bit_AND.tcl
+# Log file: C:/Users/thoma/Desktop/Vivado/AND_gate_FPGA_ver1/AND_gate.runs/synth_1/P_bit_AND.vds
+# Journal file: C:/Users/thoma/Desktop/Vivado/AND_gate_FPGA_ver1/AND_gate.runs/synth_1\vivado.jou
+# Running On        :Thomas-AMD
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :AMD Ryzen 7 4700U with Radeon Graphics         
+# CPU Frequency     :1996 MHz
+# CPU Physical cores:8
+# CPU Logical cores :8
+# Host memory       :16558 MB
+# Swap memory       :5905 MB
+# Total Virtual     :22463 MB
+# Available Virtual :3177 MB
+#-----------------------------------------------------------
+source P_bit_AND.tcl -notrace

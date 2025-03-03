@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="OR_gate_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="OR_gate_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="2,695.853333 us"></ZoomStartTime>
+      <ZoomEndTime time="9,060.853334 us"></ZoomEndTime>
+      <Cursor1Time time="8,000.020000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="279"></NameColumnWidth>
+      <ValueColumnWidth column_width="119"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="7" />
+   <wvobject fp_name="/OR_gate_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OR_gate_tb/reset_n" type="logic">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OR_gate_tb/h" type="array">
+      <obj_property name="ElementShortName">h[0:2][7:0]</obj_property>
+      <obj_property name="ObjectShortName">h[0:2][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OR_gate_tb/I_0" type="array">
+      <obj_property name="ElementShortName">I_0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">I_0[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OR_gate_tb/OR_out" type="array">
+      <obj_property name="ElementShortName">OR_out[0:2]</obj_property>
+      <obj_property name="ObjectShortName">OR_out[0:2]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/OR_gate_tb/bias" type="array">
+      <obj_property name="ElementShortName">bias[0:2]</obj_property>
+      <obj_property name="ObjectShortName">bias[0:2]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OR_gate_tb/file" type="array">
+      <obj_property name="ElementShortName">file[31:0]</obj_property>
+      <obj_property name="ObjectShortName">file[31:0]</obj_property>
+   </wvobject>
+</wave_config>
