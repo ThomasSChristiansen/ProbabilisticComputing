@@ -26,25 +26,57 @@ This repository contains a collection of Python scripts located in the **Scripts
   - Simulate p-bit dynamics using both iterative updates and direct Boltzmann sampling.
   - Plot the resulting probability distributions from simulations.
 
-## Requirements
-
-- Python 3.x
-- [NumPy](https://numpy.org/)
-- [Pandas](https://pandas.pydata.org/)
-- [Matplotlib](https://matplotlib.org/)
-- [NetworkX](https://networkx.github.io/) (used in CustomScripts.py)
-- Standard Python libraries (e.g., `os`, `random`, `itertools`)
-
+---
 ## Usage
 
 Each script is structured as a module with functions that can be imported into your projects or run as standalone scripts. For example:
 
-### Example (Python Shell)
+### Example of Simulating a Probabilistic Circuit
+#### Steps
+- Load the desired `circuit.npz` from the Circuit_Library
+- Define the input/output states with `push0` for 0 and `push1`for 1. One would need to know the input/output names before setting. Leave blank for no changes.
+- Define the bits that wanna be looked at with `selected_bits`.
+- Pass to the simulation script.
+- Plots should then begin showing.
 ```python
-from comparison import comparison
-comparison("data_FPGA.csv", "data_Python_Boltzmann.csv", savefig=True)
+import Scripts.simulate_p_circuit as simulate_p_circuit
+import Scripts.CustomScripts as CS
 
-from simulate_p_circuit import simulate_p_bits, plot_probabilities
-# Ensure that J_example and h_example are defined according to your simulation setup.
-results = simulate_p_bits(num_steps=100000, I0=1.0, use_boltzmann=False, J_bipolar=J_example, h_bipolar=h_example)
-plot_probabilities(num_steps=100000, J_bipolar=J_example, h_bipolar_dict={"Example": h_example}, node_order=["n0", "n1", "n2"])
+J, h, node_order = CS.load_npz_data("8bIntFac_v4.npz", target_folder="Circuit_Library")
+
+# Define your target_names dictionary
+target_names = {
+    "Floating State": {
+    },
+    "1x15": {
+        "a0": "push1",
+        "a1": "push0",
+        "a2": "push0",
+        "a3": "push0",
+        "a4": "push0",
+        "a5": "push0",
+        "a6": "push0",
+        "a7": "push0",
+        "b0": "push1",
+        "b1": "push1",
+        "b2": "push1",
+        "b3": "push1",
+        "b4": "push0",
+        "b5": "push0",
+        "b6": "push0",
+        "b7": "push0",
+    },
+}
+
+# Get the updated configurations:
+configured_h = CS.update_all_configurations(target_names, h, node_order)
+
+selected_bits = {
+    "Floating State": ["s7","s6","s5","s4","s3","s2","s1","s0"],  
+    "1x15": ["s7","s6","s5","s4","s3","s2","s1","s0"],  
+    # "15x15": ["P7","P6","P5","P4","P3","P2","P1","P0"], 
+    # "Factor 14": [3, 2, 1, 0, 7, 6, 5, 4], 
+}
+simulate_p_circuit.plot_probabilities(num_steps=100000, savefig=True, save_csv=False,J_bipolar=J, node_order=node_order,
+                                      h_bipolar_dict=configured_h, use_python=True, use_boltzmann=False, 
+                                      filename="8bx8b=8b_Integer_Factorization", figWidth=68, selected_bits=selected_bits)
