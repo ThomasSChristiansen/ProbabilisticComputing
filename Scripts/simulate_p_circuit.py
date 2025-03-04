@@ -23,7 +23,7 @@ def boltzmann_distribution_binary(J, h, I0=1.0):
     and return the normalized Boltzmann probabilities based on exp(-E).
     """
     N = len(h)
-    all_states = np.array(list(product([0, 1], repeat=N)))
+    all_states = (np.array(state) for state in product([0, 1], repeat=N))
     energies = np.array([compute_energy_binary(state, J, h, I0) for state in all_states])
     weights = np.exp(-energies)
     return weights / np.sum(weights)
@@ -52,11 +52,12 @@ def simulate_p_bits(num_steps=None, I0=None, use_boltzmann=None,J_bipolar=None,h
 
     # If using the Boltzmann method, sample directly from the distribution.
     if use_boltzmann:
-        all_states = np.array(list(product([0, 1], repeat=len(h_bipolar))))
+        N = len(h_bipolar)
+        all_states = (np.array(state) for state in product([0, 1], repeat=N))
         p = boltzmann_distribution_binary(J, h, I0)
         # Sample num_steps states according to the Boltzmann distribution.
         indices = np.random.choice(len(all_states), num_steps, p=p)
-        return all_states[indices]
+        return np.array([state for i, state in enumerate(all_states) if i in indices])
     
     # Initialize the p-bits randomly
     m = np.random.choice([0, 1], size=len(h_bipolar))
