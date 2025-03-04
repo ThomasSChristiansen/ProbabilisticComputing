@@ -22,7 +22,7 @@ module probabilistic_circuit #(
 
     //prepare arrays to load values unto
     logic signed [7:0] h [0:num_Pbits-1];
-    logic signed [7:0] J [0:52][0:52];
+    logic signed [7:0] J [0:num_Pbits-1][0:num_Pbits-1];
     logic [31:0] seed [0:num_Pbits-1];
     
     //load bias vector, J matrix and seed array from mem files
