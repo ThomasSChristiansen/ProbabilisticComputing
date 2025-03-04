@@ -198,6 +198,48 @@ def generate_verilog_biases(label_mapping_binary=None):
             print(f"bias[{i}],")
     return
 
+# New function to generate external mem files.
+def generate_mem_files(J_bipolar, h_bipolar):
+    """
+    Generate external mem files for h, J, and seeds.
+
+    The files are written in plain text:
+      - "h_mem.mem": one 8-bit binary number per line.
+      - "J_mem.mem": one row per line; each row is a space-separated list
+        of 8-bit binary numbers.
+      - "seed_mem.mem": one 32-bit binary seed per line. The number of seeds 
+         equals the length of h_bipolar.
+
+    The binary strings are generated using the S4.3 fixed-point conversion.
+    """
+    # Convert bipolar parameters to binary fixed-point values.
+    J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
+    
+    # Write the h memory file.
+    with open("h_mem.mem", "w") as f:
+        for i in range(h_binary.shape[0]):
+            bin_value, _ = decimal_to_s4_3(h_binary[i])
+            f.write(bin_value + "\n")
+    
+    # Write the J memory file.
+    with open("J_mem.mem", "w") as f:
+        for i in range(J_binary.shape[0]):
+            row_vals = []
+            for j in range(J_binary.shape[1]):
+                bin_value, _ = decimal_to_s4_3(J_binary[i, j])
+                row_vals.append(bin_value)
+            f.write(" ".join(row_vals) + "\n")
+    
+    # Generate seed_mem.mem file based on the length of h_bipolar.
+    num_seeds = h_binary.shape[0]
+    with open("seed_mem.mem", "w") as f:
+        for i in range(num_seeds):
+            # Generate a random 32-bit binary string.
+            seed_value = ''.join(random.choice('01') for _ in range(32))
+            f.write(seed_value + "\n")
+    
+    print("Mem files generated: 'h_mem.mem', 'J_mem.mem', and 'seed_mem.mem'")
+
 def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,figWidth=28):
     # Convert to DataFrame
     df = pd.DataFrame(truth_table, columns=columns)
