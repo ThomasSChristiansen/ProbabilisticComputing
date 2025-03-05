@@ -11,9 +11,11 @@
 *.sln.docstates
 *.csv
 *.zip
+*.json
 
 venv/
 plot/
+Plots/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
