@@ -1,11 +1,12 @@
 0.7
 2020.2
-May 22 2024
-19:03:11
-C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.sim/sim_1/behav/xsim/glbl.v,1708598507,verilog,,,,glbl,,uvm,,,,,,
-C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/LFSR.sv,1736857724,systemVerilog,,C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/P_bit.sv,,LFSR,,uvm,,,,,,
-C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/P_bit.sv,1736862150,systemVerilog,,C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv,,P_bit,,uvm,,,,,,
-C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv,1740479269,systemVerilog,,C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Tanh_LUT.sv,,probabilistic_circuit,,uvm,,,,,,
-C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit_tb.sv,1740485284,systemVerilog,,,,four_bit_mult_tb,,uvm,,,,,,
-C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Tanh_LUT.sv,1736860032,systemVerilog,,C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/new/grouped_update_order_LUT.sv,,Tanh_LUT,,uvm,,,,,,
-C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/new/grouped_update_order_LUT.sv,1740479109,systemVerilog,,C:/Users/thoma/Desktop/Vivado/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit_tb.sv,,grouped_update_order_LUT,,uvm,,,,,,
+Oct 13 2023
+20:47:58
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.sim/sim_1/behav/xsim/glbl.v,1740993037,verilog,,,,glbl,,uvm,,,,,,
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/LFSR.sv,1740993037,systemVerilog,,C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/P_bit.sv,,LFSR,,uvm,,,,,,
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/P_bit.sv,1740993037,systemVerilog,,C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv,,P_bit,,uvm,,,,,,
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv,1741085558,systemVerilog,,C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Tanh_LUT.sv,,probabilistic_circuit,,uvm,,,,,,
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit_tb.sv,1740996411,systemVerilog,,,,four_bit_mult_tb,,uvm,,,,,,
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Tanh_LUT.sv,1740993037,systemVerilog,,C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/new/clamper.sv,,Tanh_LUT,,uvm,,,,,,
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/new/grouped_update_order_LUT.sv,1740993037,systemVerilog,,C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit_tb.sv,,grouped_update_order_LUT,,uvm,,,,,,
+C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/new/clamper.sv,1741008650,systemVerilog,,C:/Users/madse/Desktop/4bit_multiplier/4bit_multiplier.srcs/sources_1/imports/sources_1/new/grouped_update_order_LUT.sv,,clamper,,uvm,,,,,,

@@ -198,6 +198,62 @@ def generate_verilog_biases(label_mapping_binary=None):
             print(f"bias[{i}],")
     return
 
+def generate_mem_files(J_bipolar, h_bipolar, file_prefix):
+    """
+    Generate external mem files for h, J, and seeds.
+
+    The files are written in plain text and stored in the "bram" subfolder:
+      - "{file_prefix}_h.mem": one 8-bit binary number per line.
+      - "{file_prefix}_J.mem": one row per line; each row is a space-separated list
+        of 8-bit binary numbers.
+      - "{file_prefix}_seeds.mem": one 32-bit binary seed per line. The number of seeds 
+         equals the length of h_bipolar.
+
+    The binary strings are generated using the S4.3 fixed-point conversion.
+    """
+    import os
+    # Ensure the "bram" folder exists.
+    bram_folder = "bram"
+    if not os.path.exists(bram_folder):
+        os.makedirs(bram_folder)
+
+    # Convert bipolar parameters to binary fixed-point values.
+    J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
+    
+    # Construct full file paths.
+    h_file = os.path.join(bram_folder, f"{file_prefix}_h.mem")
+    J_file = os.path.join(bram_folder, f"{file_prefix}_J.mem")
+    seed_file = os.path.join(bram_folder, f"{file_prefix}_seeds.mem")
+    
+    # Write the h memory file.
+    with open(h_file, "w") as f:
+        for i in range(h_binary.shape[0]):
+            bin_value, _ = decimal_to_s4_3(h_binary[i])
+            f.write(bin_value + "\n")
+    
+    # Write the J memory file.
+    with open(J_file, "w") as f:
+        for i in range(J_binary.shape[0]):
+            row_vals = []
+            for j in range(J_binary.shape[1]):
+                bin_value, _ = decimal_to_s4_3(J_binary[i, j])
+                row_vals.append(bin_value)
+            f.write(" ".join(row_vals) + "\n")
+    
+    # Generate seed mem file based on the length of h_bipolar.
+    num_seeds = h_binary.shape[0]
+    with open(seed_file, "w") as f:
+        for i in range(num_seeds):
+            # Generate a random 32-bit binary string.
+            seed_value = ''.join(random.choice('01') for _ in range(32))
+            f.write(seed_value + "\n")
+    
+    print(f"Mem files generated in folder '{bram_folder}':")
+    print(f"  {file_prefix}_h.mem")
+    print(f"  {file_prefix}_J.mem")
+    print(f"  {file_prefix}_seeds.mem")
+
+
 def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,figWidth=28):
     # Convert to DataFrame
     df = pd.DataFrame(truth_table, columns=columns)
