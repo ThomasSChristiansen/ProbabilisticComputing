@@ -1,0 +1,5 @@
+# script.ys
+read_verilog Sources\andornot.v
+synth
+abc -g AND,NAND,NOR,OR
+write_json Synthesized\andornot_synthesized.json

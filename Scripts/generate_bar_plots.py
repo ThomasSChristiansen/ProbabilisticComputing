@@ -110,12 +110,3 @@ def generate_bar_plots(file_path, label_mapping, savefig=False, save_csv=False, 
         ])
         results_df.to_csv(csv_filename, index=False)
         print(f"Labeled results saved to '{csv_filename}'")
-
-# Example usage:
-# label_mapping = {
-#     (0.0, 0.0, -8.0, -2.0, -4.0): 'Floating State',
-#     (1.0, 2.0, -6.0, -2.0, -4.0): 'Defined State A',
-#     (1.0, -1.0, 3.0, 2.0, -5.0): 'Defined State B'
-# }
-
-# generate_bar_plots("data.csv", label_mapping, savefig=True, save_csv=True)
