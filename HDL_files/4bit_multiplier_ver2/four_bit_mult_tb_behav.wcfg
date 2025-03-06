@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="four_bit_mult_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="four_bit_mult_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="2,000,019,995 ps"></ZoomStartTime>
+      <ZoomEndTime time="2,000,020,002 ps"></ZoomEndTime>
+      <Cursor1Time time="2,000,020,000 ps"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="96"></NameColumnWidth>
+      <ValueColumnWidth column_width="72"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/four_bit_mult_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/reset_n" type="logic">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/uut/clamp_EN" type="logic">
+      <obj_property name="ElementShortName">clamp_EN</obj_property>
+      <obj_property name="ObjectShortName">clamp_EN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/uut/clamp" type="array">
+      <obj_property name="ElementShortName">clamp[0:7]</obj_property>
+      <obj_property name="ObjectShortName">clamp[0:7]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/h" type="array">
+      <obj_property name="ElementShortName">h[0:52][7:0]</obj_property>
+      <obj_property name="ObjectShortName">h[0:52][7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/I_0" type="array">
+      <obj_property name="ElementShortName">I_0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">I_0[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/mult_out" type="array">
+      <obj_property name="ElementShortName">mult_out[0:52]</obj_property>
+      <obj_property name="ObjectShortName">mult_out[0:52]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/clk_delay" type="array">
+      <obj_property name="ElementShortName">clk_delay[1:0]</obj_property>
+      <obj_property name="ObjectShortName">clk_delay[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/bias" type="array">
+      <obj_property name="ElementShortName">bias[0:52]</obj_property>
+      <obj_property name="ObjectShortName">bias[0:52]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/file" type="array">
+      <obj_property name="ElementShortName">file[31:0]</obj_property>
+      <obj_property name="ObjectShortName">file[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/num_Pbits" type="array">
+      <obj_property name="ElementShortName">num_Pbits[31:0]</obj_property>
+      <obj_property name="ObjectShortName">num_Pbits[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/uut/h" type="array">
+      <obj_property name="ElementShortName">h[0:52][7:0]</obj_property>
+      <obj_property name="ObjectShortName">h[0:52][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[0]" type="array">
+         <obj_property name="ElementShortName">[0][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[1]" type="array">
+         <obj_property name="ElementShortName">[1][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[2]" type="array">
+         <obj_property name="ElementShortName">[2][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[3]" type="array">
+         <obj_property name="ElementShortName">[3][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[4]" type="array">
+         <obj_property name="ElementShortName">[4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[5]" type="array">
+         <obj_property name="ElementShortName">[5][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[6]" type="array">
+         <obj_property name="ElementShortName">[6][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[7]" type="array">
+         <obj_property name="ElementShortName">[7][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[8]" type="array">
+         <obj_property name="ElementShortName">[8][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[9]" type="array">
+         <obj_property name="ElementShortName">[9][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[10]" type="array">
+         <obj_property name="ElementShortName">[10][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[11]" type="array">
+         <obj_property name="ElementShortName">[11][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[12]" type="array">
+         <obj_property name="ElementShortName">[12][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[13]" type="array">
+         <obj_property name="ElementShortName">[13][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[14]" type="array">
+         <obj_property name="ElementShortName">[14][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[15]" type="array">
+         <obj_property name="ElementShortName">[15][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[16]" type="array">
+         <obj_property name="ElementShortName">[16][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[16][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[17]" type="array">
+         <obj_property name="ElementShortName">[17][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[17][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[18]" type="array">
+         <obj_property name="ElementShortName">[18][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[18][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[19]" type="array">
+         <obj_property name="ElementShortName">[19][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[19][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[20]" type="array">
+         <obj_property name="ElementShortName">[20][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[20][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[21]" type="array">
+         <obj_property name="ElementShortName">[21][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[21][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[22]" type="array">
+         <obj_property name="ElementShortName">[22][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[22][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[23]" type="array">
+         <obj_property name="ElementShortName">[23][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[23][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[24]" type="array">
+         <obj_property name="ElementShortName">[24][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[24][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[25]" type="array">
+         <obj_property name="ElementShortName">[25][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[25][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[26]" type="array">
+         <obj_property name="ElementShortName">[26][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[26][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[27]" type="array">
+         <obj_property name="ElementShortName">[27][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[27][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[28]" type="array">
+         <obj_property name="ElementShortName">[28][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[28][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[29]" type="array">
+         <obj_property name="ElementShortName">[29][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[29][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[30]" type="array">
+         <obj_property name="ElementShortName">[30][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[30][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[31]" type="array">
+         <obj_property name="ElementShortName">[31][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[31][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[32]" type="array">
+         <obj_property name="ElementShortName">[32][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[32][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[33]" type="array">
+         <obj_property name="ElementShortName">[33][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[33][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[34]" type="array">
+         <obj_property name="ElementShortName">[34][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[34][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[35]" type="array">
+         <obj_property name="ElementShortName">[35][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[35][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[36]" type="array">
+         <obj_property name="ElementShortName">[36][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[36][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[37]" type="array">
+         <obj_property name="ElementShortName">[37][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[37][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[38]" type="array">
+         <obj_property name="ElementShortName">[38][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[38][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[39]" type="array">
+         <obj_property name="ElementShortName">[39][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[39][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[40]" type="array">
+         <obj_property name="ElementShortName">[40][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[40][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[41]" type="array">
+         <obj_property name="ElementShortName">[41][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[41][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[42]" type="array">
+         <obj_property name="ElementShortName">[42][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[42][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[43]" type="array">
+         <obj_property name="ElementShortName">[43][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[43][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[44]" type="array">
+         <obj_property name="ElementShortName">[44][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[44][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[45]" type="array">
+         <obj_property name="ElementShortName">[45][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[45][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[46]" type="array">
+         <obj_property name="ElementShortName">[46][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[46][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[47]" type="array">
+         <obj_property name="ElementShortName">[47][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[47][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[48]" type="array">
+         <obj_property name="ElementShortName">[48][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[48][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[49]" type="array">
+         <obj_property name="ElementShortName">[49][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[49][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[50]" type="array">
+         <obj_property name="ElementShortName">[50][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[50][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[51]" type="array">
+         <obj_property name="ElementShortName">[51][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[51][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h[52]" type="array">
+         <obj_property name="ElementShortName">[52][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[52][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped" type="array">
+      <obj_property name="ElementShortName">h_clamped[0:52][7:0]</obj_property>
+      <obj_property name="ObjectShortName">h_clamped[0:52][7:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">3</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[0]" type="array">
+         <obj_property name="ElementShortName">[0][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[1]" type="array">
+         <obj_property name="ElementShortName">[1][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[2]" type="array">
+         <obj_property name="ElementShortName">[2][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[3]" type="array">
+         <obj_property name="ElementShortName">[3][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[4]" type="array">
+         <obj_property name="ElementShortName">[4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[5]" type="array">
+         <obj_property name="ElementShortName">[5][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[6]" type="array">
+         <obj_property name="ElementShortName">[6][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[7]" type="array">
+         <obj_property name="ElementShortName">[7][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[8]" type="array">
+         <obj_property name="ElementShortName">[8][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[9]" type="array">
+         <obj_property name="ElementShortName">[9][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[10]" type="array">
+         <obj_property name="ElementShortName">[10][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[11]" type="array">
+         <obj_property name="ElementShortName">[11][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[12]" type="array">
+         <obj_property name="ElementShortName">[12][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[13]" type="array">
+         <obj_property name="ElementShortName">[13][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[14]" type="array">
+         <obj_property name="ElementShortName">[14][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[15]" type="array">
+         <obj_property name="ElementShortName">[15][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[16]" type="array">
+         <obj_property name="ElementShortName">[16][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[16][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[17]" type="array">
+         <obj_property name="ElementShortName">[17][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[17][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[18]" type="array">
+         <obj_property name="ElementShortName">[18][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[18][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[19]" type="array">
+         <obj_property name="ElementShortName">[19][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[19][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[20]" type="array">
+         <obj_property name="ElementShortName">[20][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[20][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[21]" type="array">
+         <obj_property name="ElementShortName">[21][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[21][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[22]" type="array">
+         <obj_property name="ElementShortName">[22][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[22][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[23]" type="array">
+         <obj_property name="ElementShortName">[23][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[23][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[24]" type="array">
+         <obj_property name="ElementShortName">[24][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[24][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[25]" type="array">
+         <obj_property name="ElementShortName">[25][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[25][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[26]" type="array">
+         <obj_property name="ElementShortName">[26][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[26][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[27]" type="array">
+         <obj_property name="ElementShortName">[27][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[27][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[28]" type="array">
+         <obj_property name="ElementShortName">[28][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[28][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[29]" type="array">
+         <obj_property name="ElementShortName">[29][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[29][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[30]" type="array">
+         <obj_property name="ElementShortName">[30][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[30][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[31]" type="array">
+         <obj_property name="ElementShortName">[31][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[31][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[32]" type="array">
+         <obj_property name="ElementShortName">[32][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[32][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[33]" type="array">
+         <obj_property name="ElementShortName">[33][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[33][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[34]" type="array">
+         <obj_property name="ElementShortName">[34][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[34][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[35]" type="array">
+         <obj_property name="ElementShortName">[35][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[35][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[36]" type="array">
+         <obj_property name="ElementShortName">[36][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[36][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[37]" type="array">
+         <obj_property name="ElementShortName">[37][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[37][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[38]" type="array">
+         <obj_property name="ElementShortName">[38][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[38][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[39]" type="array">
+         <obj_property name="ElementShortName">[39][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[39][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[40]" type="array">
+         <obj_property name="ElementShortName">[40][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[40][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[41]" type="array">
+         <obj_property name="ElementShortName">[41][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[41][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[42]" type="array">
+         <obj_property name="ElementShortName">[42][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[42][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[43]" type="array">
+         <obj_property name="ElementShortName">[43][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[43][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[44]" type="array">
+         <obj_property name="ElementShortName">[44][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[44][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[45]" type="array">
+         <obj_property name="ElementShortName">[45][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[45][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[46]" type="array">
+         <obj_property name="ElementShortName">[46][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[46][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[47]" type="array">
+         <obj_property name="ElementShortName">[47][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[47][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[48]" type="array">
+         <obj_property name="ElementShortName">[48][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[48][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[49]" type="array">
+         <obj_property name="ElementShortName">[49][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[49][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[50]" type="array">
+         <obj_property name="ElementShortName">[50][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[50][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[51]" type="array">
+         <obj_property name="ElementShortName">[51][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[51][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/four_bit_mult_tb/uut/h_clamped[52]" type="array">
+         <obj_property name="ElementShortName">[52][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[52][7:0]</obj_property>
+         <obj_property name="Radix">REALRADIX</obj_property>
+         <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+         <obj_property name="radix_fractionWidth">3</obj_property>
+         <obj_property name="radix_otherWidth">0</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

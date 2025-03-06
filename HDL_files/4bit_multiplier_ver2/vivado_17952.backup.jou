@@ -1,0 +1,27 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Wed Mar  5 14:13:14 2025
+# Process ID: 17952
+# Current directory: C:/Users/thoma/Desktop/Vivado/4bit_multiplier_ver2
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent12760 C:\Users\thoma\Desktop\Vivado\4bit_multiplier_ver2\4bit_multiplier.xpr
+# Log file: C:/Users/thoma/Desktop/Vivado/4bit_multiplier_ver2/vivado.log
+# Journal file: C:/Users/thoma/Desktop/Vivado/4bit_multiplier_ver2\vivado.jou
+# Running On        :Thomas-AMD
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :AMD Ryzen 7 4700U with Radeon Graphics         
+# CPU Frequency     :1996 MHz
+# CPU Physical cores:8
+# CPU Logical cores :8
+# Host memory       :16558 MB
+# Swap memory       :9663 MB
+# Total Virtual     :26221 MB
+# Available Virtual :6810 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/thoma/Desktop/Vivado/4bit_multiplier_ver2/4bit_multiplier.xpr
+update_compile_order -fileset sources_1
+open_run impl_1
