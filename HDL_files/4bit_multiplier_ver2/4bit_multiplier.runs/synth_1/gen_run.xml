@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="synth_1" LaunchPart="xc7z010clg400-1" LaunchTime="1741178654" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/P_bit.dcp">
+  <File Type="PA-TCL" Name="probabilistic_circuit.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="probabilistic_circuit_drc_synth.rpt"/>
+  <File Type="REPORTS-TCL" Name="probabilistic_circuit_reports.tcl"/>
+  <File Type="RDS-RDS" Name="probabilistic_circuit.vds"/>
+  <File Type="RDS-UTIL" Name="probabilistic_circuit_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="probabilistic_circuit_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="probabilistic_circuit.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="probabilistic_circuit_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="probabilistic_circuit_timing_summary_synth.pb"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/imports/sources_1/imports/Standard Sources/LFSR.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../2bit_multiplier/2bit_multiplier.srcs/sources_1/imports/Standard Sources/LFSR.sv"/>
+        <Attr Name="ImportTime" Val="1736857724"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/sources_1/imports/Standard Sources/P_bit.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../2bit_multiplier/2bit_multiplier.srcs/sources_1/imports/Standard Sources/P_bit.sv"/>
+        <Attr Name="ImportTime" Val="1736862150"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/sources_1/imports/Standard Sources/Tanh_LUT.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../2bit_multiplier/2bit_multiplier.srcs/sources_1/imports/Standard Sources/Tanh_LUT.sv"/>
+        <Attr Name="ImportTime" Val="1736860032"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/clamper.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/sources_1/new/grouped_update_order_LUT.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../2bit_multiplier/2bit_multiplier.srcs/sources_1/new/grouped_update_order_LUT.sv"/>
+        <Attr Name="ImportTime" Val="1740127626"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../2bit_multiplier/2bit_multiplier.srcs/sources_1/imports/Standard Sources/Probabilistic_Circuit.sv"/>
+        <Attr Name="ImportTime" Val="1740140228"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/sources_1/imports/Standard Sources/Probabilistic_Circuit_tb.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../2bit_multiplier/2bit_multiplier.srcs/sources_1/imports/Standard Sources/Probabilistic_Circuit_tb.sv"/>
+        <Attr Name="ImportTime" Val="1740140476"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/4b_IntFac_seeds.mem">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/4b_IntFac_h.mem">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/4b_IntFac_J.mem">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="probabilistic_circuit"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/imports/digilent-xdc-master/Zybo-Z7-Master.xdc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../OneDrive - Aarhus Universitet/Probabilistic Computing/Vivado/digilent-xdc-master/Zybo-Z7-Master.xdc"/>
+        <Attr Name="ImportTime" Val="1727957758"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/P_bit.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2023"/>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>
