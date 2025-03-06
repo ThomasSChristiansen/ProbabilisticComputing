@@ -21,7 +21,7 @@ def find_top_module(netlist):
     
     return top_modules[0]
 
-def generate_weights(filename,SaveCircuit=False,CircuitName=None):
+def generate_weights_from_json_netlist(filename,SaveCircuit=False,CircuitName=None):
     # Load the Yosys-generated JSON netlist
     if not filename.endswith('.json'):
         filename += '.json'
@@ -88,17 +88,6 @@ def generate_weights(filename,SaveCircuit=False,CircuitName=None):
     # Convert the nodes set to a sorted list for reproducibility.
     circuit["nodes"] = sorted(list(circuit["nodes"]))
 
-    # # Write the resulting circuit dictionary to a JSON file.
-    # with open('circuit.json', 'w') as outfile:
-    #     json.dump(circuit, outfile, indent=4)
-
-    # print("Circuit has been written to circuit.json")
-
-
-    # with open("circuit.json", 'r') as infile:
-    #     circuit = json.load(infile)
-    # print(circuit)
-
     # Preprocess the circuit to ensure that XOR and XNOR gates have the expected number of nodes.
     for gate in circuit["gates"]:
         gate_type = gate["type"]
@@ -129,6 +118,7 @@ def generate_weights(filename,SaveCircuit=False,CircuitName=None):
                         circuit["nodes"].insert(idx + 1, hidden_node)
                 else:
                     circuit["nodes"].append(hidden_node)
+                    
         # Ensure XNOR has exactly 5 nodes and in correct order
         elif gate_type == "XNOR":
             if len(gate["nodes"]) == 3:  # Initial state: ['A', 'B', 'C']

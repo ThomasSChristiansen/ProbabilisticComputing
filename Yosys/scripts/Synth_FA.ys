@@ -1,0 +1,5 @@
+# script.ys
+read_verilog Sources\FA.v
+synth
+abc -g AND,NAND,NOR,OR
+write_json Synthesized\FA_synthesized.json
