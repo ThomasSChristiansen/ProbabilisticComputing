@@ -4,8 +4,6 @@
 //  The input uses s[4][3] precision meaning we can have input values from -16 to 15.875 in steps of 0.125.
 //  The output is unsigned s[0][32] pecision from 0 to 1.
 //  If the value exceeds these ranges its clamped to the min/max value.
-//  Two blocks of operation can be chosen from. Either binary or bipolar operation. 
-//  For bipolar operation Tanh_LUT_out should be signed.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module Tanh_LUT (Tanh_LUT_in, Tanh_LUT_out);
