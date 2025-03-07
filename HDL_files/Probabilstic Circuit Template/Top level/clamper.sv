@@ -1,24 +1,8 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 03.03.2025 12:00:46
-// Design Name: 
-// Module Name: clamper
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: if clamp_EN is high, clamps the output P-bits to a desired state provided by clamp.
-//              53 corresponds to the total number of P-bits and 8 to the number of output P-bits,
-//              these values would have to be manually adjusted on a per system basis.
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
+// If clamp_EN is high, clamps the output P-bits to a desired state provided by clamp.
+// 53 corresponds to the total number of P-bits and 8 to the number of output P-bits,
+// these values would have to be manually adjusted on a per system basis.
 //////////////////////////////////////////////////////////////////////////////////
 
 
