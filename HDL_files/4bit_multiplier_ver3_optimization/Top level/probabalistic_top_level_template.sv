@@ -20,17 +20,24 @@ module probabalistic_top_level_template #(
     logic m [0:num_Pbits-1];
 
 
-    //prepare arrays to load values unto
-    logic signed [7:0] h [0:num_Pbits-1];
-    logic signed [7:0] J [0:num_Pbits-1][0:num_Pbits-1];
-    logic [31:0] seed [0:num_Pbits-1];
-    
-    //load bias vector, J matrix and seed array from mem files
+    // Memory for compressed data
+    logic signed [7:0] values [0:255];      // Nonzero values (RLE compressed)
+    logic [7:0] run_lengths [0:255];        // RLE run lengths
+    logic [7:0] col_indices [0:255];        // Column indices
+    logic [7:0] row_ptr [0:num_Pbits];      // Row pointers (NOT delta encoded)
+    logic signed [7:0] h [0:num_Pbits-1];   // Bias vector
+    logic [31:0] seed [0:num_Pbits-1];      // Random seed array
+
+    // Load values, run_lengths, col_indices, row_ptr, and h from .mem files
     initial begin
-        $readmemb(".mem", h);  //format is $readmemb("name_of_memory_file", array_data_is_to_be_loaded_into)
-        $readmemb(".mem", J);
-        $readmemb(".mem", seed);
+        $readmemb("values.mem", values);
+        $readmemb("run_lengths.mem", run_lengths);
+        $readmemb("col_indices.mem", col_indices);
+        $readmemb("row_ptr.mem", row_ptr);
+        $readmemb("h.mem", h);
+        $readmemb("seed.mem", seed);
     end
+
     
     // Interconnection strengh
     parameter I_0 = 8'sb00001000;  //I_0 = 1
@@ -81,30 +88,57 @@ module probabalistic_top_level_template #(
      
     // Weight update
     always @(posedge clk) begin
-        integer i, j;
-        for (i=0; i<num_Pbits; i=i+1) begin
-            if (Pbit_EN[i] == 1'b1) begin                                           // Only update active P-bit
-                result_Jm[i] = 8'sb00000000;
-//                product_Jm[i] = 8'sb00000000;
-                for (j=0; j<num_Pbits; j=j+1) begin 
-                    product_Jm[i] = J[i][j] * m[j];                                 // Multiplication remaining inside Q[4][3] since m is 1'b     
-                    result_Jm[i] = result_Jm[i] + product_Jm[i];                    // Truncate to 8-bit with sign preservation
-                end
+        integer i, j, k;
+        integer start_idx, end_idx;
+        integer run_count, run_index;
+        logic signed [7:0] temp_value;
+        
+        for (i = 0; i < num_Pbits; i = i + 1) begin
+            if (Pbit_EN[i] == 1'b1) begin
+                result_Jm[i] = 8'sb00000000; // Reset accumulation
                 
-                extended_addition[i] = { {1{h_clamped[i][7]}}, h_clamped[i] }       // Sign Extension
-                                    + { {1{result_Jm[i][7]}}, result_Jm[i] };
+                // Get row start and end indices
+                start_idx = row_ptr[i];
+                end_idx = row_ptr[i+1];
+
+                k = start_idx;   // Start index for values[] traversal
+                run_index = 0;   // Current RLE entry index
+                run_count = 0;   // How many times we've used current value
+                
+                for (j = start_idx; j < end_idx; j = j + 1) begin 
+                    // Fetch new value when needed
+                    if (run_count == 0) begin
+                        temp_value = values[run_index];
+                        run_count = run_lengths[run_index];  // Load new run length
+                        run_index = run_index + 1;
+                    end
+
+                    // Perform weight calculation
+                    product_Jm[i] = temp_value * m[col_indices[k]];  
+                    result_Jm[i] = result_Jm[i] + product_Jm[i];
+
+                    // Update counters
+                    run_count = run_count - 1;  // Decrement run length
+                    k = k + 1;  // Move to next col_index
+                end
+
+                // Add bias vector and clamp
+                extended_addition[i] = { {1{h[i][7]}}, h[i] } + { {1{result_Jm[i][7]}}, result_Jm[i] };
                 if (extended_addition[i] > 8'sb01111111) begin
                     addition_hi[i] = 8'sb01111111;
                 end else if (extended_addition[i] < 8'sb10000000) begin
                     addition_hi[i] = 8'sb10000000;
                 end else begin
-                    addition_hi[i] = extended_addition[i][7:0];                     // Truncate to 8-bit with sign preservation
+                    addition_hi[i] = extended_addition[i][7:0];
                 end
-                product_I0[i] = I_0 * addition_hi[i];                               // Multiplication up to Q[8][6]
-                I_i[i] = product_I0[i] >>> 3;                                       // Shift down to Q[4][3]
+
+                // Multiply by I_0 and shift for Q4.3 fixed-point scaling
+                product_I0[i] = I_0 * addition_hi[i];
+                I_i[i] = product_I0[i] >>> 3;
             end
         end
     end
+
 
     
     // Instantiate P-bits

@@ -108,6 +108,29 @@ def decimal_to_s4_3(value):
 
     return binary_representation, fixed_point_value - (256 if fixed_point_value >= 128 else 0)
 
+def s4_3_to_decimal(binary_str):
+    """
+    Convert an 8-bit two's complement binary string in s[4][3] fixed-point format to a decimal number.
+    
+    Parameters:
+        binary_str (str): 8-bit binary string (e.g., "10101010")
+    
+    Returns:
+        float: The corresponding decimal value.
+    """
+    # Convert binary string to an integer (unsigned interpretation)
+    unsigned_value = int(binary_str, 2)
+    
+    # Convert from unsigned to signed (two's complement)
+    if unsigned_value >= 128:
+        signed_value = unsigned_value - 256
+    else:
+        signed_value = unsigned_value
+    
+    # For s[4][3] format, the scaling factor is 2^-3 (i.e. 0.125)
+    decimal_value = signed_value * 0.125
+    return decimal_value
+
 def generate_seed(index):
     """
     Generate a 32-bit random binary seed for SystemVerilog.
