@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import networkx as nx
 import os
+from scipy.sparse import csr_matrix
 
 def bipolar_to_binary(J_bipolar, h_bipolar):
     """
@@ -26,8 +27,6 @@ def bipolar_to_binary(J_bipolar, h_bipolar):
         elif h_binary[i] < -16:
             h_binary[i] = -16.0
     return J_binary, h_binary
-
-
 
 def fixed_point_range_signed(I, F):
     """
@@ -52,8 +51,6 @@ def fixed_point_range_signed(I, F):
 
     return min_value, max_value, step_size
 
-
-
 def fixed_point_range_unsigned(I, F):
     """
     Calculate the range and step size of a fixed-point representation s[I][F].
@@ -76,8 +73,6 @@ def fixed_point_range_unsigned(I, F):
     print(f"Step Size: {step_size}")
 
     return min_value, max_value, step_size
-
-
 
 def decimal_to_s4_3(value):
     """
@@ -113,7 +108,28 @@ def decimal_to_s4_3(value):
 
     return binary_representation, fixed_point_value - (256 if fixed_point_value >= 128 else 0)
 
-
+def s4_3_to_decimal(binary_str):
+    """
+    Convert an 8-bit two's complement binary string in s[4][3] fixed-point format to a decimal number.
+    
+    Parameters:
+        binary_str (str): 8-bit binary string (e.g., "10101010")
+    
+    Returns:
+        float: The corresponding decimal value.
+    """
+    # Convert binary string to an integer (unsigned interpretation)
+    unsigned_value = int(binary_str, 2)
+    
+    # Convert from unsigned to signed (two's complement)
+    if unsigned_value >= 128:
+        signed_value = unsigned_value - 256
+    else:
+        signed_value = unsigned_value
+    
+    # For s[4][3] format, the scaling factor is 2^-3 (i.e. 0.125)
+    decimal_value = signed_value * 0.125
+    return decimal_value
 
 def generate_seed(index):
     """
@@ -127,8 +143,6 @@ def generate_seed(index):
     """
     seed_value = ''.join(random.choice('01') for _ in range(32))
     return f"parameter seed{index} = 32'b{seed_value};"
-
-
 
 def generate_seed_array(num_seeds):
     """
@@ -144,8 +158,6 @@ def generate_seed_array(num_seeds):
     seed_array_init = f"logic [31:0] seed [0:{num_seeds-1}] = '{{{', '.join(f'seed{i}' for i in range(num_seeds))}}};"
 
     return "\n".join(seed_parameters) + "\n" + seed_array_init
-
-
 
 def generate_verilog_params(J_bipolar, h_bipolar):
     """
@@ -186,8 +198,6 @@ def generate_verilog_params(J_bipolar, h_bipolar):
 
     return J_binary_formatted, J_array_init, h_binary_formatted, h_array_init
 
-
-
 def generate_verilog_biases(label_mapping_binary=None):
     # Convert to Verilog-style format
     for key, label in label_mapping_binary.items():
@@ -211,7 +221,57 @@ def generate_verilog_biases(label_mapping_binary=None):
             print(f"bias[{i}],")
     return
 
+def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder):
+    # Function to generate `.mem` files for Compressed-Row-Sparse (CSR) matrix
 
+    # Create a subfolder named 'CSR_matrix' inside file_folder
+    csr_subfolder = os.path.join(file_folder, "CSR_matrix")
+    os.makedirs(csr_subfolder, exist_ok=True)
+
+    # Convert bipolar J and h to binary format
+    J_binary, h_binary = bipolar_to_binary(J_bipolar,h_bipolar)
+
+    # Convert J to Compressed Sparse Row (CSR) format
+    J_sparse = csr_matrix(J_binary)
+
+    # Extract CSR components
+    values = J_sparse.data
+    col_indices = J_sparse.indices
+    row_ptr = J_sparse.indptr
+
+    # Construct file paths
+    values_file = os.path.join(csr_subfolder, f"{file_prefix}_values.mem")
+    col_indices_file = os.path.join(csr_subfolder, f"{file_prefix}_col_indices.mem")
+    row_ptr_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.mem")
+    h_file = os.path.join(csr_subfolder, f"{file_prefix}_h.mem")
+
+    # Write the values memory file
+    with open(values_file, "w") as f:
+        for v in values:
+            bin_value, _ = decimal_to_s4_3(v)
+            f.write(bin_value + "\n")
+
+    # Write the col_indices memory file
+    with open(col_indices_file, "w") as f:
+        for c in col_indices:
+            f.write(f"{c:08b}\n")  # Store column indices as 8-bit binary
+
+    # Write the row_ptr memory file (Delta Encoded)
+    with open(row_ptr_file, "w") as f:
+        for r in row_ptr:
+            f.write(f"{r:016b}\n")  # Store as 16-bit binary
+
+    # Write the h memory file (Bias vector)
+    with open(h_file, "w") as f:
+        for i in range(h_binary.shape[0]):
+            bin_value, _ = decimal_to_s4_3(h_binary[i])
+            f.write(bin_value + "\n")
+
+    print(f"CSR_matrix mem files generated in folder '{csr_subfolder}':")
+    print(f"  {file_prefix}_values.mem")
+    print(f"  {file_prefix}_col_indices.mem")
+    print(f"  {file_prefix}_row_ptr.mem")
+    print(f"  {file_prefix}_h.mem")
 
 def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3):
     """
@@ -230,8 +290,6 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
            defaults to var_0, var_1, …, var_n.
       group_bit_width (int, optional): Bit width for the group index in the LUT (default 3).
     """
-    import os, random
-    import networkx as nx
     # Ensure the "bram" folder exists.
     file_folder = "custom_hdl_files"
     if not os.path.exists(file_folder):
@@ -345,11 +403,9 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
     lut_file = os.path.join(file_folder, "grouped_update_order_LUT.sv")
     with open(lut_file, "w") as f:
         f.write(lut_file_content)
-    
     print("Lookup table file generated: grouped_update_order_LUT.sv")
 
-
-
+    generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder)
 
 def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,figWidth=28):
     # Convert to DataFrame
@@ -383,8 +439,6 @@ def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,
 
     # Show the plot
     plt.show()
-
-
 
 def generate_group_update_order(J_bipolar, var_names, group_bit_width=3):
     """
@@ -458,8 +512,6 @@ def generate_group_update_order(J_bipolar, var_names, group_bit_width=3):
     plt.title("Graph of Variable Interactions with Update Groups")
     plt.show()
 
-
-
 def load_npz_data(file_name, target_folder="Circuit_Library"):
     """
     Searches upward for the folder 'target_folder', loads the npz file with the given file_name,
@@ -502,8 +554,6 @@ def load_npz_data(file_name, target_folder="Circuit_Library"):
     
     return J, h, node_order
 
-
-
 def find_folder_upwards(target_folder, start_dir=None):
     """
     Starting from 'start_dir' (or the directory of the current file if None),
@@ -523,8 +573,6 @@ def find_folder_upwards(target_folder, start_dir=None):
             # Reached the root directory
             raise FileNotFoundError(f"Folder '{target_folder}' not found in any parent directories of {start_dir}.")
         current_dir = parent_dir
-
-
 
 def update_all_configurations(target_names, h_bipolar, node_order):
     """

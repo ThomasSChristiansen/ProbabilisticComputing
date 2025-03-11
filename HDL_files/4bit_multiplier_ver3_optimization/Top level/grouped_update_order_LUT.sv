@@ -7,9 +7,9 @@
 module grouped_update_order_LUT #(
     parameter num_Pbits = 4
 )(
-    input logic [0:3] group_EN;
-    output logic [0:num_Pbits-1] Pbit_EN;
-)
+    input logic [0:3] group_EN,
+    output logic [0:num_Pbits-1] Pbit_EN
+);
 
 always_comb
 begin 
