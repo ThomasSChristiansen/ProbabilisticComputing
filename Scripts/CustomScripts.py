@@ -213,7 +213,7 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix):
     """
     import os
     # Ensure the "bram" folder exists.
-    bram_folder = "bram"
+    bram_folder = "custom_hdl_files"
     if not os.path.exists(bram_folder):
         os.makedirs(bram_folder)
 
@@ -248,9 +248,23 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix):
             seed_value = ''.join(random.choice('01') for _ in range(32))
             f.write(seed_value + "\n")
     
+    # Write the global parameters SystemVerilog file.
+    global_params_file = os.path.join(bram_folder, f"{file_prefix}_global_params.sv")
+    # Use the length of h_binary (which corresponds to h_bipolar) for num_Pbits.
+    num_Pbits = h_binary.shape[0]
+    with open(global_params_file, "w") as f:
+        f.write("// pbit_params.svh\n")
+        f.write("// Global parameter definitions for all p-bit modules\n\n")
+        f.write("`ifndef GLOBAL_PARAMS_SVH\n")
+        f.write("`define GLOBAL_PARAMS_SVH\n\n")
+        f.write("// Define the number of P-bits globally\n")
+        f.write(f"parameter num_Pbits = {num_Pbits};\n\n")
+        f.write("`endif\n")
+    
     print(f"Mem files generated in folder '{bram_folder}':")
     print(f"  {file_prefix}_h.mem")
     print(f"  {file_prefix}_J.mem")
+    print(f"  {file_prefix}_global_params.mem")
     print(f"  {file_prefix}_seeds.mem")
 
 
