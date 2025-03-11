@@ -27,6 +27,8 @@ def bipolar_to_binary(J_bipolar, h_bipolar):
             h_binary[i] = -16.0
     return J_binary, h_binary
 
+
+
 def fixed_point_range_signed(I, F):
     """
     Calculate the range and step size of a fixed-point representation s[I][F].
@@ -50,6 +52,8 @@ def fixed_point_range_signed(I, F):
 
     return min_value, max_value, step_size
 
+
+
 def fixed_point_range_unsigned(I, F):
     """
     Calculate the range and step size of a fixed-point representation s[I][F].
@@ -72,6 +76,7 @@ def fixed_point_range_unsigned(I, F):
     print(f"Step Size: {step_size}")
 
     return min_value, max_value, step_size
+
 
 
 def decimal_to_s4_3(value):
@@ -108,6 +113,8 @@ def decimal_to_s4_3(value):
 
     return binary_representation, fixed_point_value - (256 if fixed_point_value >= 128 else 0)
 
+
+
 def generate_seed(index):
     """
     Generate a 32-bit random binary seed for SystemVerilog.
@@ -120,6 +127,8 @@ def generate_seed(index):
     """
     seed_value = ''.join(random.choice('01') for _ in range(32))
     return f"parameter seed{index} = 32'b{seed_value};"
+
+
 
 def generate_seed_array(num_seeds):
     """
@@ -135,6 +144,8 @@ def generate_seed_array(num_seeds):
     seed_array_init = f"logic [31:0] seed [0:{num_seeds-1}] = '{{{', '.join(f'seed{i}' for i in range(num_seeds))}}};"
 
     return "\n".join(seed_parameters) + "\n" + seed_array_init
+
+
 
 def generate_verilog_params(J_bipolar, h_bipolar):
     """
@@ -175,6 +186,8 @@ def generate_verilog_params(J_bipolar, h_bipolar):
 
     return J_binary_formatted, J_array_init, h_binary_formatted, h_array_init
 
+
+
 def generate_verilog_biases(label_mapping_binary=None):
     # Convert to Verilog-style format
     for key, label in label_mapping_binary.items():
@@ -198,32 +211,39 @@ def generate_verilog_biases(label_mapping_binary=None):
             print(f"bias[{i}],")
     return
 
-def generate_mem_files(J_bipolar, h_bipolar, file_prefix):
-    """
-    Generate external mem files for h, J, and seeds.
 
-    The files are written in plain text and stored in the "bram" subfolder:
-      - "{file_prefix}_h.mem": one 8-bit binary number per line.
-      - "{file_prefix}_J.mem": one row per line; each row is a space-separated list
-        of 8-bit binary numbers.
-      - "{file_prefix}_seeds.mem": one 32-bit binary seed per line. The number of seeds 
-         equals the length of h_bipolar.
 
-    The binary strings are generated using the S4.3 fixed-point conversion.
+def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3):
     """
-    import os
+    Generate external mem files for h, J, seeds, global parameters, and grouped update LUT.
+    
+    The mem files (h, J, seeds) are written to the "bram" folder. In addition, two SystemVerilog
+    files are created:
+      - {file_prefix}_global_params.sv (defines the global number of P-bits)
+      - grouped_update_order_LUT.sv (contains a lookup table for update groups)
+    
+    Parameters:
+      J_bipolar (np.array): Interaction matrix.
+      h_bipolar (np.array): Bias vector.
+      file_prefix (str): Prefix used for naming the mem and parameter files.
+      var_names (list of str, optional): Variable names for update ordering. If not provided,
+           defaults to var_0, var_1, …, var_n.
+      group_bit_width (int, optional): Bit width for the group index in the LUT (default 3).
+    """
+    import os, random
+    import networkx as nx
     # Ensure the "bram" folder exists.
-    bram_folder = "custom_hdl_files"
-    if not os.path.exists(bram_folder):
-        os.makedirs(bram_folder)
+    file_folder = "custom_hdl_files"
+    if not os.path.exists(file_folder):
+        os.makedirs(file_folder)
 
     # Convert bipolar parameters to binary fixed-point values.
     J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
     
-    # Construct full file paths.
-    h_file = os.path.join(bram_folder, f"{file_prefix}_h.mem")
-    J_file = os.path.join(bram_folder, f"{file_prefix}_J.mem")
-    seed_file = os.path.join(bram_folder, f"{file_prefix}_seeds.mem")
+    # Construct full file paths for the mem files.
+    h_file = os.path.join(file_folder, f"{file_prefix}_h.mem")
+    J_file = os.path.join(file_folder, f"{file_prefix}_J.mem")
+    seed_file = os.path.join(file_folder, f"{file_prefix}_seeds.mem")
     
     # Write the h memory file.
     with open(h_file, "w") as f:
@@ -240,17 +260,21 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix):
                 row_vals.append(bin_value)
             f.write(" ".join(row_vals) + "\n")
     
-    # Generate seed mem file based on the length of h_bipolar.
+    # Write the seed memory file.
     num_seeds = h_binary.shape[0]
     with open(seed_file, "w") as f:
         for i in range(num_seeds):
-            # Generate a random 32-bit binary string.
             seed_value = ''.join(random.choice('01') for _ in range(32))
             f.write(seed_value + "\n")
     
+    print(f"Mem files generated in folder '{file_folder}':")
+    print(f"  {file_prefix}_h.mem")
+    print(f"  {file_prefix}_J.mem")
+    print(f"  {file_prefix}_seeds.mem")
+    
+    # ----------------------------------------------------------------
     # Write the global parameters SystemVerilog file.
-    global_params_file = os.path.join(bram_folder, f"{file_prefix}_global_params.sv")
-    # Use the length of h_binary (which corresponds to h_bipolar) for num_Pbits.
+    global_params_file = os.path.join(file_folder, f"{file_prefix}_global_params.sv")
     num_Pbits = h_binary.shape[0]
     with open(global_params_file, "w") as f:
         f.write("// pbit_params.svh\n")
@@ -261,11 +285,70 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix):
         f.write(f"parameter num_Pbits = {num_Pbits};\n\n")
         f.write("`endif\n")
     
-    print(f"Mem files generated in folder '{bram_folder}':")
-    print(f"  {file_prefix}_h.mem")
-    print(f"  {file_prefix}_J.mem")
-    print(f"  {file_prefix}_global_params.mem")
-    print(f"  {file_prefix}_seeds.mem")
+    print(f"Global parameters file generated: {file_prefix}_global_params.sv")
+    
+    # ----------------------------------------------------------------
+    # Generate the grouped update order lookup table file.
+    # If no var_names list is provided, use default names.
+    num_vars = h_binary.shape[0]
+    if var_names is None:
+        var_names = [f"var_{i}" for i in range(num_vars)]
+    
+    # Build an undirected graph where each node corresponds to a variable.
+    G = nx.Graph()
+    num_nodes = J_bipolar.shape[0]
+    G.add_nodes_from(range(num_nodes))
+    # Add an edge between nodes that interact (nonzero in J_bipolar).
+    for i in range(num_nodes):
+        for j in range(i + 1, num_nodes):
+            if J_bipolar[i, j] != 0:
+                G.add_edge(i, j)
+    
+    # Use a greedy coloring algorithm to determine update groups.
+    coloring = nx.algorithms.coloring.greedy_color(
+        G, strategy=nx.algorithms.coloring.strategy_saturation_largest_first
+    )
+    update_groups = {}
+    for node, color in coloring.items():
+        update_groups.setdefault(color, []).append(node)
+    # Sort groups by color and node index.
+    update_order = [sorted(update_groups[color]) for color in sorted(update_groups)]
+    
+    # Generate the lookup table lines.
+    lookup_lines = []
+    for group_index, group in enumerate(update_order):
+        # Create a binary string for the group index.
+        group_bin = format(group_index, f'0{group_bit_width}b')
+        # Create a bit mask: a '1' for each variable in this update group.
+        pbit_en_bits = ''.join(['1' if i in group else '0' for i in range(num_vars)])
+        lookup_lines.append(f"{group_bit_width}'b{group_bin} : Pbit_EN = {num_vars}'b{pbit_en_bits};")
+    
+    # Build the content for the LUT SystemVerilog file.
+    # Note: The input and output widths are set based on group_bit_width and num_vars.
+    lut_file_content = ""
+    lut_file_content += "`timescale 1ns / 1ps\n"
+    lut_file_content += "//////////////////////////////////////////////////////////////////////////////////\n\n"
+    lut_file_content += "//////////////////////////////////////////////////////////////////////////////////\n\n\n"
+    lut_file_content += "module grouped_update_order_LUT(group_EN, Pbit_EN);\n\n"
+    lut_file_content += f"input logic [0:{group_bit_width-1}] group_EN;\n"
+    lut_file_content += f"output logic [0:{num_vars-1}] Pbit_EN;\n\n"
+    lut_file_content += "always_comb\n"
+    lut_file_content += "begin \n"
+    lut_file_content += "case (group_EN)\n"
+    for line in lookup_lines:
+        lut_file_content += "  " + line + "\n"
+    lut_file_content += "endcase\n"
+    lut_file_content += "end\n"
+    lut_file_content += "endmodule\n"
+    
+    # Write the LUT file.
+    lut_file = os.path.join(file_folder, "grouped_update_order_LUT.sv")
+    with open(lut_file, "w") as f:
+        f.write(lut_file_content)
+    
+    print("Lookup table file generated: grouped_update_order_LUT.sv")
+
+
 
 
 def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,figWidth=28):
@@ -300,6 +383,8 @@ def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,
 
     # Show the plot
     plt.show()
+
+
 
 def generate_group_update_order(J_bipolar, var_names, group_bit_width=3):
     """
@@ -374,6 +459,7 @@ def generate_group_update_order(J_bipolar, var_names, group_bit_width=3):
     plt.show()
 
 
+
 def load_npz_data(file_name, target_folder="Circuit_Library"):
     """
     Searches upward for the folder 'target_folder', loads the npz file with the given file_name,
@@ -416,6 +502,8 @@ def load_npz_data(file_name, target_folder="Circuit_Library"):
     
     return J, h, node_order
 
+
+
 def find_folder_upwards(target_folder, start_dir=None):
     """
     Starting from 'start_dir' (or the directory of the current file if None),
@@ -435,6 +523,8 @@ def find_folder_upwards(target_folder, start_dir=None):
             # Reached the root directory
             raise FileNotFoundError(f"Folder '{target_folder}' not found in any parent directories of {start_dir}.")
         current_dir = parent_dir
+
+
 
 def update_all_configurations(target_names, h_bipolar, node_order):
     """
