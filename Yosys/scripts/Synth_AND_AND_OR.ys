@@ -1,5 +1,5 @@
 # script.ys
 read_verilog Sources\AND_AND_OR.v
 synth
-abc -g AND,NAND,NOR,OR
+abc -g AND,NOR,OR
 write_json Synthesized\AND_AND_OR_synthesized.json
