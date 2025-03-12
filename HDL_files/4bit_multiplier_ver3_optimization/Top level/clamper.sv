@@ -6,7 +6,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module clamper(
+module clamper #(
+    parameter num_Pbits = 4
+)(
     input logic signed [0:7]h[0:90],          //h from bias at floating operation
     input logic clamp[0:7],                   //desired clamped value of output P-bits
     input logic clamp_EN,

@@ -6,28 +6,33 @@
 //	- Name of mem files for h, J and seeds, starting line 27
 //	- Range on output pbits, line 122
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module probabalistic_top_level_template #(
-    parameter num_Pbits = 91  // Allows configuration
-)(
+`include "global_params.svh"
+module probabalistic_top_level_template(
     input logic clk,                            // Clock signal
     input logic reset_n,                        // Reset signal
-    input logic clamp[0:7],                     // Bias vector for num_Pbits
+    input logic clamp [0:7],                     // Bias vector for num_Pbits
     input clamp_EN,                             // Enable clamping
-    output logic out [0:7]              // States of the num_Pbits P-bits
+    output logic [0:num_Pbits] out,                      // States of the num_Pbits P-bits
+    output logic [1:0] clk_delay
 );
+    // Intermediate output storage
+    logic [0:num_Pbits-1] m;
 
-    logic m [0:num_Pbits-1];
-    //prepare arrays to load values unto
-    logic signed [7:0] h [0:num_Pbits-1];
-    logic signed [7:0] J [0:num_Pbits-1][0:num_Pbits-1];
-    logic [31:0] seed [0:num_Pbits-1];
-    
-    //load bias vector, J matrix and seed array from mem files
+
+    // Memory for compressed data
+    logic signed [7:0] values [];      // Nonzero values 
+    logic [7:0] col_indices [];        // Column indices
+    logic [15:0] row_ptr [0:num_Pbits];      // Row pointers 
+    logic signed [7:0] h [0:num_Pbits-1];   // Bias vector
+    logic [31:0] seed [0:num_Pbits-1];      // Random seed array
+
+    // Load values, col_indices, row_ptr, and h from .mem files
     initial begin
-        $readmemb("4b_IntFac_h.mem", h);  //format is $readmemb("name_of_memory_file", array_data_is_to_be_loaded_into)
-        $readmemb("4b_IntFac_J.mem", J);
-        $readmemb("4b_IntFac_seeds.mem", seed);
+        $readmemb("AND_AND_OR_values.mem", values);
+        $readmemb("AND_AND_OR_col_indices.mem", col_indices);
+        $readmemb("AND_AND_OR_row_ptr.mem", row_ptr);
+        $readmemb("AND_AND_OR_h.mem", h);
+        $readmemb("AND_AND_OR_seeds.mem", seed);
     end
     
     // Interconnection strengh
@@ -52,17 +57,17 @@ module probabalistic_top_level_template #(
     );
     
     // Sequencer with 3 clock cycle delay. 
-    logic [0:3] group_EN;
+    logic [0:2] group_EN;
     logic [0:num_Pbits-1] Pbit_EN;
-    logic [1:0] clk_delay;
+//    logic [1:0] clk_delay;
     always @(posedge clk, negedge reset_n) begin  //seperate clocks for each pbit
         if (reset_n == 0) begin  //initial value 
             group_EN = 0;
             clk_delay = 2'b00;
         end else begin
-            clk_delay += 1'b1;
+            clk_delay <= (clk_delay + 1) & 2'b11;
             if (clk_delay == 2'b11) begin   // When clk_delay reaches 3
-                if (group_EN == 3'b100)
+                if (group_EN == 3'b010)
                     group_EN <= 3'b000;  // Reset after reaching 100
                 else
                     group_EN <= group_EN + 1;
@@ -70,42 +75,61 @@ module probabalistic_top_level_template #(
             end
         end
     end
+
     // Instantiate the grouped_update_order_LUT
     grouped_update_order_LUT grouped_update_order_LUT_inst (
         .group_EN(group_EN),                       
         .Pbit_EN(Pbit_EN)
-    ); 
+    );  
      
-     
-    // Weight update binary
+    // Weight update
+    // Sparse Matrix Multiplication
     always @(posedge clk) begin
-        integer i, j;
-        for (i=0; i<num_Pbits; i=i+1) begin
-            if (Pbit_EN[i] == 1'b1) begin                                           // Only update active P-bit
-                result_Jm[i] = 8'sb00000000;
-//                product_Jm[i] = 8'sb00000000;
-                for (j=0; j<num_Pbits; j=j+1) begin 
-                    product_Jm[i] = J[i][j] * m[j];                                 // Multiplication remaining inside Q[4][3] since m is 1'b     
-                    result_Jm[i] = result_Jm[i] + product_Jm[i];                    // Truncate to 8-bit with sign preservation
+        integer i, j, k;
+        integer start_idx, end_idx;
+        logic found;
+    
+        for (i = 0; i < num_Pbits; i = i + 1) begin
+            if (Pbit_EN[i] == 1'b1) begin
+                result_Jm[i] = 8'sb00000000; // Reset accumulation
+                start_idx = row_ptr[i];
+                end_idx = row_ptr[i+1];
+                // Iterate over all columns
+                for (j = 0; j < num_Pbits; j = j + 1) begin
+                    found = 0;
+        
+                    // Search for nonzero weight
+                    for (k = start_idx; k < end_idx; k = k + 1) begin
+                        if (col_indices[k] == j) begin
+                            result_Jm[i] = result_Jm[i] + (values[k] * m[j]);
+                            found = 1;
+                        end
+                    end
+        
+                    // If no weight was found, explicitly add 0 * m[j]
+                    if (!found) begin
+                        result_Jm[i] = result_Jm[i] + (0 * m[j]);  // Keeps the zero-weight multiplication
+                    end
                 end
-                
-                extended_addition[i] = { {1{h_clamped[i][7]}}, h_clamped[i] }       // Sign Extension
-                                    + { {1{result_Jm[i][7]}}, result_Jm[i] };
+        
+                // Bias addition and clamping
+                extended_addition[i] = { {1{h[i][7]}}, h[i] } + { {1{result_Jm[i][7]}}, result_Jm[i] };
                 if (extended_addition[i] > 8'sb01111111) begin
                     addition_hi[i] = 8'sb01111111;
                 end else if (extended_addition[i] < 8'sb10000000) begin
                     addition_hi[i] = 8'sb10000000;
                 end else begin
-                    addition_hi[i] = extended_addition[i][7:0];                     // Truncate to 8-bit with sign preservation
+                    addition_hi[i] = extended_addition[i][7:0];
                 end
-                product_I0[i] = I_0 * addition_hi[i];                               // Multiplication up to Q[8][6]
-                I_i[i] = product_I0[i] >>> 3;                                       // Shift down to Q[4][3]
+        
+                // Multiply by I_0 and shift for Q4.3 fixed-point scaling
+                product_I0[i] = I_0 * addition_hi[i];
+                I_i[i] = product_I0[i] >>> 3;
             end
         end
     end
 
-    
-    // Instantiate 3 P-bits
+    // Instantiate P-bits
     genvar i;
     generate
         for (i = 0; i < num_Pbits; i++) begin : P_bit_instances
@@ -119,5 +143,5 @@ module probabalistic_top_level_template #(
             );
         end
     endgenerate
-    assign out = m[83:90];
+    assign out = m;
 endmodule
