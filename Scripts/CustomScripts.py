@@ -297,7 +297,8 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
 
     # Convert bipolar parameters to binary fixed-point values.
     J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
-    
+    print(J_binary)
+    print(h_binary)
     # Construct full file paths for the mem files.
     h_file = os.path.join(file_folder, f"{file_prefix}_h.mem")
     J_file = os.path.join(file_folder, f"{file_prefix}_J.mem")
@@ -307,8 +308,9 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
     with open(h_file, "w") as f:
         for i in range(h_binary.shape[0]):
             bin_value, _ = decimal_to_s4_3(h_binary[i])
+            print(bin_value)
             f.write(bin_value + "\n")
-    
+ 
     # Write the J memory file.
     with open(J_file, "w") as f:
         for i in range(J_binary.shape[0]):
@@ -332,7 +334,7 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
     
     # ----------------------------------------------------------------
     # Write the global parameters SystemVerilog file.
-    global_params_file = os.path.join(file_folder, f"{file_prefix}_global_params.sv")
+    global_params_file = os.path.join(file_folder, f"{file_prefix}_global_params.svh")
     num_Pbits = h_binary.shape[0]
     with open(global_params_file, "w") as f:
         f.write("// pbit_params.svh\n")
