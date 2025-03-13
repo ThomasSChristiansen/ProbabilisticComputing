@@ -12,7 +12,7 @@ module probabalistic_top_level_template(
     input logic reset_n,                        // Reset signal
     input logic clamp [0:7],                     // Bias vector for num_Pbits
     input clamp_EN,                             // Enable clamping
-    output logic [0:num_Pbits] out,                      // States of the num_Pbits P-bits
+    output logic [0:num_Out-1] out,                      // States of the num_Pbits P-bits
     output logic [1:0] clk_delay
 );
     // Intermediate output storage
@@ -20,19 +20,19 @@ module probabalistic_top_level_template(
 
 
     // Memory for compressed data
-    logic signed [7:0] values [];      // Nonzero values 
-    logic [7:0] col_indices [];        // Column indices
+    logic signed [7:0] values [0:463];      // Nonzero values 
+    logic [7:0] col_indices [0:463];        // Column indices
     logic [15:0] row_ptr [0:num_Pbits];      // Row pointers 
     logic signed [7:0] h [0:num_Pbits-1];   // Bias vector
     logic [31:0] seed [0:num_Pbits-1];      // Random seed array
 
     // Load values, col_indices, row_ptr, and h from .mem files
     initial begin
-        $readmemb("AND_AND_OR_values.mem", values);
-        $readmemb("AND_AND_OR_col_indices.mem", col_indices);
-        $readmemb("AND_AND_OR_row_ptr.mem", row_ptr);
-        $readmemb("AND_AND_OR_h.mem", h);
-        $readmemb("AND_AND_OR_seeds.mem", seed);
+        $readmemb("4bIntFac_v7_values.mem", values);
+        $readmemb("4bIntFac_v7_col_indices.mem", col_indices);
+        $readmemb("4bIntFac_v7_row_ptr.mem", row_ptr);
+        $readmemb("4bIntFac_v7_h.mem", h);
+        $readmemb("4bIntFac_v7_seeds.mem", seed);
     end
     
     // Interconnection strengh
@@ -44,7 +44,8 @@ module probabalistic_top_level_template(
     logic signed [7:0] result_Jm [0:num_Pbits-1];         // Result 
     logic signed [15:0] product_I0 [0:num_Pbits-1];       // Product of I0 and sum
     logic signed [7:0] addition_hi [0:num_Pbits-1];       // hi+sum(J_ij+m_j)
-    logic signed [8:0] extended_addition [0:num_Pbits-1]; 
+    logic signed [8:0] extended_addition [0:num_Pbits-1];
+    logic signed [8:0] extended_result_Jm [0:num_Pbits-1]; 
     logic signed [7:0] h_clamped [0:num_Pbits-1];         //clamped bias vector
     
     
@@ -67,7 +68,7 @@ module probabalistic_top_level_template(
         end else begin
             clk_delay <= (clk_delay + 1) & 2'b11;
             if (clk_delay == 2'b11) begin   // When clk_delay reaches 3
-                if (group_EN == 3'b010)
+                if (group_EN == 3'b011)
                     group_EN <= 3'b000;  // Reset after reaching 100
                 else
                     group_EN <= group_EN + 1;
@@ -85,35 +86,38 @@ module probabalistic_top_level_template(
     // Weight update
     // Sparse Matrix Multiplication
     always @(posedge clk) begin
-        integer i, j, k;
+        integer i, k, index;
         integer start_idx, end_idx;
-        logic found;
     
         for (i = 0; i < num_Pbits; i = i + 1) begin
             if (Pbit_EN[i] == 1'b1) begin
-                result_Jm[i] = 8'sb00000000; // Reset accumulation
+                // Reset accumulator (extended to 9 bits for proper sign representation)
+                extended_result_Jm[i] = 9'sb000000000;
                 start_idx = row_ptr[i];
                 end_idx = row_ptr[i+1];
                 // Iterate over all columns
-                for (j = 0; j < num_Pbits; j = j + 1) begin
-                    found = 0;
-        
-                    // Search for nonzero weight
-                    for (k = start_idx; k < end_idx; k = k + 1) begin
-                        if (col_indices[k] == j) begin
-                            result_Jm[i] = result_Jm[i] + (values[k] * m[j]);
-                            found = 1;
-                        end
-                    end
-        
-                    // If no weight was found, explicitly add 0 * m[j]
-                    if (!found) begin
-                        result_Jm[i] = result_Jm[i] + (0 * m[j]);  // Keeps the zero-weight multiplication
+                for (k = 0; k < num_Pbits; k = k + 1) begin
+                    index = start_idx + k;
+                    if (index < end_idx) begin
+                        // Use the stored column index directly
+                        // 'j' is the index of the p-bit whose state is multiplied
+                        // Note: m is indexed with constant bounds NUM_PBITS.
+                        // The product is sign-extended to 9 bits for accumulation.
+                        product_Jm[i] = values[index] * m[col_indices[index]];
+                        extended_result_Jm[i] = extended_result_Jm[i] +
+                            {{1{product_Jm[i][7]}}, product_Jm[i]};
                     end
                 end
-        
+                if (extended_result_Jm[i] > 8'sb01111111) begin
+                    result_Jm[i] = 8'sb01111111;
+                end else if (extended_result_Jm[i] < 8'sb10000000) begin
+                    result_Jm[i] = 8'sb10000000;
+                end else begin
+                    result_Jm[i] = extended_result_Jm[i][7:0];
+                end
+                
                 // Bias addition and clamping
-                extended_addition[i] = { {1{h[i][7]}}, h[i] } + { {1{result_Jm[i][7]}}, result_Jm[i] };
+                extended_addition[i] = { {1{h_clamped[i][7]}}, h_clamped[i] } + { {1{result_Jm[i][7]}}, result_Jm[i] };
                 if (extended_addition[i] > 8'sb01111111) begin
                     addition_hi[i] = 8'sb01111111;
                 end else if (extended_addition[i] < 8'sb10000000) begin
@@ -143,5 +147,5 @@ module probabalistic_top_level_template(
             );
         end
     endgenerate
-    assign out = m;
+    assign out = m[83:num_Pbits-1];
 endmodule
