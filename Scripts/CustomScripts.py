@@ -506,7 +506,7 @@ def generate_group_update_order(J_bipolar, var_names, group_bit_width=3):
 
     # Draw the graph with node labels.
     nx.draw(G, pos, with_labels=False, labels={i: var_names[i] for i in G.nodes()},
-            node_color=node_colors, cmap=plt.cm.Set3, node_size=200, font_size=10)
+            node_color=node_colors, cmap=plt.cm.Set3, node_size=50, font_size=10)
 
     plt.title("Graph of Variable Interactions with Update Groups")
     plt.show()
