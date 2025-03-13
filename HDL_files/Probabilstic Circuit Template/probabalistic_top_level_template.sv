@@ -45,6 +45,7 @@ module probabalistic_top_level_template(
     logic signed [15:0] product_I0 [0:num_Pbits-1];       // Product of I0 and sum
     logic signed [7:0] addition_hi [0:num_Pbits-1];       // hi+sum(J_ij+m_j)
     logic signed [8:0] extended_addition [0:num_Pbits-1]; 
+    logic signed [8:0] extended_result_Jm [0:num_Pbits-1]; 
     logic signed [7:0] h_clamped [0:num_Pbits-1];         //clamped bias vector
     
     
@@ -87,31 +88,32 @@ module probabalistic_top_level_template(
     always @(posedge clk) begin
         integer i, j, k;
         integer start_idx, end_idx;
-        logic found;
     
         for (i = 0; i < num_Pbits; i = i + 1) begin
             if (Pbit_EN[i] == 1'b1) begin
-                result_Jm[i] = 8'sb00000000; // Reset accumulation
+                // Reset accumulator (extended to 9 bits for proper sign representation)
+                extended_result_Jm[i] = 9'sb000000000;
                 start_idx = row_ptr[i];
                 end_idx = row_ptr[i+1];
                 // Iterate over all columns
                 for (j = 0; j < num_Pbits; j = j + 1) begin
-                    found = 0;
-        
                     // Search for nonzero weight
                     for (k = start_idx; k < end_idx; k = k + 1) begin
                         if (col_indices[k] == j) begin
-                            result_Jm[i] = result_Jm[i] + (values[k] * m[j]);
-                            found = 1;
+                            product_Jm[i] = values[k] * m[j];
+                            extended_result_Jm[i] = extended_result_Jm[i] + 
+                                                    {{1{product_Jm[i][7]}},product_Jm[i]};
                         end
                     end
-        
-                    // If no weight was found, explicitly add 0 * m[j]
-                    if (!found) begin
-                        result_Jm[i] = result_Jm[i] + (0 * m[j]);  // Keeps the zero-weight multiplication
-                    end
                 end
-        
+                if (extended_result_Jm[i] > 8'sb01111111) begin
+                    result_Jm[i] = 8'sb01111111;
+                end else if (extended_result_Jm[i] < 8'sb10000000) begin
+                    result_Jm[i] = 8'sb10000000;
+                end else begin
+                    result_Jm[i] = extended_result_Jm[i][7:0];
+                end
+                
                 // Bias addition and clamping
                 extended_addition[i] = { {1{h[i][7]}}, h[i] } + { {1{result_Jm[i][7]}}, result_Jm[i] };
                 if (extended_addition[i] > 8'sb01111111) begin
