@@ -254,7 +254,7 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder):
     # Write the col_indices memory file
     with open(col_indices_file, "w") as f:
         for c in col_indices:
-            f.write(f"{c:08b}\n")  # Store column indices as 8-bit binary
+            f.write(f"{c:016b}\n")  # Store column indices as 8-bit binary
 
     # Write the row_ptr memory file (Delta Encoded)
     with open(row_ptr_file, "w") as f:
