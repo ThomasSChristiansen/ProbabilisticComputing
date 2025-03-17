@@ -1,5 +1,5 @@
-# script.ys
-read_verilog Sources\XOR.v
+# Yosys script for synthesizing XOR.v
+read_verilog C:\repositories\ProbabilisticComputing\Yosys\Sources\XOR.v
 synth
 abc -g AND,NAND,NOR,OR
-write_json Synthesized\XOR_synthesized.json
+write_json C:\repositories\ProbabilisticComputing\Yosys\Synthesized\XOR_synthesized.json
