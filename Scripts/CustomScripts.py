@@ -272,9 +272,9 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder):
     print(f"  {file_prefix}_col_indices.mem")
     print(f"  {file_prefix}_row_ptr.mem")
     print(f"  {file_prefix}_h.mem")
-    print(f"Matrix size = {J_binary.size}")
-    print(f"CSR size = {values.size}")
-    print(f"Factor Reduction = {(J_binary.size)/(values.size)}")
+    print(f"Matrix size (Raw) = {J_binary.size}")
+    print(f"CSR size (Values + Column Indices + Row Pointer) = {values.size+col_indices.size+row_ptr.size}")
+    print(f"Factor Reduction = {(J_binary.size)/(values.size+col_indices.size+row_ptr.size)}")
 
 def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3):
     """
