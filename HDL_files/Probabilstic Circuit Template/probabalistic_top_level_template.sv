@@ -12,12 +12,15 @@ module probabalistic_top_level_template(
     input logic reset_n,                        // Reset signal
     input logic clamp [0:7],                     // Bias vector for num_Pbits
     input clamp_EN,                             // Enable clamping
+    output logic LED,
     output logic [0:num_Out-1] out,                      // States of the num_Pbits P-bits
     output logic [1:0] clk_delay
 );
     // Intermediate output storage
     logic [0:num_Pbits-1] m;
-
+    
+    (* keep = "true" *) logic [7:0] ila_hist_sel;   // current histogram index (0 to 255)           
+    (* keep = "true" *) logic [HIST_DATA_SIZE:0] ila_hist_data;  // histogram counter data for the selected index
 
     // Memory for compressed data
     logic signed [7:0] values [0:463];      // Nonzero values 
@@ -147,5 +150,16 @@ module probabalistic_top_level_template(
             );
         end
     endgenerate
-    assign out = m[83:num_Pbits-1];
+    assign out = m[num_Pbits-1-num_Out-1:num_Pbits-1];
+    
+    // Instantiate the ILA logger
+    ILA_data_logger ILA_data_logger_inst(
+        .clk(clk),
+        .reset_n(reset_n),
+        .out(out),
+        .ila_hist_sel(ila_hist_sel),
+        .ila_hist_data(ila_hist_data),
+        .LED(LED),
+        .clk_delay(clk_delay)
+    );
 endmodule

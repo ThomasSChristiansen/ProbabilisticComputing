@@ -5,6 +5,8 @@
 `define GLOBAL_PARAMS_SVH
 
 // Define the number of P-bits globally
-parameter num_Pbits = 7;
+parameter num_Pbits = 91;
+parameter num_Out = 8;
+parameter HIST_DATA_SIZE = 63;
 
 `endif

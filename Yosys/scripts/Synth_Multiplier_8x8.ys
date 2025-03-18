@@ -1,5 +1,0 @@
-# script.ys
-read_verilog Sources\Multiplier_8x8.v
-synth
-abc -g AND,NAND,NOR,OR
-write_json Synthesized\Multiplier_8x8_synthesized.json

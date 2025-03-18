@@ -342,7 +342,9 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
         f.write("`ifndef GLOBAL_PARAMS_SVH\n")
         f.write("`define GLOBAL_PARAMS_SVH\n\n")
         f.write("// Define the number of P-bits globally\n")
-        f.write(f"parameter num_Pbits = {num_Pbits};\n\n")
+        f.write(f"parameter num_Pbits = {num_Pbits};\n")
+        f.write(f"parameter num_Out = \n")
+        f.write(f"parameter HIST_DATA_SIZE = 63;")
         f.write("`endif\n")
     
     print(f"Global parameters file generated: global_params.sv")
