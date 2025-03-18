@@ -294,7 +294,7 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
       group_bit_width (int, optional): Bit width for the group index in the LUT (default 3).
     """
     # Ensure the "bram" folder exists.
-    file_folder = "custom_hdl_files"
+    file_folder = os.path.join("custom_hdl_files", file_prefix)
     if not os.path.exists(file_folder):
         os.makedirs(file_folder)
 

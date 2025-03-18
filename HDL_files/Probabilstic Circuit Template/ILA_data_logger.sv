@@ -59,11 +59,11 @@ end
 logic [HIST_DATA_SIZE:0] hist_out = hist[hist_sel];
 
 // Mark these signals as "keep" so they are preserved for debugging.
-(* keep = "true" *) logic [7:0] ila_hist_sel;
-(* keep = "true" *) logic [HIST_DATA_SIZE:0] ila_hist_data;
+(* keep = "true" *) logic [7:0] ILA_hist_sel;
+(* keep = "true" *) logic [HIST_DATA_SIZE:0] ILA_hist_data;
 
-assign ila_hist_sel = hist_sel;
-assign ila_hist_data = hist_out;
+assign ILA_hist_sel = hist_sel;
+assign ILA_hist_data = hist_out;
 assign LED = freeze;
 
 endmodule
