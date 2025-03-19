@@ -101,20 +101,22 @@ def generate_circuit_weights(circuit,SaveCircuit=False,CircuitName=None):
                 idx_j = node_index[gate_nodes[j]]
                 J_total[idx_i, idx_j] += gate_J[i, j]
                 J_total[idx_j, idx_i] += gate_J[j, i]  # Ensure symmetry.
-    np.set_printoptions(threshold=np.inf, linewidth=200)
-    print("Overall bias vector (h_total) in np.array format:")
-    print("np.array(" + np.array2string(h_total, separator=", ") + ")")
+    # np.set_printoptions(threshold=np.inf, linewidth=200)
+    # print("Overall bias vector (h_total) in np.array format:")
+    # print("np.array(" + np.array2string(h_total, separator=", ") + ")")
     
-    print("\nOverall weight matrix (J_total) in np.array format:")
-    print("np.array(" + np.array2string(J_total, separator=", ") + ")")
+    # print("\nOverall weight matrix (J_total) in np.array format:")
+    # print("np.array(" + np.array2string(J_total, separator=", ") + ")")
     
     print("\nOrder of the matrix: {} x {}".format(len(circuit["nodes"]), len(circuit["nodes"])))
-    print("\nNode order (mapping of node names to indices):")
+    print("\nNode order (without hidden layers):")
     node_order = [None] * len(node_index)
     for node, idx in node_index.items():
         node_order[idx] = node
-    nodes = list(node_order)
-    print("[" + ", ".join('"' + str(s) + '"' for s in node_order) + "]")
+    # Filter nodes that contain at least one of 'a', 'b', or 's'
+    filtered_nodes = [node for node in node_order if any(letter in node for letter in ['a', 'b', 's'])]
+    print("List of input/output nodes:")
+    print("[" + ", ".join('"' + str(s) + '"' for s in filtered_nodes) + "]")
     if SaveCircuit:
         # Ensure the folder exists
         save_folder = CS.find_folder_upwards("Circuit_Library")

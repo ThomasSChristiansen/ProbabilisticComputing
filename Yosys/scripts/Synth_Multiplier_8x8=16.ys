@@ -1,5 +1,5 @@
-# script.ys
-read_verilog Sources\Multiplier_8x8=16.v
+# Yosys script for synthesizing Multiplier_8x8=16.v
+read_verilog C:\repositories\ProbabilisticComputing\Yosys\Sources\Multiplier_8x8=16.v
 synth
 abc -g AND,NAND,NOR,OR
-write_json Synthesized\Multiplier_8x8=16_synthesized.json
+write_json C:\repositories\ProbabilisticComputing\Yosys\Synthesized\Multiplier_8x8=16_synthesized.json

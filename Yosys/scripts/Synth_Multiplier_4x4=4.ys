@@ -1,0 +1,5 @@
+# Yosys script for synthesizing Multiplier_4x4=4.v
+read_verilog C:\repositories\ProbabilisticComputing\Yosys\Sources\Multiplier_4x4=4.v
+synth
+abc -g AND,NAND,NOR,OR
+write_json C:\repositories\ProbabilisticComputing\Yosys\Synthesized\Multiplier_4x4=4_synthesized.json

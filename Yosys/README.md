@@ -6,8 +6,8 @@ This repository contains a Python script that generates individual Yosys script 
 
 ```
 .
-├── Sources/                  # Folder containing Verilog source files (.v)
-├── Synthesized/                  # Folder where synthesized outputs will be placed
+├── Sources/              # Folder containing Verilog source files (.v)
+├── Synthesized/          # Folder where synthesized outputs will be placed
 ├── scripts/              # Folder where generated Yosys script files will be stored
 └── USAGE.md              # This usage guide
 ```
