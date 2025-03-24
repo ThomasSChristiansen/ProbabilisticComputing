@@ -32,6 +32,7 @@ always_ff @(posedge clk or negedge reset_n) begin
             freeze <= 1'b0;
         end else begin
             freeze <= 1'b1;  // Once we reach FREEZE_TIME, stop updating the histogram
+            $display("Time constraint reached");
         end
     end
 end
