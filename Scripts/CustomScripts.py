@@ -261,7 +261,7 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     # Write the col_indices memory file.
     with open(col_indices_file, "w") as f:
         for c in col_indices:
-            bin_str = f"{c:08b}"  # 8-bit binary string
+            bin_str = f"{c:016b}"  # 8-bit binary string
             col_indices_lines.append(bin_str)
             f.write(bin_str + "\n")
 
