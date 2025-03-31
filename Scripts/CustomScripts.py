@@ -261,14 +261,14 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     # Write the col_indices memory file.
     with open(col_indices_file, "w") as f:
         for c in col_indices:
-            bin_str = f"{c:016b}"  # 8-bit binary string
+            bin_str = f"{c:012b}"  # 8-bit binary string
             col_indices_lines.append(bin_str)
             f.write(bin_str + "\n")
 
     # Write the row_ptr memory file (as 16-bit binary).
     with open(row_ptr_file, "w") as f:
         for r in row_ptr:
-            bin_str = f"{r:016b}"
+            bin_str = f"{r:012b}"
             row_ptr_lines.append(bin_str)
             f.write(bin_str + "\n")
 
@@ -287,8 +287,46 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     print(f"Matrix size (Raw) = {J_binary.size}")
     print(f"CSR size (Values + Column Indices + Row Pointer) = {values.size+col_indices.size+row_ptr.size}")
     print(f"Factor Reduction = {(J_binary.size)/(values.size+col_indices.size+row_ptr.size)}")
+    # Compute row lengths
+    row_lengths = row_ptr[1:] - row_ptr[:-1]
+    max_row_length = row_lengths.max()
+    # Get indices that would sort row_lengths in descending order
+    row_indices_sorted = np.argsort(-row_lengths)
 
-        # If write_coe is enabled, generate corresponding .coe files.
+    # Get top 5 row indices and their lengths
+    top_n = 10
+    print(f"\nTop {top_n} rows with the most non-zero elements:")
+    for rank in range(min(top_n, len(row_lengths))):
+        row_idx = row_indices_sorted[rank]
+        row_len = row_lengths[row_idx]
+        print(f"  {rank+1}) Row {row_idx}: {row_len} non-zero elements")
+
+    # Generate padded packed row-wise lines
+    packed_values_lines = []
+    packed_col_indices_lines = []
+
+    for i in range(len(row_ptr) - 1):
+        start = row_ptr[i]
+        end = row_ptr[i + 1]
+        row_values = values[start:end]
+        row_cols = col_indices[start:end]
+
+        # Convert values to binary with padding
+        value_bits = [decimal_to_s4_3(v)[0] for v in row_values]
+        col_bits   = [f"{c:012b}" for c in row_cols]
+
+        # Pad to max length
+        value_bits += ['00000000'] * (max_row_length - len(value_bits))
+        col_bits   += ['000000000000'] * (max_row_length - len(col_bits))
+
+        # Concatenate bits per row
+        packed_values = ''.join(value_bits)
+        packed_cols   = ''.join(col_bits)
+
+        packed_values_lines.append(packed_values)
+        packed_col_indices_lines.append(packed_cols)
+
+    # If write_coe is enabled, generate corresponding .coe files.
     if write_coe:
         # Helper function to write .coe file given a filename and list of lines.
         def write_coe_file(filename, lines):
@@ -302,8 +340,8 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
         row_ptr_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.coe")
         h_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_h.coe")
         
-        write_coe_file(values_coe_file, values_lines)
-        write_coe_file(col_indices_coe_file, col_indices_lines)
+        write_coe_file(values_coe_file, packed_values_lines)
+        write_coe_file(col_indices_coe_file, packed_col_indices_lines)
         write_coe_file(row_ptr_coe_file, row_ptr_lines)
         write_coe_file(h_coe_file, h_lines)
         
@@ -447,7 +485,6 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
         update_groups.setdefault(color, []).append(node)
     # Sort groups by color and node index.
     update_order = [sorted(update_groups[color]) for color in sorted(update_groups)]
-    
     # Generate the lookup table lines.
     lookup_lines = []
     for group_index, group in enumerate(update_order):
