@@ -12,19 +12,19 @@ module probabalistic_top_level_template(
     input logic reset_n,                        // Reset signal
     input logic clamp [0:7],                     // Bias vector for num_Pbits
     input clamp_EN,                             // Enable clamping
-    output logic LED,
-    output logic [0:num_Out-1] out,                      // States of the num_Pbits P-bits
-    output logic [1:0] clk_delay
+    output logic LED
 );
     // Intermediate output storage
     logic [0:num_Pbits-1] m;
-    
-    (* keep = "true" *) logic [7:0] ila_hist_sel;   // current histogram index (0 to 255)           
-    (* keep = "true" *) logic [HIST_DATA_SIZE:0] ila_hist_data;  // histogram counter data for the selected index
+    logic [0:num_Out-1] out;
+       
+    (* keep = "true" *) logic [7:0] ila_hist_sel;  // current histogram index (0 to 255)           
+    (* keep = "true" *) logic [HIST_DATA_SIZE:0] ila_hist_data; // histogram counter data for the selected index
+
 
     // Memory for compressed data
     logic signed [7:0] values [0:463];      // Nonzero values 
-    logic [7:0] col_indices [0:463];        // Column indices
+    logic [15:0] col_indices [0:463];        // Column indices
     logic [15:0] row_ptr [0:num_Pbits];      // Row pointers 
     logic signed [7:0] h [0:num_Pbits-1];   // Bias vector
     logic [31:0] seed [0:num_Pbits-1];      // Random seed array

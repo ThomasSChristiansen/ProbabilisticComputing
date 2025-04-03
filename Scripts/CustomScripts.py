@@ -221,7 +221,7 @@ def generate_verilog_biases(label_mapping_binary=None):
             print(f"bias[{i}],")
     return
 
-def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder):
+def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=False):
     # Function to generate `.mem` files for Compressed-Row-Sparse (CSR) matrix
 
     # Create a subfolder named 'CSR_matrix' inside file_folder
@@ -245,26 +245,38 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder):
     row_ptr_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.mem")
     h_file = os.path.join(csr_subfolder, f"{file_prefix}_h.mem")
 
-    # Write the values memory file
+    # Prepare lists to hold lines for .coe generation.
+    values_lines = []
+    col_indices_lines = []
+    row_ptr_lines = []
+    h_lines = []
+
+    # Write the values memory file.
     with open(values_file, "w") as f:
         for v in values:
             bin_value, _ = decimal_to_s4_3(v)
+            values_lines.append(bin_value)
             f.write(bin_value + "\n")
 
-    # Write the col_indices memory file
+    # Write the col_indices memory file.
     with open(col_indices_file, "w") as f:
         for c in col_indices:
-            f.write(f"{c:016b}\n")  # Store column indices as 8-bit binary
+            bin_str = f"{c:012b}"  # 8-bit binary string
+            col_indices_lines.append(bin_str)
+            f.write(bin_str + "\n")
 
-    # Write the row_ptr memory file (Delta Encoded)
+    # Write the row_ptr memory file (as 16-bit binary).
     with open(row_ptr_file, "w") as f:
         for r in row_ptr:
-            f.write(f"{r:016b}\n")  # Store as 16-bit binary
+            bin_str = f"{r:012b}"
+            row_ptr_lines.append(bin_str)
+            f.write(bin_str + "\n")
 
-    # Write the h memory file (Bias vector)
+    # Write the h memory file (Bias vector).
     with open(h_file, "w") as f:
         for i in range(h_binary.shape[0]):
             bin_value, _ = decimal_to_s4_3(h_binary[i])
+            h_lines.append(bin_value)
             f.write(bin_value + "\n")
 
     print(f"CSR_matrix mem files generated in folder '{csr_subfolder}':")
@@ -275,8 +287,71 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder):
     print(f"Matrix size (Raw) = {J_binary.size}")
     print(f"CSR size (Values + Column Indices + Row Pointer) = {values.size+col_indices.size+row_ptr.size}")
     print(f"Factor Reduction = {(J_binary.size)/(values.size+col_indices.size+row_ptr.size)}")
+    # Compute row lengths
+    row_lengths = row_ptr[1:] - row_ptr[:-1]
+    max_row_length = row_lengths.max()
+    # Get indices that would sort row_lengths in descending order
+    row_indices_sorted = np.argsort(-row_lengths)
 
-def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3):
+    # Get top 5 row indices and their lengths
+    top_n = 10
+    print(f"\nTop {top_n} rows with the most non-zero elements:")
+    for rank in range(min(top_n, len(row_lengths))):
+        row_idx = row_indices_sorted[rank]
+        row_len = row_lengths[row_idx]
+        print(f"  {rank+1}) Row {row_idx}: {row_len} non-zero elements")
+
+    # Generate padded packed row-wise lines
+    packed_values_lines = []
+    packed_col_indices_lines = []
+
+    for i in range(len(row_ptr) - 1):
+        start = row_ptr[i]
+        end = row_ptr[i + 1]
+        row_values = values[start:end]
+        row_cols = col_indices[start:end]
+
+        # Convert values to binary with padding
+        value_bits = [decimal_to_s4_3(v)[0] for v in row_values]
+        col_bits   = [f"{c:012b}" for c in row_cols]
+
+        # Pad to max length
+        value_bits += ['00000000'] * (max_row_length - len(value_bits))
+        col_bits   += ['000000000000'] * (max_row_length - len(col_bits))
+
+        # Concatenate bits per row
+        packed_values = ''.join(value_bits)
+        packed_cols   = ''.join(col_bits)
+
+        packed_values_lines.append(packed_values)
+        packed_col_indices_lines.append(packed_cols)
+
+    # If write_coe is enabled, generate corresponding .coe files.
+    if write_coe:
+        # Helper function to write .coe file given a filename and list of lines.
+        def write_coe_file(filename, lines):
+            with open(filename, "w") as f_coe:
+                f_coe.write("memory_initialization_radix = 2;\n")
+                f_coe.write("memory_initialization_vector =\n")
+                f_coe.write(",\n".join(lines) + ";\n")
+        
+        values_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_values.coe")
+        col_indices_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_col_indices.coe")
+        row_ptr_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.coe")
+        h_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_h.coe")
+        
+        write_coe_file(values_coe_file, packed_values_lines)
+        write_coe_file(col_indices_coe_file, packed_col_indices_lines)
+        write_coe_file(row_ptr_coe_file, row_ptr_lines)
+        write_coe_file(h_coe_file, h_lines)
+        
+        print(f"CSR_matrix coe files generated in folder '{csr_subfolder}':")
+        print(f"  {file_prefix}_values.coe")
+        print(f"  {file_prefix}_col_indices.coe")
+        print(f"  {file_prefix}_row_ptr.coe")
+        print(f"  {file_prefix}_h.coe")
+
+def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3, write_coe=False):
     """
     Generate external mem files for h, J, seeds, global parameters, and grouped update LUT.
     
@@ -307,30 +382,65 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
     
     # Write the h memory file.
     with open(h_file, "w") as f:
+        h_lines = []
         for i in range(h_binary.shape[0]):
             bin_value, _ = decimal_to_s4_3(h_binary[i])
+            h_lines.append(bin_value)
             f.write(bin_value + "\n")
- 
+    
     # Write the J memory file.
     with open(J_file, "w") as f:
+        J_lines = []
         for i in range(J_binary.shape[0]):
             row_vals = []
             for j in range(J_binary.shape[1]):
                 bin_value, _ = decimal_to_s4_3(J_binary[i, j])
                 row_vals.append(bin_value)
-            f.write(" ".join(row_vals) + "\n")
+            row_str = " ".join(row_vals)
+            J_lines.append(row_str)
+            f.write(row_str + "\n")
     
     # Write the seed memory file.
     num_seeds = h_binary.shape[0]
     with open(seed_file, "w") as f:
+        seed_lines = []
         for i in range(num_seeds):
             seed_value = ''.join(random.choice('01') for _ in range(32))
+            seed_lines.append(seed_value)
             f.write(seed_value + "\n")
     
     print(f"Mem files generated in folder '{file_folder}':")
     print(f"  {file_prefix}_h.mem")
     print(f"  {file_prefix}_J.mem")
     print(f"  {file_prefix}_seeds.mem")
+
+    # If write_coe is enabled, write corresponding .coe files.
+    if write_coe:
+        # Write the h .coe file.
+        h_coe_file = os.path.join(file_folder, f"{file_prefix}_h.coe")
+        with open(h_coe_file, "w") as f:
+            f.write("memory_initialization_radix = 2;\n")
+            f.write("memory_initialization_vector =\n")
+            f.write(",\n".join(h_lines) + ";\n")
+        print(f"  {file_prefix}_h.coe")
+        
+        # Write the J .coe file.
+        J_coe_file = os.path.join(file_folder, f"{file_prefix}_J.coe")
+        with open(J_coe_file, "w") as f:
+            f.write("memory_initialization_radix = 2;\n")
+            f.write("memory_initialization_vector =\n")
+            # For J, each row is written as a space-separated string.
+            # Depending on your application you may want to flatten or preserve row structure.
+            f.write(",\n".join(J_lines) + ";\n")
+        print(f"  {file_prefix}_J.coe")
+        
+        # Write the seeds .coe file.
+        seed_coe_file = os.path.join(file_folder, f"{file_prefix}_seeds.coe")
+        with open(seed_coe_file, "w") as f:
+            f.write("memory_initialization_radix = 2;\n")
+            f.write("memory_initialization_vector =\n")
+            f.write(",\n".join(seed_lines) + ";\n")
+        print(f"  {file_prefix}_seeds.coe")
     
     # ----------------------------------------------------------------
     # Write the global parameters SystemVerilog file.
@@ -375,7 +485,6 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
         update_groups.setdefault(color, []).append(node)
     # Sort groups by color and node index.
     update_order = [sorted(update_groups[color]) for color in sorted(update_groups)]
-    
     # Generate the lookup table lines.
     lookup_lines = []
     for group_index, group in enumerate(update_order):
@@ -409,7 +518,7 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
         f.write(lut_file_content)
     print("Lookup table file generated: grouped_update_order_LUT.sv")
 
-    generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder)
+    generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=write_coe)
 
 def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,figWidth=28):
     # Convert to DataFrame

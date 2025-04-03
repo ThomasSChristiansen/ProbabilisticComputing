@@ -5,7 +5,7 @@ from Scripts.generate_yosys_scripts import generate_yosys_script
 from Scripts.generate_weight_from_json_netlist import generate_weights_from_json_netlist
 import Scripts.CustomScripts as CS
 
-def CircuitSynth(verilog_filename, CircuitName,PathToStart_Bat="C:/Users/thoma/Desktop/oss-cad-suite/oss-cad-suite/start.bat"):
+def CircuitSynth(verilog_filename, CircuitName,write_coe=False,PathToStart_Bat="C:/Users/thoma/Desktop/oss-cad-suite/oss-cad-suite/start.bat"):
     # Determine the project root relative to this file
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     yosys_dir = os.path.join(project_root, "Yosys")
@@ -43,7 +43,7 @@ def CircuitSynth(verilog_filename, CircuitName,PathToStart_Bat="C:/Users/thoma/D
         SaveCircuit=True,
         CircuitName=CircuitName
     )
-    CS.generate_mem_files(J_total, h_total, CircuitName)
+    CS.generate_mem_files(J_total, h_total, CircuitName,write_coe=write_coe)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
