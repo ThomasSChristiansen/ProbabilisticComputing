@@ -16,7 +16,25 @@ This repository contains a Python script that generates individual Yosys script 
 
 - **OSS-CAD-SUITE:** The path to start.bat is needed
 
-## Generating Yosys Scripts
+## Generate the .mem and . coe files for memory
+The Python script `CircuitSynth.py` goes through all the steps for generating the necessary files for the Vivado project. \
+It does the following steps:
+- Synthesis via. Yosys and OSS CAD Suite.
+- Imports the netlist
+- Convert to weight matrix using library of probabilistic circuit.
+- Save to .npz 
+- Save to .mem/coe
+- Generate the CSR matrix
+- Save to .mem/coe
+
+Use like the following example:
+```python
+from Scripts.CircuitSynth import CircuitSynth
+CircuitSynth("Multiplier_8x8=16.v","8x8=16bIntFac",write_coe=True)
+```
+
+
+## Generating Yosys Scripts (OUTDATED)
 
 The Python script `generate_yosys_scripts.py` scans the `Sources` folder for Verilog files and creates a corresponding Yosys script file for each one in the `scripts` folder.
 
