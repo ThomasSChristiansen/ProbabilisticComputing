@@ -340,8 +340,8 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
         row_ptr_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.coe")
         h_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_h.coe")
         
-        write_coe_file(values_coe_file, packed_values_lines)
-        write_coe_file(col_indices_coe_file, packed_col_indices_lines)
+        write_coe_file(values_coe_file, values_lines)
+        write_coe_file(col_indices_coe_file, col_indices_lines)
         write_coe_file(row_ptr_coe_file, row_ptr_lines)
         write_coe_file(h_coe_file, h_lines)
         
