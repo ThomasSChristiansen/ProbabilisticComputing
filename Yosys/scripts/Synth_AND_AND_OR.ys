@@ -3,3 +3,4 @@ read_verilog Sources\AND_AND_OR.v
 synth
 abc -g AND,NAND,NOR,OR
 write_json Synthesized\AND_AND_OR_synthesized.json
+show -prefix Sources\AND_AND_OR.v top

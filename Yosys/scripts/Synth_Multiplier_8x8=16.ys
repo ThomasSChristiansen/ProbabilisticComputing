@@ -3,3 +3,4 @@ read_verilog C:\repositories\ProbabilisticComputing\Yosys\Sources\Multiplier_8x8
 synth
 abc -g AND,NAND,NOR,OR
 write_json C:\repositories\ProbabilisticComputing\Yosys\Synthesized\Multiplier_8x8=16_synthesized.json
+show -prefix Multiplier_8x8=16

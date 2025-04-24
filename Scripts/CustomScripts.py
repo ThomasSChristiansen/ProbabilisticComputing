@@ -238,7 +238,9 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     values = J_sparse.data
     col_indices = J_sparse.indices
     row_ptr = J_sparse.indptr
-
+    print(f"Values: {values}")
+    print(f"Column Indices: {col_indices}")
+    print(f"Row Pointer: {row_ptr}")
     # Construct file paths
     values_file = os.path.join(csr_subfolder, f"{file_prefix}_values.mem")
     col_indices_file = os.path.join(csr_subfolder, f"{file_prefix}_col_indices.mem")
@@ -340,8 +342,8 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
         row_ptr_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.coe")
         h_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_h.coe")
         
-        write_coe_file(values_coe_file, packed_values_lines)
-        write_coe_file(col_indices_coe_file, packed_col_indices_lines)
+        write_coe_file(values_coe_file, values_lines)
+        write_coe_file(col_indices_coe_file, col_indices_lines)
         write_coe_file(row_ptr_coe_file, row_ptr_lines)
         write_coe_file(h_coe_file, h_lines)
         

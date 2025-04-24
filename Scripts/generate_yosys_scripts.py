@@ -28,6 +28,7 @@ read_verilog {verilog_file}
 synth
 abc -g AND,NAND,NOR,OR
 write_json {out_file}
+show -prefix {out_file}
         """
         
         # Write the script content to the script file
@@ -62,6 +63,7 @@ read_verilog {verilog_file}
 synth
 abc -g AND,NAND,NOR,OR
 write_json {out_file}
+show -prefix {name_without_ext}
     """
     
     # Write the script content to the .ys file

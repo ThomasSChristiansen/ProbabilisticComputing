@@ -1,6 +1,7 @@
 import Scripts.CustomScripts as CS
 import Scripts.generate_weight_from_logic as GWL
 import json
+import re
 
 def find_top_module(netlist):
     modules = netlist.get("modules", {})
@@ -20,6 +21,13 @@ def find_top_module(netlist):
         raise Exception("Could not uniquely determine the top module. Found: " + ", ".join(top_modules))
     
     return top_modules[0]
+
+def natural_sort_key(s):
+    match = re.match(r"([a-zA-Z_]+)(\d+)", s)
+    if match:
+        return (match.group(1), int(match.group(2)))
+    else:
+        return (s, -1)
 
 def generate_weights_from_json_netlist(filename,SaveCircuit=False,CircuitName=None):
     # Load the Yosys-generated JSON netlist
@@ -86,7 +94,20 @@ def generate_weights_from_json_netlist(filename,SaveCircuit=False,CircuitName=No
         circuit["gates"].append({"type": gate_type, "nodes": gate_nodes})
 
     # Convert the nodes set to a sorted list for reproducibility.
-    circuit["nodes"] = sorted(list(circuit["nodes"]))
+    # Natural-sort all nodes
+    sorted_nodes = sorted(list(circuit["nodes"]), key=natural_sort_key)
+
+    # Pull out 's' nodes that look like s0–sNN
+    s_nodes = sorted(
+        [n for n in sorted_nodes if n.startswith("s") and n[1:].isdigit()],
+        key=lambda x: int(x[1:])  # ASCENDING ORDER
+    )
+
+    # Everything else
+    other_nodes = [n for n in sorted_nodes if n not in s_nodes]
+
+    # Final sorted list: others first, s-nodes last in ascending order
+    circuit["nodes"] = other_nodes + s_nodes
 
     # Preprocess the circuit to ensure that XOR and XNOR gates have the expected number of nodes.
     for gate in circuit["gates"]:
