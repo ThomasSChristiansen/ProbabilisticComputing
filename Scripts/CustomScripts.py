@@ -263,14 +263,14 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     # Write the col_indices memory file.
     with open(col_indices_file, "w") as f:
         for c in col_indices:
-            bin_str = f"{c:012b}"  # 8-bit binary string
+            bin_str = f"{c:016b}"  # 8-bit binary string
             col_indices_lines.append(bin_str)
             f.write(bin_str + "\n")
 
     # Write the row_ptr memory file (as 16-bit binary).
     with open(row_ptr_file, "w") as f:
         for r in row_ptr:
-            bin_str = f"{r:012b}"
+            bin_str = f"{r:016b}"
             row_ptr_lines.append(bin_str)
             f.write(bin_str + "\n")
 
@@ -289,6 +289,10 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     print(f"Matrix size (Raw) = {J_binary.size}")
     print(f"CSR size (Values + Column Indices + Row Pointer) = {values.size+col_indices.size+row_ptr.size}")
     print(f"Factor Reduction = {(J_binary.size)/(values.size+col_indices.size+row_ptr.size)}")
+    print(f"Values size = {values.size}")
+    print(f"Column Indices size = {col_indices.size}")
+    print(f"Row Pointer size = {row_ptr.size}")
+
     # Compute row lengths
     row_lengths = row_ptr[1:] - row_ptr[:-1]
     max_row_length = row_lengths.max()
@@ -315,7 +319,7 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
 
         # Convert values to binary with padding
         value_bits = [decimal_to_s4_3(v)[0] for v in row_values]
-        col_bits   = [f"{c:012b}" for c in row_cols]
+        col_bits   = [f"{c:016b}" for c in row_cols]
 
         # Pad to max length
         value_bits += ['00000000'] * (max_row_length - len(value_bits))

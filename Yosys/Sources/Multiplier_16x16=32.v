@@ -25,7 +25,7 @@ module Multiplier_4x4(a, b, s);
 input [15:0]a;
 input [15:0]b;
 
-output [32:0]s;
+output [31:0]s;
 
 
 assign s = a*b;
