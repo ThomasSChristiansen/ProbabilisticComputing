@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from itertools import product
+from scipy.interpolate import interp1d
+from scipy.sparse import csr_matrix
 import os
 
 def compute_energy_binary(m, J, h, I0=1.0):
@@ -23,10 +25,32 @@ def boltzmann_distribution_binary(J, h, I0=1.0):
     and return the normalized Boltzmann probabilities based on exp(-E).
     """
     N = len(h)
-    all_states = (np.array(state) for state in product([0, 1], repeat=N))
-    energies = np.array([compute_energy_binary(state, J, h, I0) for state in all_states])
+    total_states = 2 ** N
+    all_states = product([0, 1], repeat=N)
+
+    energies = []
+    print_every = max(1, total_states // 10)
+
+    print("Starting Boltzmann energy computation...")
+    for idx, state in enumerate(all_states):
+        if idx % print_every == 0 or idx == total_states - 1:
+            print(f"  {100 * idx // total_states:3d}% complete")
+
+        # Convert the current tuple to a NumPy array
+        m = np.fromiter(state, dtype=np.uint8, count=N)
+
+        # Compute energy and store
+        E = compute_energy_binary(m, J, h, I0)
+        energies.append(E)
+
+    energies = np.array(energies)
+
+    # Compute Boltzmann probabilities
     weights = np.exp(-energies)
-    return weights / np.sum(weights)
+    probs = weights / np.sum(weights)
+
+    print("Boltzmann distribution computed successfully.")
+    return probs
 
 def threshold(x, y):
     """Return 1 if x < y else 0."""
@@ -47,7 +71,10 @@ def simulate_p_bits(num_steps=None, I0=None, use_boltzmann=None,J_bipolar=None,h
     h_binary = h_bipolar - J_bipolar.dot(ones_vec)
     
     # Use the binary parameters for simulation
-    J = J_binary.copy()
+    J = csr_matrix(J_binary)
+    J_indptr = J.indptr
+    J_indices = J.indices
+    J_data = J.data
     h = h_binary.copy()
 
     # If using the Boltzmann method, sample directly from the distribution.
@@ -63,22 +90,37 @@ def simulate_p_bits(num_steps=None, I0=None, use_boltzmann=None,J_bipolar=None,h
     m = np.random.choice([0, 1], size=len(h_bipolar))
     
     # Record the history of states
-    m_history = []
-    for _ in range(num_steps):
+    m_history = np.empty((num_steps, len(h_bipolar)), dtype=np.uint8)
+
+    
+    # Precompute stuff
+    x_vals = np.linspace(-16, 16, 1000)
+    tanh_table = (np.tanh(x_vals) + 1) / 2
+    tanh_lookup = interp1d(x_vals, tanh_table, kind='linear', bounds_error=False, fill_value=(0, 1))
+    np.random.seed(42)
+    random_values = np.random.rand(num_steps, len(h_bipolar))
+
+    for step in range(num_steps):
+        if step % (num_steps // 10) == 0 or step == num_steps - 1:
+            print(f"Progress: {100 * step // num_steps}%")
         for i in range(len(h_bipolar)):  # Update each of the p-bits sequentially.
             # Compute the input to p-bit i.
-            I_i = I0 * (h[i] + J[i].dot(m))
-
+            row_start = J_indptr[i]
+            row_end = J_indptr[i+1]
+            I_i = h[i]
+            for k in range(row_start, row_end):
+                I_i += J_data[k] * m[J_indices[k]]
+            I_i *= I0
             # Determine the activation probability using a shifted and scaled tanh.
-            activation_function = (np.tanh(I_i) + 1) / 2
-            random_value = np.random.uniform(0, 1)
-            m[i] = threshold(random_value, activation_function)
-        m_history.append(m.copy())
+            activation_function = tanh_lookup(I_i)
+            m[i] = threshold(random_values[step, i], activation_function)
+        m_history[step] = m.copy()
     
     return np.array(m_history)
 
 def plot_probabilities(num_steps=100000, savefig=False, save_csv=False, J_bipolar=None, h_bipolar_dict=None, node_order=None,
-                       use_python=True, use_boltzmann=True, filename="Python_Sim_Results", figWidth=8, selected_bits=None,I0=1.0):
+                       use_python=True, use_boltzmann=True, filename="Python_Sim_Results", figWidth=8, selected_bits=None,I0=1.0,
+                       lightweight_plot=False):
     """
     Plot probability distributions for different cases of h_bipolar values.
     This function iterates over multiple h_bipolar configurations and generates results for each.
@@ -192,25 +234,27 @@ def plot_probabilities(num_steps=100000, savefig=False, save_csv=False, J_bipola
         elif use_boltzmann:
             plt.bar(x, prob_values_b, bar_width, color='orange', alpha=0.6, label='Boltzmann', edgecolor='black')
 
-        colors = ['red' if i in highest_prob_indices else 'black' for i in range(len(states_str))]
-        plt.xticks(x, states_str, rotation=90)
-
-        # Set x-axis labels' color
-        ax = plt.gca()
-        for tick, color in zip(ax.get_xticklabels(), colors):
-            tick.set_color(color)
+        if not lightweight_plot and len(states_str) <= 256:
+            colors = ['red' if i in highest_prob_indices else 'black' for i in range(len(states_str))]
+            plt.xticks(x, states_str, rotation=90)
+            ax = plt.gca()
+            for tick, color in zip(ax.get_xticklabels(), colors):
+                tick.set_color(color)
+        else:
+            plt.xticks([]) 
         plt.margins(x=0.01)
         plt.title(f"{label}")
         plt.xlabel('States')
         plt.ylabel('Probability')
-        plt.grid(axis='y', linestyle='--', alpha=0.7)
-        plt.legend()
-        plt.tight_layout()
+        if not lightweight_plot:
+            plt.grid(axis='y', linestyle='--', alpha=0.7)
+            plt.legend()
+            plt.tight_layout()
 
         if savefig:
             os.makedirs("Plots", exist_ok=True)
             plot_filename = f"Plots/{filename}_{label.replace(' ', '_')}.png"
-            plt.savefig(plot_filename, dpi=300)
+            plt.savefig(plot_filename, dpi=100 if lightweight_plot else 300)
             print(f"Saved plot: {plot_filename}")
 
         plt.show()
