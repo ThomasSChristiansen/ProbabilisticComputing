@@ -21,11 +21,11 @@ def bipolar_to_binary(J_bipolar, h_bipolar):
     J_binary = 2.0 * J_bipolar
     ones_vec = np.ones(J_bipolar.shape[0])
     h_binary = h_bipolar - J_bipolar.dot(ones_vec)
-    for i in range(len(h_binary)):
-        if h_binary[i] > 15.875:
-            h_binary[i] = 15.875
-        elif h_binary[i] < -16:
-            h_binary[i] = -16.0
+    # for i in range(len(h_binary)):
+    #     if h_binary[i] > 15.875:
+    #         h_binary[i] = 15.875
+    #     elif h_binary[i] < -16:
+    #         h_binary[i] = -16.0
     return J_binary, h_binary
 
 def fixed_point_range_signed(I, F):
@@ -74,24 +74,24 @@ def fixed_point_range_unsigned(I, F):
 
     return min_value, max_value, step_size
 
-def decimal_to_s4_3(value):
+def decimal_to_s5_3(value):
     """
-    Convert a decimal number to s[4][3] fixed-point representation (8-bit signed).
+    Convert a decimal number to s[5][3] fixed-point representation (8-bit signed).
 
     Parameters:
     value (float): Decimal number to convert.
 
     Returns:
-    str: 8-bit signed binary string in s[4][3] format.
-    int: Signed integer representation in s[4][3].
+    str: 8-bit signed binary string in s[5][3] format.
+    int: Signed integer representation in s[5][3].
     """
     # Define fixed-point properties
-    integer_bits = 4
+    integer_bits = 5
     fractional_bits = 3
-    total_bits = 8
-    min_value = -2**(integer_bits)  # -16
-    max_value = 2**(integer_bits) - 2**-fractional_bits  # 15.875
-    step_size = 2**-fractional_bits  # 0.125
+    total_bits = 9
+    min_value = -2**(integer_bits) 
+    max_value = 2**(integer_bits) - 2**-fractional_bits  
+    step_size = 2**-fractional_bits  
 
     # Clamp value to valid range
     value = max(min_value, min(max_value, value))
@@ -104,9 +104,9 @@ def decimal_to_s4_3(value):
         fixed_point_value = (1 << total_bits) + fixed_point_value  # Convert to two’s complement
 
     # Convert to binary string
-    binary_representation = format(fixed_point_value & 0xFF, '08b')  # Mask to 8 bits
+    binary_representation = format(fixed_point_value & 0x1FF, '09b')  # Mask to 8 bits
 
-    return binary_representation, fixed_point_value - (256 if fixed_point_value >= 128 else 0)
+    return binary_representation, fixed_point_value - (1 << total_bits if fixed_point_value >= (1 << (total_bits - 1)) else 0)
 
 def s4_3_to_decimal(binary_str):
     """
@@ -177,12 +177,12 @@ def generate_verilog_params(J_bipolar, h_bipolar):
     J_binary_formatted = ""
     for i in range(J_binary.shape[0]):
         for j in range(J_binary.shape[1]):
-            bin_value, _ = decimal_to_s4_3(J_binary[i, j])
+            bin_value, _ = decimal_to_s5_3(J_binary[i, j])
             J_binary_formatted += f"parameter J_{i:02d}{j:02d} = 8'sb{bin_value};\n"
 
     h_binary_formatted = ""
     for i in range(h_binary.shape[0]):
-        bin_value, _ = decimal_to_s4_3(h_binary[i])
+        bin_value, _ = decimal_to_s5_3(h_binary[i])
         h_binary_formatted += f"parameter h{i} = 8'sb{bin_value};\n"
     
     J_array_init = "logic signed [7:0] J [0:{}][0:{}] = '{{".format(
@@ -209,7 +209,7 @@ def generate_verilog_biases(label_mapping_binary=None):
                 value = 15.875
             elif (value < -16):
                 value = -16
-            binary_str, _ = decimal_to_s4_3(value)  # Get binary representation
+            binary_str, _ = decimal_to_s5_3(value)  # Get binary representation
             print(f"h[{i}] = 8'sb{binary_str};")
 
         # Generate bias assignments
@@ -230,7 +230,10 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
 
     # Convert bipolar J and h to binary format
     J_binary, h_binary = bipolar_to_binary(J_bipolar,h_bipolar)
-
+    print(np.max(J_binary, axis=1))
+    print(np.max(h_binary))
+    print(np.min(h_binary))
+    print(np.sum(J_binary, axis=1))
     # Convert J to Compressed Sparse Row (CSR) format
     J_sparse = csr_matrix(J_binary)
 
@@ -256,28 +259,28 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     # Write the values memory file.
     with open(values_file, "w") as f:
         for v in values:
-            bin_value, _ = decimal_to_s4_3(v)
+            bin_value, _ = decimal_to_s5_3(v)
             values_lines.append(bin_value)
             f.write(bin_value + "\n")
 
     # Write the col_indices memory file.
     with open(col_indices_file, "w") as f:
         for c in col_indices:
-            bin_str = f"{c:012b}"  # 8-bit binary string
+            bin_str = f"{c:016b}"  # 8-bit binary string
             col_indices_lines.append(bin_str)
             f.write(bin_str + "\n")
 
     # Write the row_ptr memory file (as 16-bit binary).
     with open(row_ptr_file, "w") as f:
         for r in row_ptr:
-            bin_str = f"{r:012b}"
+            bin_str = f"{r:016b}"
             row_ptr_lines.append(bin_str)
             f.write(bin_str + "\n")
 
     # Write the h memory file (Bias vector).
     with open(h_file, "w") as f:
         for i in range(h_binary.shape[0]):
-            bin_value, _ = decimal_to_s4_3(h_binary[i])
+            bin_value, _ = decimal_to_s5_3(h_binary[i])
             h_lines.append(bin_value)
             f.write(bin_value + "\n")
 
@@ -289,6 +292,10 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     print(f"Matrix size (Raw) = {J_binary.size}")
     print(f"CSR size (Values + Column Indices + Row Pointer) = {values.size+col_indices.size+row_ptr.size}")
     print(f"Factor Reduction = {(J_binary.size)/(values.size+col_indices.size+row_ptr.size)}")
+    print(f"Values size = {values.size}")
+    print(f"Column Indices size = {col_indices.size}")
+    print(f"Row Pointer size = {row_ptr.size}")
+
     # Compute row lengths
     row_lengths = row_ptr[1:] - row_ptr[:-1]
     max_row_length = row_lengths.max()
@@ -314,11 +321,11 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
         row_cols = col_indices[start:end]
 
         # Convert values to binary with padding
-        value_bits = [decimal_to_s4_3(v)[0] for v in row_values]
-        col_bits   = [f"{c:012b}" for c in row_cols]
+        value_bits = [decimal_to_s5_3(v)[0] for v in row_values]
+        col_bits   = [f"{c:016b}" for c in row_cols]
 
         # Pad to max length
-        value_bits += ['00000000'] * (max_row_length - len(value_bits))
+        value_bits += ['000000000'] * (max_row_length - len(value_bits))
         col_bits   += ['000000000000'] * (max_row_length - len(col_bits))
 
         # Concatenate bits per row
@@ -386,7 +393,7 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
     with open(h_file, "w") as f:
         h_lines = []
         for i in range(h_binary.shape[0]):
-            bin_value, _ = decimal_to_s4_3(h_binary[i])
+            bin_value, _ = decimal_to_s5_3(h_binary[i])
             h_lines.append(bin_value)
             f.write(bin_value + "\n")
     
@@ -396,7 +403,7 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
         for i in range(J_binary.shape[0]):
             row_vals = []
             for j in range(J_binary.shape[1]):
-                bin_value, _ = decimal_to_s4_3(J_binary[i, j])
+                bin_value, _ = decimal_to_s5_3(J_binary[i, j])
                 row_vals.append(bin_value)
             row_str = " ".join(row_vals)
             J_lines.append(row_str)
