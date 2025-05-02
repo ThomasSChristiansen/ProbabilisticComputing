@@ -234,14 +234,17 @@ def plot_probabilities(num_steps=100000, savefig=False, save_csv=False, J_bipola
         elif use_boltzmann:
             plt.bar(x, prob_values_b, bar_width, color='orange', alpha=0.6, label='Boltzmann', edgecolor='black')
 
-        if not lightweight_plot and len(states_str) <= 256:
+        if not lightweight_plot:
             colors = ['red' if i in highest_prob_indices else 'black' for i in range(len(states_str))]
             plt.xticks(x, states_str, rotation=90)
             ax = plt.gca()
             for tick, color in zip(ax.get_xticklabels(), colors):
                 tick.set_color(color)
         else:
-            plt.xticks([]) 
+            nonzero_indices = [i for i, prob in enumerate(prob_values) if prob > 0.005]
+            xticks_to_show = x[nonzero_indices]
+            xtick_labels_to_show = [states_str[i] for i in nonzero_indices]
+            plt.xticks(xticks_to_show, xtick_labels_to_show, rotation=90)
         plt.margins(x=0.01)
         plt.title(f"{label}")
         plt.xlabel('States')
@@ -249,7 +252,7 @@ def plot_probabilities(num_steps=100000, savefig=False, save_csv=False, J_bipola
         if not lightweight_plot:
             plt.grid(axis='y', linestyle='--', alpha=0.7)
             plt.legend()
-            plt.tight_layout()
+        plt.tight_layout()
 
         if savefig:
             os.makedirs("Plots", exist_ok=True)
