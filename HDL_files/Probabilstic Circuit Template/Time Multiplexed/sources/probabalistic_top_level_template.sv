@@ -6,6 +6,7 @@
 module probabalistic_top_level_template(
     input logic clk,                            // Clock signal
     input logic reset_n,                        // Reset signal
+//    output logic [num_Out-1:0] pbit_out,
     output logic LED
 );
 // Intermediate output storage
@@ -19,14 +20,14 @@ logic [num_Out-1:0] pbit_out;
 parameter I_0 = 8'sb00001000;  //I_0 = 1
 
 // Internal signals
-logic signed    [7:0]               result_Jm;// Weighted inputs for each P-bit
+logic signed    [8:0]               result_Jm;// Weighted inputs for each P-bit
 logic signed    [7:0]               addition_hi;// Inner Product
 logic signed    [15:0]              product_I0;// Result 
-logic signed    [7:0]               product_Jm;// Product of I0 and sum
-logic signed    [8:0]               extended_addition;// hi+sum(J_ij+m_j)
-logic signed    [8:0]               extended_result_Jm;
-logic signed    [8:0]               extended_result_Jm_reg;
-logic signed    [8:0]               acc_result;
+logic signed    [8:0]               product_Jm;// Product of I0 and sum
+logic signed    [9:0]               extended_addition;// hi+sum(J_ij+m_j)
+logic signed    [9:0]               extended_result_Jm;
+logic signed    [9:0]               extended_result_Jm_reg;
+logic signed    [13:0]               acc_result;
 
 // Inputs to decoder_test
 logic                                       start_load;
@@ -39,7 +40,7 @@ logic                               data_valid;
 logic                               load_done;
 logic signed    [VAL_WIDTH-1:0]     value;
 logic           [INDEX_WIDTH-1:0]   index;
-logic signed    [7:0]               h;
+logic signed    [h_WIDTH-1:0]               h;
 logic           [4:0]               row_length;   
 
 logic preload_handled;
@@ -109,7 +110,7 @@ end else begin
 //                        acc_result <= acc_result + {{1{value[7]}}, value};
                     index_m <= m[index];
                     product_Jm = value * m[index];
-                    acc_result <= acc_result + {{1{product_Jm[7]}}, product_Jm};
+                    acc_result <= acc_result + $signed(product_Jm);
                     ptr_idx <= ptr_idx + 1;     
                 end else if (load_done ) begin 
                     state <= COMPUTE;
@@ -121,15 +122,15 @@ end else begin
             COMPUTE: begin
                 compute_done <= 0;
                 // Clamp result_Jm
-                if (acc_result > 8'sb01111111) 
-                    result_Jm = 8'sb01111111;
-                else if (acc_result < 8'sb10000000) 
-                    result_Jm = 8'sb10000000;
+                if (acc_result > 14'sd255) 
+                    result_Jm = 9'sb011111111;
+                else if (acc_result < -14'sd256) 
+                    result_Jm = 9'sb100000000;
                 else 
-                    result_Jm = acc_result[7:0];
+                    result_Jm = acc_result[8:0];
 
                 // Add h_i
-                extended_addition = { {1{h[7]}}, h } + { {1{result_Jm[7]}}, result_Jm };
+                extended_addition = { {1{h[8]}}, h } + { {1{result_Jm[8]}}, result_Jm };
                 if (extended_addition > 8'sb01111111) 
                     addition_hi = 8'sb01111111;
                 else if (extended_addition < 8'sb10000000) 
@@ -182,7 +183,7 @@ P_bit p_bit_inst (
     .seed(SEED) 
 );
 
-//// Instantiate the ILA logger
+// Instantiate the ILA logger
 ILA_data_logger ILA_data_logger_inst(
     .clk(clk),
     .reset_n(reset_n),
