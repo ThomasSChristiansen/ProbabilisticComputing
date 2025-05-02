@@ -12,7 +12,7 @@ module load_weight_bias (
     output logic            [4:0]               row_length,
     output logic signed     [VAL_WIDTH-1:0]     value,
     output logic            [INDEX_WIDTH-1:0]   index,
-    output logic signed     [7:0]               h   
+    output logic signed     [h_WIDTH-1:0]       h   
 );
 
 //----------------------------------------------------------------------
@@ -24,7 +24,7 @@ logic           [ROW_PTR_WIDTH-1:0]             row_ptr_outA, row_ptr_outB;
 logic           [VALUE_ADDR_WIDTH-1:0]          value_addrA;
 logic           [COL_INDICES_ADDR_WIDTH-1:0]    col_index_addrA;
 logic           [h_ADDR_WIDTH-1:0]              h_addrA;
-logic signed    [7:0]                           h_outA;
+logic signed    [h_WIDTH-1:0]                   h_outA;
 logic signed    [VAL_WIDTH-1:0]                 value_outA;
 logic           [INDEX_WIDTH-1:0]               col_index_outA;
 
@@ -130,6 +130,7 @@ always_ff @(posedge clk or negedge reset_n) begin
         endcase
     end
 end
+
 
 //----------------------------------------------------------------------
 // BRAM instances
