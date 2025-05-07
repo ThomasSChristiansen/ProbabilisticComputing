@@ -74,6 +74,40 @@ def fixed_point_range_unsigned(I, F):
 
     return min_value, max_value, step_size
 
+def decimal_to_s4_3(value):
+    """
+    Convert a decimal number to s[5][3] fixed-point representation (8-bit signed).
+
+    Parameters:
+    value (float): Decimal number to convert.
+
+    Returns:
+    str: 8-bit signed binary string in s[5][3] format.
+    int: Signed integer representation in s[5][3].
+    """
+    # Define fixed-point properties
+    integer_bits = 4
+    fractional_bits = 3
+    total_bits = 8
+    min_value = -2**(integer_bits) 
+    max_value = 2**(integer_bits) - 2**-fractional_bits  
+    step_size = 2**-fractional_bits  
+
+    # Clamp value to valid range
+    value = max(min_value, min(max_value, value))
+
+    # Scale and round to nearest fixed-point step
+    fixed_point_value = round(value / step_size)
+
+    # Convert to signed 8-bit two’s complement representation
+    if fixed_point_value < 0:
+        fixed_point_value = (1 << total_bits) + fixed_point_value  # Convert to two’s complement
+
+    # Convert to binary string
+    binary_representation = format(fixed_point_value & 0xFF, '08b')  # Mask to 8 bits
+
+    return binary_representation, fixed_point_value - (1 << total_bits if fixed_point_value >= (1 << (total_bits - 1)) else 0)
+
 def decimal_to_s5_3(value):
     """
     Convert a decimal number to s[5][3] fixed-point representation (8-bit signed).
@@ -221,146 +255,109 @@ def generate_verilog_biases(label_mapping_binary=None):
             print(f"bias[{i}],")
     return
 
-def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=False):
+def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=False,extended=False):
     # Function to generate `.mem` files for Compressed-Row-Sparse (CSR) matrix
+
+        # Choose appropriate decimal conversion function
+    converter = decimal_to_s5_3 if extended else decimal_to_s4_3
 
     # Create a subfolder named 'CSR_matrix' inside file_folder
     csr_subfolder = os.path.join(file_folder, "CSR_matrix")
     os.makedirs(csr_subfolder, exist_ok=True)
 
     # Convert bipolar J and h to binary format
-    J_binary, h_binary = bipolar_to_binary(J_bipolar,h_bipolar)
+    J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
     print(np.max(J_binary, axis=1))
     print(np.max(h_binary))
     print(np.min(h_binary))
     print(np.sum(J_binary, axis=1))
-    # Convert J to Compressed Sparse Row (CSR) format
-    J_sparse = csr_matrix(J_binary)
 
-    # Extract CSR components
+    # Convert J to CSR format
+    J_sparse = csr_matrix(J_binary)
     values = J_sparse.data
     col_indices = J_sparse.indices
     row_ptr = J_sparse.indptr
+
     print(f"Values: {values}")
     print(f"Column Indices: {col_indices}")
     print(f"Row Pointer: {row_ptr}")
-    # Construct file paths
+
+    # File paths
     values_file = os.path.join(csr_subfolder, f"{file_prefix}_values.mem")
     col_indices_file = os.path.join(csr_subfolder, f"{file_prefix}_col_indices.mem")
     row_ptr_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.mem")
     h_file = os.path.join(csr_subfolder, f"{file_prefix}_h.mem")
 
-    # Prepare lists to hold lines for .coe generation.
-    values_lines = []
-    col_indices_lines = []
-    row_ptr_lines = []
-    h_lines = []
+    # Write binary .mem files
+    values_lines, col_indices_lines, row_ptr_lines, h_lines = [], [], [], []
 
-    # Write the values memory file.
     with open(values_file, "w") as f:
         for v in values:
-            bin_value, _ = decimal_to_s5_3(v)
+            bin_value, _ = converter(v)
             values_lines.append(bin_value)
             f.write(bin_value + "\n")
 
-    # Write the col_indices memory file.
     with open(col_indices_file, "w") as f:
         for c in col_indices:
-            bin_str = f"{c:016b}"  # 8-bit binary string
+            bin_str = f"{c:016b}"
             col_indices_lines.append(bin_str)
             f.write(bin_str + "\n")
 
-    # Write the row_ptr memory file (as 16-bit binary).
     with open(row_ptr_file, "w") as f:
         for r in row_ptr:
             bin_str = f"{r:016b}"
             row_ptr_lines.append(bin_str)
             f.write(bin_str + "\n")
 
-    # Write the h memory file (Bias vector).
     with open(h_file, "w") as f:
         for i in range(h_binary.shape[0]):
-            bin_value, _ = decimal_to_s5_3(h_binary[i])
+            bin_value, _ = converter(h_binary[i])
             h_lines.append(bin_value)
             f.write(bin_value + "\n")
 
-    print(f"CSR_matrix mem files generated in folder '{csr_subfolder}':")
-    print(f"  {file_prefix}_values.mem")
-    print(f"  {file_prefix}_col_indices.mem")
-    print(f"  {file_prefix}_row_ptr.mem")
-    print(f"  {file_prefix}_h.mem")
-    print(f"Matrix size (Raw) = {J_binary.size}")
-    print(f"CSR size (Values + Column Indices + Row Pointer) = {values.size+col_indices.size+row_ptr.size}")
-    print(f"Factor Reduction = {(J_binary.size)/(values.size+col_indices.size+row_ptr.size)}")
-    print(f"Values size = {values.size}")
-    print(f"Column Indices size = {col_indices.size}")
-    print(f"Row Pointer size = {row_ptr.size}")
+    print(f"CSR_matrix mem files generated in folder '{csr_subfolder}'")
 
-    # Compute row lengths
+    # Row length stats
     row_lengths = row_ptr[1:] - row_ptr[:-1]
     max_row_length = row_lengths.max()
-    # Get indices that would sort row_lengths in descending order
-    row_indices_sorted = np.argsort(-row_lengths)
+    row_indices_most = np.argsort(-row_lengths)
+    row_indices_least = np.argsort(row_lengths)
 
-    # Get top 5 row indices and their lengths
-    top_n = 10
-    print(f"\nTop {top_n} rows with the most non-zero elements:")
-    for rank in range(min(top_n, len(row_lengths))):
-        row_idx = row_indices_sorted[rank]
-        row_len = row_lengths[row_idx]
-        print(f"  {rank+1}) Row {row_idx}: {row_len} non-zero elements")
+    print(f"\nTop 5 rows with the most non-zero elements:")
+    for rank in range(min(5, len(row_lengths))):
+        print(f"  {rank+1}) Row {row_indices_most[rank]}: {row_lengths[row_indices_most[rank]]} non-zero elements")
 
-    # Generate padded packed row-wise lines
-    packed_values_lines = []
-    packed_col_indices_lines = []
+    print(f"\nBottom 5 rows with the fewest non-zero elements:")
+    for rank in range(min(5, len(row_lengths))):
+        print(f"  {rank+1}) Row {row_indices_least[rank]}: {row_lengths[row_indices_least[rank]]} non-zero elements")
 
+    # Packed row-wise for optional COE
+    packed_values_lines, packed_col_indices_lines = [], []
     for i in range(len(row_ptr) - 1):
-        start = row_ptr[i]
-        end = row_ptr[i + 1]
-        row_values = values[start:end]
-        row_cols = col_indices[start:end]
-
-        # Convert values to binary with padding
-        value_bits = [decimal_to_s5_3(v)[0] for v in row_values]
-        col_bits   = [f"{c:016b}" for c in row_cols]
-
-        # Pad to max length
+        start, end = row_ptr[i], row_ptr[i + 1]
+        value_bits = [converter(v)[0] for v in values[start:end]]
+        col_bits = [f"{c:016b}" for c in col_indices[start:end]]
         value_bits += ['000000000'] * (max_row_length - len(value_bits))
-        col_bits   += ['000000000000'] * (max_row_length - len(col_bits))
+        col_bits += ['000000000000'] * (max_row_length - len(col_bits))
+        packed_values_lines.append(''.join(value_bits))
+        packed_col_indices_lines.append(''.join(col_bits))
 
-        # Concatenate bits per row
-        packed_values = ''.join(value_bits)
-        packed_cols   = ''.join(col_bits)
-
-        packed_values_lines.append(packed_values)
-        packed_col_indices_lines.append(packed_cols)
-
-    # If write_coe is enabled, generate corresponding .coe files.
+    # Optional .coe writing
     if write_coe:
-        # Helper function to write .coe file given a filename and list of lines.
         def write_coe_file(filename, lines):
-            with open(filename, "w") as f_coe:
-                f_coe.write("memory_initialization_radix = 2;\n")
-                f_coe.write("memory_initialization_vector =\n")
-                f_coe.write(",\n".join(lines) + ";\n")
-        
-        values_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_values.coe")
-        col_indices_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_col_indices.coe")
-        row_ptr_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.coe")
-        h_coe_file = os.path.join(csr_subfolder, f"{file_prefix}_h.coe")
-        
-        write_coe_file(values_coe_file, values_lines)
-        write_coe_file(col_indices_coe_file, col_indices_lines)
-        write_coe_file(row_ptr_coe_file, row_ptr_lines)
-        write_coe_file(h_coe_file, h_lines)
-        
-        print(f"CSR_matrix coe files generated in folder '{csr_subfolder}':")
-        print(f"  {file_prefix}_values.coe")
-        print(f"  {file_prefix}_col_indices.coe")
-        print(f"  {file_prefix}_row_ptr.coe")
-        print(f"  {file_prefix}_h.coe")
+            with open(filename, "w") as f:
+                f.write("memory_initialization_radix = 2;\n")
+                f.write("memory_initialization_vector =\n")
+                f.write(",\n".join(lines) + ";\n")
 
-def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3, write_coe=False):
+        write_coe_file(os.path.join(csr_subfolder, f"{file_prefix}_values.coe"), values_lines)
+        write_coe_file(os.path.join(csr_subfolder, f"{file_prefix}_col_indices.coe"), col_indices_lines)
+        write_coe_file(os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.coe"), row_ptr_lines)
+        write_coe_file(os.path.join(csr_subfolder, f"{file_prefix}_h.coe"), h_lines)
+
+        print(f"CSR_matrix coe files generated in folder '{csr_subfolder}'")
+
+def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3, write_coe=False,extended=False):
     """
     Generate external mem files for h, J, seeds, global parameters, and grouped update LUT.
     
@@ -527,7 +524,7 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
         f.write(lut_file_content)
     print("Lookup table file generated: grouped_update_order_LUT.sv")
 
-    generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=write_coe)
+    generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=write_coe,extended=extended)
 
 def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,figWidth=28):
     # Convert to DataFrame
@@ -735,3 +732,44 @@ def update_all_configurations(target_names, h_bipolar, node_order):
                 print(f"Warning: Node '{node}' not found in node_order; skipping update for config '{config_label}'.")
         updated_configurations[config_label] = h_updated.tolist()
     return updated_configurations
+
+def calculate_runtime(cycles_per_update, clock_mhz, num_samples):
+    """
+    Calculate runtime based on:
+    - cycles_per_update: number of clock cycles per full update
+    - clock_mhz: clock frequency in MHz
+    - num_samples: number of full update samples
+    """
+    clock_period_ns = 1_000 / clock_mhz  # ns per clock cycle
+    total_clock_cycles = cycles_per_update * num_samples
+    update_ns = cycles_per_update * clock_period_ns
+    total_ns = update_ns * num_samples
+    total_sec = total_ns / 1e9
+    total_min = total_sec / 60
+    total_hr = total_min / 60
+
+    print(f"Total runtime for {num_samples:,} samples:")
+    print(f"  Clock Frequency: {clock_mhz} MHz")
+    print(f"  Cycles per Update: {cycles_per_update}")
+    print(f"  Full Update Time: {update_ns:.2f} ns")
+    print(f"  → {total_sec:.2f} seconds")
+    print(f"  → {total_min:.2f} minutes")
+    print(f"  → {total_hr:.2f} hours")
+    print(f"Total clock cycles: {total_clock_cycles:,}")
+
+def calculate_pbit_update_time(nnz_list, clock_period_ns, standard_cycles=7):
+    if not nnz_list:
+        raise ValueError("nnz_list must contain at least one element.")
+
+    best_nnz = min(nnz_list)
+    worst_nnz = max(nnz_list)
+
+    best_time_ns = (best_nnz + standard_cycles) * clock_period_ns
+    worst_time_ns = (worst_nnz + standard_cycles) * clock_period_ns
+
+    return {
+        "best_case_ns": best_time_ns,
+        "worst_case_ns": worst_time_ns,
+        "best_case_cycles": best_nnz + standard_cycles,
+        "worst_case_cycles": worst_nnz + standard_cycles
+    }

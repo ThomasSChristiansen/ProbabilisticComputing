@@ -69,6 +69,7 @@ def simulate_p_bits(num_steps=None, I0=None, use_boltzmann=None,J_bipolar=None,h
     J_binary = 2.0 * J_bipolar
     ones_vec = np.ones(len(h_bipolar))  # Now 5 p-bits instead of 3
     h_binary = h_bipolar - J_bipolar.dot(ones_vec)
+    print("h_binary:", h_binary)
     
     # Use the binary parameters for simulation
     J = csr_matrix(J_binary)
@@ -251,7 +252,7 @@ def plot_probabilities(num_steps=100000, savefig=False, save_csv=False, J_bipola
         plt.ylabel('Probability')
         if not lightweight_plot:
             plt.grid(axis='y', linestyle='--', alpha=0.7)
-            plt.legend()
+            # plt.legend()
         plt.tight_layout()
 
         if savefig:
