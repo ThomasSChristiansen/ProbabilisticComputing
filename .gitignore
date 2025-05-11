@@ -16,6 +16,7 @@
 *.coe
 64x64=128bIntFac.npz
 32x32=64bIntFac.npz
+16x16=32bIntFac.npz
 
 venv/
 plot/
