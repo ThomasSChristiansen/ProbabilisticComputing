@@ -1,0 +1,6 @@
+# Yosys script for synthesizing Multiplier_64x64=128.v
+read_verilog C:\repositories\ProbabilisticComputing\Yosys\Sources\Multiplier_64x64=128.v
+synth
+abc -g AND,NAND,NOR,OR
+write_json C:\repositories\ProbabilisticComputing\Yosys\Synthesized\Multiplier_64x64=128_synthesized.json
+show -prefix Multiplier_64x64=128

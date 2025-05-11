@@ -74,73 +74,47 @@ def fixed_point_range_unsigned(I, F):
 
     return min_value, max_value, step_size
 
-def decimal_to_s4_3(value):
+def decimal_to_s_fixed(value, integer_bits, fractional_bits, total_bits):
     """
-    Convert a decimal number to s[5][3] fixed-point representation (8-bit signed).
+    Convert a decimal number to signed fixed-point binary string and integer value.
 
     Parameters:
     value (float): Decimal number to convert.
+    integer_bits (int): Number of signed integer bits (including sign bit).
+    fractional_bits (int): Number of fractional bits.
+    total_bits (int): Total bit width of the fixed-point number.
 
     Returns:
-    str: 8-bit signed binary string in s[5][3] format.
-    int: Signed integer representation in s[5][3].
+    str: Binary string in fixed-point two's complement representation.
+    int: Signed integer value representing the fixed-point number.
     """
-    # Define fixed-point properties
-    integer_bits = 4
-    fractional_bits = 3
-    total_bits = 8
-    min_value = -2**(integer_bits) 
-    max_value = 2**(integer_bits) - 2**-fractional_bits  
-    step_size = 2**-fractional_bits  
+    # Compute fixed-point parameters
+    min_value = -2 ** integer_bits
+    max_value = (2 ** integer_bits) - (2 ** -fractional_bits)
+    step_size = 2 ** -fractional_bits
 
-    # Clamp value to valid range
-    value = max(min_value, min(max_value, value))
+    # Clamp to range
+    clamped_value = max(min_value, min(max_value, value))
 
-    # Scale and round to nearest fixed-point step
-    fixed_point_value = round(value / step_size)
+    # Convert to fixed-point integer
+    fixed_point_value = round(clamped_value / step_size)
 
-    # Convert to signed 8-bit two’s complement representation
+    # Convert to two's complement if negative
     if fixed_point_value < 0:
-        fixed_point_value = (1 << total_bits) + fixed_point_value  # Convert to two’s complement
+        fixed_point_value_unsigned = (1 << total_bits) + fixed_point_value
+    else:
+        fixed_point_value_unsigned = fixed_point_value
 
-    # Convert to binary string
-    binary_representation = format(fixed_point_value & 0xFF, '08b')  # Mask to 8 bits
+    # Mask and format to binary string
+    binary_representation = format(fixed_point_value_unsigned & ((1 << total_bits) - 1), f'0{total_bits}b')
 
-    return binary_representation, fixed_point_value - (1 << total_bits if fixed_point_value >= (1 << (total_bits - 1)) else 0)
+    # Return both string and signed int
+    if fixed_point_value_unsigned >= (1 << (total_bits - 1)):
+        signed_result = fixed_point_value_unsigned - (1 << total_bits)
+    else:
+        signed_result = fixed_point_value_unsigned
 
-def decimal_to_s5_3(value):
-    """
-    Convert a decimal number to s[5][3] fixed-point representation (8-bit signed).
-
-    Parameters:
-    value (float): Decimal number to convert.
-
-    Returns:
-    str: 8-bit signed binary string in s[5][3] format.
-    int: Signed integer representation in s[5][3].
-    """
-    # Define fixed-point properties
-    integer_bits = 5
-    fractional_bits = 3
-    total_bits = 9
-    min_value = -2**(integer_bits) 
-    max_value = 2**(integer_bits) - 2**-fractional_bits  
-    step_size = 2**-fractional_bits  
-
-    # Clamp value to valid range
-    value = max(min_value, min(max_value, value))
-
-    # Scale and round to nearest fixed-point step
-    fixed_point_value = round(value / step_size)
-
-    # Convert to signed 8-bit two’s complement representation
-    if fixed_point_value < 0:
-        fixed_point_value = (1 << total_bits) + fixed_point_value  # Convert to two’s complement
-
-    # Convert to binary string
-    binary_representation = format(fixed_point_value & 0x1FF, '09b')  # Mask to 8 bits
-
-    return binary_representation, fixed_point_value - (1 << total_bits if fixed_point_value >= (1 << (total_bits - 1)) else 0)
+    return binary_representation, signed_result
 
 def s4_3_to_decimal(binary_str):
     """
@@ -211,12 +185,12 @@ def generate_verilog_params(J_bipolar, h_bipolar):
     J_binary_formatted = ""
     for i in range(J_binary.shape[0]):
         for j in range(J_binary.shape[1]):
-            bin_value, _ = decimal_to_s5_3(J_binary[i, j])
+            bin_value, _ = decimal_to_s_fixed(J_binary[i, j])
             J_binary_formatted += f"parameter J_{i:02d}{j:02d} = 8'sb{bin_value};\n"
 
     h_binary_formatted = ""
     for i in range(h_binary.shape[0]):
-        bin_value, _ = decimal_to_s5_3(h_binary[i])
+        bin_value, _ = decimal_to_s_fixed(h_binary[i])
         h_binary_formatted += f"parameter h{i} = 8'sb{bin_value};\n"
     
     J_array_init = "logic signed [7:0] J [0:{}][0:{}] = '{{".format(
@@ -239,10 +213,10 @@ def generate_verilog_biases(label_mapping_binary=None):
         print(f"// h_bipolar({label})")  # Use the formatted (A, B, D) string
         
         for i, value in enumerate(key):  # Use key tuple to iterate over values
-            if (value > 15.875):
-                value = 15.875
-            elif (value < -16):
-                value = -16
+            # if (value > 15.875):
+            #     value = 15.875
+            # elif (value < -16):
+            #     value = -16
             binary_str, _ = decimal_to_s5_3(value)  # Get binary representation
             print(f"h[{i}] = 8'sb{binary_str};")
 
@@ -255,25 +229,14 @@ def generate_verilog_biases(label_mapping_binary=None):
             print(f"bias[{i}],")
     return
 
-def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=False,extended=False):
-    # Function to generate `.mem` files for Compressed-Row-Sparse (CSR) matrix
-
-        # Choose appropriate decimal conversion function
-    converter = decimal_to_s5_3 if extended else decimal_to_s4_3
-
-    # Create a subfolder named 'CSR_matrix' inside file_folder
+def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,
+                            integer_bits=5, fractional_bits=3, total_bits=9,
+                            write_coe=False):
     csr_subfolder = os.path.join(file_folder, "CSR_matrix")
     os.makedirs(csr_subfolder, exist_ok=True)
 
-    # Convert bipolar J and h to binary format
-    J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
-    print(np.max(J_binary, axis=1))
-    print(np.max(h_binary))
-    print(np.min(h_binary))
-    print(np.sum(J_binary, axis=1))
-
     # Convert J to CSR format
-    J_sparse = csr_matrix(J_binary)
+    J_sparse = csr_matrix(J_bipolar)
     values = J_sparse.data
     col_indices = J_sparse.indices
     row_ptr = J_sparse.indptr
@@ -282,18 +245,16 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     print(f"Column Indices: {col_indices}")
     print(f"Row Pointer: {row_ptr}")
 
-    # File paths
     values_file = os.path.join(csr_subfolder, f"{file_prefix}_values.mem")
     col_indices_file = os.path.join(csr_subfolder, f"{file_prefix}_col_indices.mem")
     row_ptr_file = os.path.join(csr_subfolder, f"{file_prefix}_row_ptr.mem")
     h_file = os.path.join(csr_subfolder, f"{file_prefix}_h.mem")
 
-    # Write binary .mem files
     values_lines, col_indices_lines, row_ptr_lines, h_lines = [], [], [], []
 
     with open(values_file, "w") as f:
         for v in values:
-            bin_value, _ = converter(v)
+            bin_value, _ = decimal_to_s_fixed(v, integer_bits, fractional_bits, total_bits)
             values_lines.append(bin_value)
             f.write(bin_value + "\n")
 
@@ -310,14 +271,12 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
             f.write(bin_str + "\n")
 
     with open(h_file, "w") as f:
-        for i in range(h_binary.shape[0]):
-            bin_value, _ = converter(h_binary[i])
+        for val in h_bipolar:
+            bin_value, _ = decimal_to_s_fixed(val, integer_bits, fractional_bits, total_bits)
             h_lines.append(bin_value)
             f.write(bin_value + "\n")
 
-    print(f"CSR_matrix mem files generated in folder '{csr_subfolder}'")
-
-    # Row length stats
+    # Stats
     row_lengths = row_ptr[1:] - row_ptr[:-1]
     max_row_length = row_lengths.max()
     row_indices_most = np.argsort(-row_lengths)
@@ -331,24 +290,24 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
     for rank in range(min(5, len(row_lengths))):
         print(f"  {rank+1}) Row {row_indices_least[rank]}: {row_lengths[row_indices_least[rank]]} non-zero elements")
 
-    # Packed row-wise for optional COE
-    packed_values_lines, packed_col_indices_lines = [], []
-    for i in range(len(row_ptr) - 1):
-        start, end = row_ptr[i], row_ptr[i + 1]
-        value_bits = [converter(v)[0] for v in values[start:end]]
-        col_bits = [f"{c:016b}" for c in col_indices[start:end]]
-        value_bits += ['000000000'] * (max_row_length - len(value_bits))
-        col_bits += ['000000000000'] * (max_row_length - len(col_bits))
-        packed_values_lines.append(''.join(value_bits))
-        packed_col_indices_lines.append(''.join(col_bits))
-
-    # Optional .coe writing
+    # Packed rows for .coe
     if write_coe:
         def write_coe_file(filename, lines):
             with open(filename, "w") as f:
                 f.write("memory_initialization_radix = 2;\n")
                 f.write("memory_initialization_vector =\n")
                 f.write(",\n".join(lines) + ";\n")
+
+        # Values and col_indices packed per row
+        packed_values_lines, packed_col_indices_lines = [], []
+        for i in range(len(row_ptr) - 1):
+            start, end = row_ptr[i], row_ptr[i + 1]
+            value_bits = [decimal_to_s_fixed(v, integer_bits, fractional_bits, total_bits)[0] for v in values[start:end]]
+            col_bits = [f"{c:016b}" for c in col_indices[start:end]]
+            value_bits += ['0' * total_bits] * (max_row_length - len(value_bits))
+            col_bits += ['0' * 16] * (max_row_length - len(col_bits))
+            packed_values_lines.append(''.join(value_bits))
+            packed_col_indices_lines.append(''.join(col_bits))
 
         write_coe_file(os.path.join(csr_subfolder, f"{file_prefix}_values.coe"), values_lines)
         write_coe_file(os.path.join(csr_subfolder, f"{file_prefix}_col_indices.coe"), col_indices_lines)
@@ -357,7 +316,8 @@ def generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_
 
         print(f"CSR_matrix coe files generated in folder '{csr_subfolder}'")
 
-def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3, write_coe=False,extended=False):
+def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_bit_width=3, write_coe=False,
+                       integer_bits=5, fractional_bits=3, total_bits=9):
     """
     Generate external mem files for h, J, seeds, global parameters, and grouped update LUT.
     
@@ -374,157 +334,158 @@ def generate_mem_files(J_bipolar, h_bipolar, file_prefix, var_names=None, group_
            defaults to var_0, var_1, …, var_n.
       group_bit_width (int, optional): Bit width for the group index in the LUT (default 3).
     """
-    # Ensure the "bram" folder exists.
+    # # Ensure the "bram" folder exists.
     file_folder = os.path.join("custom_hdl_files", file_prefix)
     if not os.path.exists(file_folder):
         os.makedirs(file_folder)
 
-    # Convert bipolar parameters to binary fixed-point values.
-    J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
-    # Construct full file paths for the mem files.
-    h_file = os.path.join(file_folder, f"{file_prefix}_h.mem")
-    J_file = os.path.join(file_folder, f"{file_prefix}_J.mem")
-    seed_file = os.path.join(file_folder, f"{file_prefix}_seeds.mem")
+    # # Convert bipolar parameters to binary fixed-point values.
+    # J_binary, h_binary = bipolar_to_binary(J_bipolar, h_bipolar)
+    # # Construct full file paths for the mem files.
+    # h_file = os.path.join(file_folder, f"{file_prefix}_h.mem")
+    # J_file = os.path.join(file_folder, f"{file_prefix}_J.mem")
+    # seed_file = os.path.join(file_folder, f"{file_prefix}_seeds.mem")
     
-    # Write the h memory file.
-    with open(h_file, "w") as f:
-        h_lines = []
-        for i in range(h_binary.shape[0]):
-            bin_value, _ = decimal_to_s5_3(h_binary[i])
-            h_lines.append(bin_value)
-            f.write(bin_value + "\n")
+    # # Write the h memory file.
+    # with open(h_file, "w") as f:
+    #     h_lines = []
+    #     for i in range(h_binary.shape[0]):
+    #         bin_value, _ = decimal_to_s5_3(h_binary[i])
+    #         h_lines.append(bin_value)
+    #         f.write(bin_value + "\n")
     
-    # Write the J memory file.
-    with open(J_file, "w") as f:
-        J_lines = []
-        for i in range(J_binary.shape[0]):
-            row_vals = []
-            for j in range(J_binary.shape[1]):
-                bin_value, _ = decimal_to_s5_3(J_binary[i, j])
-                row_vals.append(bin_value)
-            row_str = " ".join(row_vals)
-            J_lines.append(row_str)
-            f.write(row_str + "\n")
+    # # Write the J memory file.
+    # with open(J_file, "w") as f:
+    #     J_lines = []
+    #     for i in range(J_binary.shape[0]):
+    #         row_vals = []
+    #         for j in range(J_binary.shape[1]):
+    #             bin_value, _ = decimal_to_s5_3(J_binary[i, j])
+    #             row_vals.append(bin_value)
+    #         row_str = " ".join(row_vals)
+    #         J_lines.append(row_str)
+    #         f.write(row_str + "\n")
     
-    # Write the seed memory file.
-    num_seeds = h_binary.shape[0]
-    with open(seed_file, "w") as f:
-        seed_lines = []
-        for i in range(num_seeds):
-            seed_value = ''.join(random.choice('01') for _ in range(32))
-            seed_lines.append(seed_value)
-            f.write(seed_value + "\n")
+    # # Write the seed memory file.
+    # num_seeds = h_binary.shape[0]
+    # with open(seed_file, "w") as f:
+    #     seed_lines = []
+    #     for i in range(num_seeds):
+    #         seed_value = ''.join(random.choice('01') for _ in range(32))
+    #         seed_lines.append(seed_value)
+    #         f.write(seed_value + "\n")
     
-    print(f"Mem files generated in folder '{file_folder}':")
-    print(f"  {file_prefix}_h.mem")
-    print(f"  {file_prefix}_J.mem")
-    print(f"  {file_prefix}_seeds.mem")
+    # print(f"Mem files generated in folder '{file_folder}':")
+    # print(f"  {file_prefix}_h.mem")
+    # print(f"  {file_prefix}_J.mem")
+    # print(f"  {file_prefix}_seeds.mem")
 
-    # If write_coe is enabled, write corresponding .coe files.
-    if write_coe:
-        # Write the h .coe file.
-        h_coe_file = os.path.join(file_folder, f"{file_prefix}_h.coe")
-        with open(h_coe_file, "w") as f:
-            f.write("memory_initialization_radix = 2;\n")
-            f.write("memory_initialization_vector =\n")
-            f.write(",\n".join(h_lines) + ";\n")
-        print(f"  {file_prefix}_h.coe")
+    # # If write_coe is enabled, write corresponding .coe files.
+    # if write_coe:
+    #     # Write the h .coe file.
+    #     h_coe_file = os.path.join(file_folder, f"{file_prefix}_h.coe")
+    #     with open(h_coe_file, "w") as f:
+    #         f.write("memory_initialization_radix = 2;\n")
+    #         f.write("memory_initialization_vector =\n")
+    #         f.write(",\n".join(h_lines) + ";\n")
+    #     print(f"  {file_prefix}_h.coe")
         
-        # Write the J .coe file.
-        J_coe_file = os.path.join(file_folder, f"{file_prefix}_J.coe")
-        with open(J_coe_file, "w") as f:
-            f.write("memory_initialization_radix = 2;\n")
-            f.write("memory_initialization_vector =\n")
-            # For J, each row is written as a space-separated string.
-            # Depending on your application you may want to flatten or preserve row structure.
-            f.write(",\n".join(J_lines) + ";\n")
-        print(f"  {file_prefix}_J.coe")
+    #     # Write the J .coe file.
+    #     J_coe_file = os.path.join(file_folder, f"{file_prefix}_J.coe")
+    #     with open(J_coe_file, "w") as f:
+    #         f.write("memory_initialization_radix = 2;\n")
+    #         f.write("memory_initialization_vector =\n")
+    #         # For J, each row is written as a space-separated string.
+    #         # Depending on your application you may want to flatten or preserve row structure.
+    #         f.write(",\n".join(J_lines) + ";\n")
+    #     print(f"  {file_prefix}_J.coe")
         
-        # Write the seeds .coe file.
-        seed_coe_file = os.path.join(file_folder, f"{file_prefix}_seeds.coe")
-        with open(seed_coe_file, "w") as f:
-            f.write("memory_initialization_radix = 2;\n")
-            f.write("memory_initialization_vector =\n")
-            f.write(",\n".join(seed_lines) + ";\n")
-        print(f"  {file_prefix}_seeds.coe")
+    #     # Write the seeds .coe file.
+    #     seed_coe_file = os.path.join(file_folder, f"{file_prefix}_seeds.coe")
+    #     with open(seed_coe_file, "w") as f:
+    #         f.write("memory_initialization_radix = 2;\n")
+    #         f.write("memory_initialization_vector =\n")
+    #         f.write(",\n".join(seed_lines) + ";\n")
+    #     print(f"  {file_prefix}_seeds.coe")
     
-    # ----------------------------------------------------------------
-    # Write the global parameters SystemVerilog file.
-    global_params_file = os.path.join(file_folder, f"global_params.svh")
-    num_Pbits = h_binary.shape[0]
-    with open(global_params_file, "w") as f:
-        f.write("// pbit_params.svh\n")
-        f.write("// Global parameter definitions for all p-bit modules\n\n")
-        f.write("`ifndef GLOBAL_PARAMS_SVH\n")
-        f.write("`define GLOBAL_PARAMS_SVH\n\n")
-        f.write("// Define the number of P-bits globally\n")
-        f.write(f"parameter num_Pbits = {num_Pbits};\n")
-        f.write(f"parameter num_Out = \n")
-        f.write(f"parameter HIST_DATA_SIZE = 63;")
-        f.write("`endif\n")
+    # # ----------------------------------------------------------------
+    # # Write the global parameters SystemVerilog file.
+    # global_params_file = os.path.join(file_folder, f"global_params.svh")
+    # num_Pbits = h_binary.shape[0]
+    # with open(global_params_file, "w") as f:
+    #     f.write("// pbit_params.svh\n")
+    #     f.write("// Global parameter definitions for all p-bit modules\n\n")
+    #     f.write("`ifndef GLOBAL_PARAMS_SVH\n")
+    #     f.write("`define GLOBAL_PARAMS_SVH\n\n")
+    #     f.write("// Define the number of P-bits globally\n")
+    #     f.write(f"parameter num_Pbits = {num_Pbits};\n")
+    #     f.write(f"parameter num_Out = \n")
+    #     f.write(f"parameter HIST_DATA_SIZE = 63;")
+    #     f.write("`endif\n")
     
-    print(f"Global parameters file generated: global_params.sv")
+    # print(f"Global parameters file generated: global_params.sv")
     
-    # ----------------------------------------------------------------
-    # Generate the grouped update order lookup table file.
-    # If no var_names list is provided, use default names.
-    num_vars = h_binary.shape[0]
-    if var_names is None:
-        var_names = [f"var_{i}" for i in range(num_vars)]
+    # # ----------------------------------------------------------------
+    # # Generate the grouped update order lookup table file.
+    # # If no var_names list is provided, use default names.
+    # num_vars = h_binary.shape[0]
+    # if var_names is None:
+    #     var_names = [f"var_{i}" for i in range(num_vars)]
     
-    # Build an undirected graph where each node corresponds to a variable.
-    G = nx.Graph()
-    num_nodes = J_bipolar.shape[0]
-    G.add_nodes_from(range(num_nodes))
-    # Add an edge between nodes that interact (nonzero in J_bipolar).
-    for i in range(num_nodes):
-        for j in range(i + 1, num_nodes):
-            if J_bipolar[i, j] != 0:
-                G.add_edge(i, j)
+    # # Build an undirected graph where each node corresponds to a variable.
+    # G = nx.Graph()
+    # num_nodes = J_bipolar.shape[0]
+    # G.add_nodes_from(range(num_nodes))
+    # # Add an edge between nodes that interact (nonzero in J_bipolar).
+    # for i in range(num_nodes):
+    #     for j in range(i + 1, num_nodes):
+    #         if J_bipolar[i, j] != 0:
+    #             G.add_edge(i, j)
     
-    # Use a greedy coloring algorithm to determine update groups.
-    coloring = nx.algorithms.coloring.greedy_color(
-        G, strategy=nx.algorithms.coloring.strategy_saturation_largest_first
-    )
-    update_groups = {}
-    for node, color in coloring.items():
-        update_groups.setdefault(color, []).append(node)
-    # Sort groups by color and node index.
-    update_order = [sorted(update_groups[color]) for color in sorted(update_groups)]
-    # Generate the lookup table lines.
-    lookup_lines = []
-    for group_index, group in enumerate(update_order):
-        # Create a binary string for the group index.
-        group_bin = format(group_index, f'0{group_bit_width}b')
-        # Create a bit mask: a '1' for each variable in this update group.
-        pbit_en_bits = ''.join(['1' if i in group else '0' for i in range(num_vars)])
-        lookup_lines.append(f"{group_bit_width}'b{group_bin} : Pbit_EN = {num_vars}'b{pbit_en_bits};")
+    # # Use a greedy coloring algorithm to determine update groups.
+    # coloring = nx.algorithms.coloring.greedy_color(
+    #     G, strategy=nx.algorithms.coloring.strategy_saturation_largest_first
+    # )
+    # update_groups = {}
+    # for node, color in coloring.items():
+    #     update_groups.setdefault(color, []).append(node)
+    # # Sort groups by color and node index.
+    # update_order = [sorted(update_groups[color]) for color in sorted(update_groups)]
+    # # Generate the lookup table lines.
+    # lookup_lines = []
+    # for group_index, group in enumerate(update_order):
+    #     # Create a binary string for the group index.
+    #     group_bin = format(group_index, f'0{group_bit_width}b')
+    #     # Create a bit mask: a '1' for each variable in this update group.
+    #     pbit_en_bits = ''.join(['1' if i in group else '0' for i in range(num_vars)])
+    #     lookup_lines.append(f"{group_bit_width}'b{group_bin} : Pbit_EN = {num_vars}'b{pbit_en_bits};")
     
-    # Build the content for the LUT SystemVerilog file.
-    # Note: The input and output widths are set based on group_bit_width and num_vars.
-    lut_file_content = ""
-    lut_file_content += "`timescale 1ns / 1ps\n"
-    lut_file_content += "//////////////////////////////////////////////////////////////////////////////////\n\n"
-    lut_file_content += "//////////////////////////////////////////////////////////////////////////////////\n\n\n"
-    lut_file_content += "module grouped_update_order_LUT(group_EN, Pbit_EN);\n\n"
-    lut_file_content += f"input logic [0:{group_bit_width-1}] group_EN;\n"
-    lut_file_content += f"output logic [0:{num_vars-1}] Pbit_EN;\n\n"
-    lut_file_content += "always_comb\n"
-    lut_file_content += "begin \n"
-    lut_file_content += "case (group_EN)\n"
-    for line in lookup_lines:
-        lut_file_content += "  " + line + "\n"
-    lut_file_content += "endcase\n"
-    lut_file_content += "end\n"
-    lut_file_content += "endmodule\n"
+    # # Build the content for the LUT SystemVerilog file.
+    # # Note: The input and output widths are set based on group_bit_width and num_vars.
+    # lut_file_content = ""
+    # lut_file_content += "`timescale 1ns / 1ps\n"
+    # lut_file_content += "//////////////////////////////////////////////////////////////////////////////////\n\n"
+    # lut_file_content += "//////////////////////////////////////////////////////////////////////////////////\n\n\n"
+    # lut_file_content += "module grouped_update_order_LUT(group_EN, Pbit_EN);\n\n"
+    # lut_file_content += f"input logic [0:{group_bit_width-1}] group_EN;\n"
+    # lut_file_content += f"output logic [0:{num_vars-1}] Pbit_EN;\n\n"
+    # lut_file_content += "always_comb\n"
+    # lut_file_content += "begin \n"
+    # lut_file_content += "case (group_EN)\n"
+    # for line in lookup_lines:
+    #     lut_file_content += "  " + line + "\n"
+    # lut_file_content += "endcase\n"
+    # lut_file_content += "end\n"
+    # lut_file_content += "endmodule\n"
     
-    # Write the LUT file.
-    lut_file = os.path.join(file_folder, "grouped_update_order_LUT.sv")
-    with open(lut_file, "w") as f:
-        f.write(lut_file_content)
-    print("Lookup table file generated: grouped_update_order_LUT.sv")
+    # # Write the LUT file.
+    # lut_file = os.path.join(file_folder, "grouped_update_order_LUT.sv")
+    # with open(lut_file, "w") as f:
+    #     f.write(lut_file_content)
+    # print("Lookup table file generated: grouped_update_order_LUT.sv")
 
-    generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=write_coe,extended=extended)
+    generate_csr_mem_files(J_bipolar, h_bipolar, file_prefix, file_folder,write_coe=write_coe,
+                           integer_bits=integer_bits, fractional_bits=fractional_bits, total_bits=total_bits)
 
 def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,figWidth=28):
     # Convert to DataFrame
