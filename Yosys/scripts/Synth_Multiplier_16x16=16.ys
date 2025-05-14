@@ -3,4 +3,4 @@ read_verilog Sources\Multiplier_16x16=16.v
 synth
 abc -g AND,NAND,NOR,OR
 write_json Synthesized\Multiplier_16x16=16_synthesized.json
-show -prefix Sources\Multiplier_16x16=16.v top
+show -prefix Synthesized\Multiplier_16x16=16_synthesized.json

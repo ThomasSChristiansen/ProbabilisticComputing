@@ -3,4 +3,4 @@ read_verilog Sources\AND_gate.v
 synth
 abc -g AND,NAND,NOR,OR
 write_json Synthesized\AND_gate_synthesized.json
-show -prefix Sources\AND_gate.v top
+show -prefix Synthesized\AND_gate_synthesized.json

@@ -507,18 +507,19 @@ def truth_table_probabilities(truth_table=None,columns=None,output_columns=None,
     # Ensure all possible states are in the dataframe, filling missing ones with probability 0
     output_counts = output_counts.set_index('Output State').reindex(all_output_states, fill_value=0).reset_index()
 
-    # Plot the probability distribution with all possible states
-    plt.figure(figsize=(figWidth, 5))
-    plt.bar(output_counts['Output State'], output_counts['Probability'], color='blue', alpha=0.7)
-    plt.xlabel("Output State (P3P2P1P0)")
-    plt.ylabel("Probability")
-    plt.margins(0.01)
-    plt.title("Probability Distribution of truth table States")
-    plt.xticks(rotation=90)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    # # Plot the probability distribution with all possible states
+    # plt.figure(figsize=(figWidth, 5))
+    # plt.bar(output_counts['Output State'], output_counts['Probability'], color='blue', alpha=0.7)
+    # plt.xlabel("Output State (P3P2P1P0)")
+    # plt.ylabel("Probability")
+    # plt.margins(0.01)
+    # plt.title("Probability Distribution of truth table States")
+    # plt.xticks(rotation=90)
+    # plt.grid(axis='y', linestyle='--', alpha=0.7)
 
-    # Show the plot
-    plt.show()
+    # # Show the plot
+    # plt.show()
+    return output_counts
 
 def generate_group_update_order(J_bipolar, var_names, group_bit_width=3):
     """
